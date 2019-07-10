@@ -4,6 +4,13 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    marvelapi_key_public: '%env(MARVELAPI_KEY_PUBLIC)%'
+    marvelapi_key_private: '%env(MARVELAPI_KEY_PRIVATE)%'
+    marvelapi_key_ts: '%env(MARVELAPI_TIMESTAMP)%'
+    marvelapi_url: '%env(MARVELAPI_URL)%'
+    services:
+        App\Service\APIConnect:
+            arguments: ['%marvelapi_key_public%','%marvelapi_key_private%','%marvelapi_key_ts%','%marvelapi_url%']
 
 services:
     # default configuration for services in *this* file

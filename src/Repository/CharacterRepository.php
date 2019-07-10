@@ -3,22 +3,80 @@
 namespace App\Repository;
 
 use App\Entity\Character;
+use App\Service\APIConnect;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * @method Character|null find($id, $lockMode = null, $lockVersion = null)
  * @method Character|null findOneBy(array $criteria, array $orderBy = null)
- * @method Character[]    findAll()
  * @method Character[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class CharacterRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    const BASE_URI ='/v1/public/characters';
+
+    private $apiCharacterConnect;
+    private $apiConnect;
+
+
+    public function __construct(RegistryInterface $registry, APIConnect $apiConnect)
     {
         parent::__construct($registry, Character::class);
+        $this->apiConnect = $apiConnect;
+        $this->apiCharacterConnect = $apiConnect->getApiurl() . self::BASE_URI;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getApiCharacterConnect(): string
+    {
+        return $this->apiCharacterConnect;
+    }
+
+    /**
+     * @param string $apiCharacterConnect
+     */
+    public function setApiCharacterConnect(string $apiCharacterConnect): void
+    {
+        $this->apiCharacterConnect = $apiCharacterConnect;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApiConnect()
+    {
+        return $this->apiConnect;
+    }
+
+    /**
+     * @param mixed $apiConnect
+     */
+    public function setApiConnect($apiConnect): void
+    {
+        $this->apiConnect = $apiConnect;
+    }
+
+    public function findallCharactersByLimit(): array
+    {
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiCharacterConnect,[
+            'query' => [
+                'ts' => $this->apiConnect->getApiTS(),
+                'apikey' => $this->apiConnect->getApiPublicKey(),
+                'hash' => $this->apiConnect->getApihash(),
+            ]
+            ]);
+
+        return $response->toArray();
+
+    }
     // /**
     //  * @return Character[] Returns an array of Character objects
     //  */

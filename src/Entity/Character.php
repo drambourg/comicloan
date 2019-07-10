@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlockFactoryInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CharacterRepository")
@@ -11,7 +12,6 @@ class Character
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -45,6 +45,20 @@ class Character
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $thumbnailExtension;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $picturePath;
+
+
+    /**
+     * @param integer $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
 
     public function getId(): ?int
     {
@@ -122,4 +136,10 @@ class Character
 
         return $this;
     }
+
+    public function getPicturePath(string $size = 'standard_small'): ?string
+    {
+        return $this->thumbnailPath . '/' . $size . '.' . $this->thumbnailExtension ;
+    }
+
 }

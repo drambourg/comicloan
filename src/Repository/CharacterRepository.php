@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Character;
 use App\Service\APIConnect;
+use App\Service\CharacterConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpClient\HttpClient;
@@ -19,11 +20,13 @@ class CharacterRepository extends ServiceEntityRepository
 
     private $apiCharacterConnect;
     private $apiConnect;
+    private $characterConverter;
 
 
-    public function __construct(RegistryInterface $registry, APIConnect $apiConnect)
+    public function __construct(RegistryInterface $registry, APIConnect $apiConnect,CharacterConverter $characterConverter)
     {
         parent::__construct($registry, Character::class);
+        $this->characterConverter = $characterConverter;
         $this->apiConnect = $apiConnect;
         $this->apiCharacterConnect = $apiConnect->getApiurl() . self::BASE_URI;
     }
@@ -74,8 +77,7 @@ class CharacterRepository extends ServiceEntityRepository
             ]
             ]);
 
-        return $response->toArray();
-
+        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
     }
     // /**
     //  * @return Character[] Returns an array of Character objects

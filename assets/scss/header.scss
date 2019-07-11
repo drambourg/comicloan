@@ -8,17 +8,88 @@
   height: 100vh;
   margin-bottom: unset;
 }
+header .title-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  margin: auto;
+  top: 40%;
+
+}
+
+
+.navbar {
+  -webkit-transition: all 0.6s ease-out;
+  -moz-transition: all 0.6s ease-out;
+  -o-transition: all 0.6s ease-out;
+  -ms-transition: all 0.6s ease-out;
+  transition: all 0.6s ease-out;
+  background-color: rgba(33,33,33,0.3);
+
+  .icon{
+    font-family: 'Marvelheroes';
+    font-size: 30px;
+  }
+
+  .avatar-icon {
+    width:40px;
+    height: auto;
+  }
+  .navbar-brand {
+    height: $navbar-height;
+  }
+}
+.navbar-transparent {
+  background-color : black;
+
+
+  a:hover {
+    background-color: unset;
+  }
+}
+.bg-custom {
+  background-color: $secondary-color;
+  -webkit-box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
+  -moz-box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
+  box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
+
+
+  a {
+    color: $primary-color;
+
+    &:hover {
+      color: $primary-color;
+      border: none;
+    }
+  }
+}
+
+
+.logo-navbar {
+  height: auto;
+  width: 100px;
+
+}
+
+.nav-link {
+  font-size: 1.4rem;
+}
+.logo-navbar{
+  width:100px;
+  height: auto;
+}
 
 .navbar-icon-top .navbar-nav .nav-link > .fa {
   position: relative;
   width: 36px;
-  font-size: 24px;
+  font-size: 30px;
 }
 
 .navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
   font-size: 0.75rem;
   position: absolute;
-  right: 0;
+  right: -20px;
   font-family: sans-serif;
 }
 
@@ -28,7 +99,7 @@
 }
 
 .navbar-icon-top .navbar-nav .nav-link > .fa > .badge {
-  top: -10px;
+  top: -20px;
 }
 
 @media (min-width: 576px) {

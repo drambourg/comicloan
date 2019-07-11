@@ -29,7 +29,11 @@ header .title-wrapper {
 
   .icon{
     font-family: 'Marvelheroes';
-    font-size: 30px;
+    font-size: 40px;
+    padding: 3px;
+  }
+  .icon-sm{
+    font-size: 20px !important;
   }
 
   .avatar-icon {
@@ -65,6 +69,9 @@ header .title-wrapper {
   }
 }
 
+.dropdown-toggle::after {
+  content: none !important;
+}
 
 .logo-navbar {
   height: auto;
@@ -73,7 +80,7 @@ header .title-wrapper {
 }
 
 .nav-link {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
 }
 .logo-navbar{
   width:100px;
@@ -83,7 +90,9 @@ header .title-wrapper {
 .navbar-icon-top .navbar-nav .nav-link > .fa {
   position: relative;
   width: 36px;
-  font-size: 30px;
+  font-size: 40px;
+  margin-bottom: 10px;
+
 }
 
 .navbar-icon-top .navbar-nav .nav-link > .fa > .badge {

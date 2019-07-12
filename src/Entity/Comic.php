@@ -113,10 +113,16 @@ class Comic
      */
     private $thumbnailExtension;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Creator", mappedBy="comics")
+     */
+    private $creators;
+
     public function __construct()
     {
         $this->characters = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->creators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -397,6 +403,34 @@ class Comic
     public function setThumbnailExtension(?string $thumbnailExtension): self
     {
         $this->thumbnailExtension = $thumbnailExtension;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Creator[]
+     */
+    public function getCreators(): Collection
+    {
+        return $this->creators;
+    }
+
+    public function addCreator(Creator $creator): self
+    {
+        if (!$this->creators->contains($creator)) {
+            $this->creators[] = $creator;
+            $creator->addComic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreator(Creator $creator): self
+    {
+        if ($this->creators->contains($creator)) {
+            $this->creators->removeElement($creator);
+            $creator->removeComic($this);
+        }
 
         return $this;
     }

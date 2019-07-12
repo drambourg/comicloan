@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlockFactoryInterface;
 
@@ -50,6 +52,16 @@ class Character
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $picturePath;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Comic", inversedBy="characters")
+     */
+    private $comics;
+
+    public function __construct()
+    {
+        $this->comics = new ArrayCollection();
+    }
 
 
     /**
@@ -140,6 +152,32 @@ class Character
     public function getPicturePath(string $size = 'standard_small'): ?string
     {
         return $this->thumbnailPath . '/' . $size . '.' . $this->thumbnailExtension ;
+    }
+
+    /**
+     * @return Collection|Comic[]
+     */
+    public function getComics(): Collection
+    {
+        return $this->comics;
+    }
+
+    public function addComic(Comic $comic): self
+    {
+        if (!$this->comics->contains($comic)) {
+            $this->comics[] = $comic;
+        }
+
+        return $this;
+    }
+
+    public function removeComic(Comic $comic): self
+    {
+        if ($this->comics->contains($comic)) {
+            $this->comics->removeElement($comic);
+        }
+
+        return $this;
     }
 
 }

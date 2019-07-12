@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Creator;
+use App\Service\APIConnect;
+use App\Service\CreatorConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * @method Creator|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +17,37 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class CreatorRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    const BASE_URI_CREATOR ='/v1/public/creators';
+
+    private $apiCreatorConnect;
+    private $apiConnect;
+    private $creatorConverter;
+
+
+    public function __construct(
+        RegistryInterface $registry,
+        APIConnect $apiConnect,
+        CreatorConverter $creatorConverter)
     {
         parent::__construct($registry, Creator::class);
+        $this->creatorConverter = $creatorConverter;
+        $this->apiConnect = $apiConnect;
+        $this->apiCreatorConnect = $apiConnect->getApiurl() . self::BASE_URI_CREATOR;
+    }
+
+    public function findAllComics(array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiCreatorConnect,[
+            'query' => $query
+        ]);
+
+        return $this->creatorConverter->ConvertResponseToComicEntities($response->toArray());
     }
 
 

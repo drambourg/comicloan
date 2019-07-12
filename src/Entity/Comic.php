@@ -371,9 +371,9 @@ class Comic
         return $this;
     }
 
-    public function getThumbnailPicture(): ?string
+    public function getThumbnailPicture(): ?Picture
     {
-        $picture = new Picture($this->thumbnailPath,$this->thumbnailExtension );
+        $picture = new Picture($this->thumbnailPath??'',$this->thumbnailExtension??'');
         return $picture;
     }
 

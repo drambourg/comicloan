@@ -31,6 +31,8 @@ class ComicConverter
 /*            $comic->setDigitalPurchaseDate(new \DateTimeImmutable($comicDatum['dates'][3]['date'])??null);*/
             $comic->setPrintPrice($comicDatum['prices'][0]['price']??null);
             $comic->setDigitalPurchasePrice($comicDatum['prices'][1]['price']??null);
+            $comic->setThumbnailPath($comicDatum['thumbnail']['path']??null);
+            $comic->setThumbnailExtension($comicDatum['thumbnail']['extension']??null);
 
             $comics[] = $comic;
         }

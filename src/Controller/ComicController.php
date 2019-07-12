@@ -17,7 +17,6 @@ class ComicController extends AbstractController
     public function index(ComicRepository $comicRepository)
     {
         $comics = $comicRepository->findAllComics();
-
         return $this->render('comic/index.html.twig', [
             'controller_name' => 'ComicController',
             'comics' => $comics,

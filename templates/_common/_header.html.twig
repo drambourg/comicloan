@@ -9,8 +9,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">
+            <li class="nav-item {% if app.request.attributes.get("_route") == 'home'%} active {% endif %}">
+                <a class="nav-link" href="{{ path('home') }}">
                     <i class="fa icon  mb-3">F
                     </i>
                     Marvel's World
@@ -24,15 +24,15 @@
                     The Wolrd Loans
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {% if app.request.attributes.get("_route") == 'character_index'%} active {% endif %}">
+                <a class="nav-link" href="{{ path('character_index') }}">
                     <i class="fa icon  mb-3">H
                     </i>
                     Characters
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {% if app.request.attributes.get("_route") == 'comic_index'%} active {% endif %}">
+                <a class="nav-link" href="{{ path('comic_index') }}">
                     <i class="fa icon  mb-3">S
                         <span class="badge badge-warning">8</span>
                     </i>

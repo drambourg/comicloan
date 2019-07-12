@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Picture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -70,7 +71,7 @@ class Comic
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $detailPurchase;
+    private $purchaseURL;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -121,6 +122,14 @@ class Comic
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getDigitalId(): ?int
@@ -243,14 +252,14 @@ class Comic
         return $this;
     }
 
-    public function getDetailPurchase(): ?string
+    public function getPurchaseUrl(): ?string
     {
-        return $this->detailPurchase;
+        return $this->purchaseURL;
     }
 
-    public function setDetailPurchase(?string $detailPurchase): self
+    public function setPurchaseUrl(?string $purchaseURL): self
     {
-        $this->detailPurchase = $detailPurchase;
+        $this->purchaseURL = $purchaseURL;
 
         return $this;
     }
@@ -362,6 +371,12 @@ class Comic
         return $this;
     }
 
+    public function getThumbnailPicture(): ?string
+    {
+        $picture = new Picture($this->thumbnailPath,$this->thumbnailExtension );
+        return $picture;
+    }
+
     public function getThumbnailPath(): ?string
     {
         return $this->thumbnailPath;
@@ -385,4 +400,6 @@ class Comic
 
         return $this;
     }
+
+
 }

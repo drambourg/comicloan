@@ -2,10 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Character;
 use App\Entity\Comic;
 use App\Service\APIConnect;
+use App\Service\ComicConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * @method Comic|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,19 +18,56 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ComicRepository extends ServiceEntityRepository
 {
-    const BASE_URI ='/v1/public/comics';
+    const BASE_URI_COMIC ='/v1/public/comics';
 
     private $apiComicConnect;
     private $apiConnect;
     private $comicConverter;
+    private $characterRepository;
 
 
-    public function __construct(RegistryInterface $registry, APIConnect $apiConnect,ComicConverter $comicConverter)
+    public function __construct(
+        RegistryInterface $registry,
+        APIConnect $apiConnect,
+        ComicConverter $comicConverter,
+        CharacterRepository $characterRepository)
     {
         parent::__construct($registry, Comic::class);
         $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiComicConnect = $apiConnect->getApiurl() . self::BASE_URI;
+        $this->apiComicConnect = $apiConnect->getApiurl() . self::BASE_URI_COMIC;
+        $this->characterRepository = $characterRepository;
+    }
+
+    public function findAllComics(array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiComicConnect,[
+            'query' => $query
+        ]);
+
+        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+    }
+
+    public function findAllComicsFromCharacterId(int $characterId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->characterRepository->getApiConnect() . '/' . $characterId . 'comics',
+            [
+            'query' => $query,
+        ]);
+
+        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
     }
 
     /**

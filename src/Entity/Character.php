@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
+use App\Service\Picture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\DocBlockFactoryInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CharacterRepository")
@@ -149,9 +149,10 @@ class Character
         return $this;
     }
 
-    public function getPicturePath(string $size = 'standard_small'): ?string
+    public function getPicture(): ?Picture
     {
-        return $this->thumbnailPath . '/' . $size . '.' . $this->thumbnailExtension ;
+        $picture = new Picture($this->thumbnailPath,$this->thumbnailExtension );
+        return $picture;
     }
 
     /**
@@ -178,6 +179,22 @@ class Character
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPicturePath()
+    {
+        return $this->picturePath;
+    }
+
+    /**
+     * @param mixed $picturePath
+     */
+    public function setPicturePath($picturePath): void
+    {
+        $this->picturePath = $picturePath;
     }
 
 }

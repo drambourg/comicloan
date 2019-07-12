@@ -31,6 +31,20 @@ class CharacterRepository extends ServiceEntityRepository
         $this->apiCharacterConnect = $apiConnect->getApiurl() . self::BASE_URI;
     }
 
+    public function findallCharacters(array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiCharacterConnect,[
+            'query' => $query
+        ]);
+
+        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
+    }
 
     /**
      * @return string
@@ -64,21 +78,7 @@ class CharacterRepository extends ServiceEntityRepository
         $this->apiConnect = $apiConnect;
     }
 
-    public function findallCharactersByLimit(): array
-    {
-        $httpClient = HttpClient::create();
-        $response = $httpClient->request(
-            'GET',
-            $this->apiCharacterConnect,[
-            'query' => [
-                'ts' => $this->apiConnect->getApiTS(),
-                'apikey' => $this->apiConnect->getApiPublicKey(),
-                'hash' => $this->apiConnect->getApihash(),
-            ]
-            ]);
 
-        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
-    }
     // /**
     //  * @return Character[] Returns an array of Character objects
     //  */

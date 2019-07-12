@@ -9,7 +9,8 @@ use App\Entity\Character;
 class CharacterConverter
 {
 
-    public function ConvertResponseToCharacterEntities(array $apiResponseCharacters) : array {
+    public function ConvertResponseToCharacterEntities(array $apiResponseCharacters) : array
+    {
         $characters =[];
 
         $charactersData = $apiResponseCharacters['data']['results'];

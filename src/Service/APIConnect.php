@@ -27,6 +27,14 @@ class APIConnect
     }
 
 
+    public function baseParamsConnect() :array
+    {
+        return [
+            'ts' => $this->getApiTS(),
+            'apikey' => $this->getApiPublicKey(),
+            'hash' => $this->getApihash(),
+            ];
+    }
     /**
      * @return string
      */

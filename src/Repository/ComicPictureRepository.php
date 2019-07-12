@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ComicPicture;
 use App\Service\APIConnect;
+use App\Service\ComicConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -22,7 +23,7 @@ class ComicPictureRepository extends ServiceEntityRepository
     private $comicPictureConverter;
 
 
-    public function __construct(RegistryInterface $registry, APIConnect $apiConnect,ComicPictureConverter $comicPictureConverter)
+    public function __construct(RegistryInterface $registry, APIConnect $apiConnect,ComicConverter $comicPictureConverter)
     {
         parent::__construct($registry, ComicPicture::class);
         $this->comicPictureConverter = $comicPictureConverter;

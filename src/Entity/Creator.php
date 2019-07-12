@@ -20,7 +20,7 @@ class Creator
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -72,14 +72,14 @@ class Creator
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(?string $firstname): self
+    public function setFirstname(?string $firstName): self
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }

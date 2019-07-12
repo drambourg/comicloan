@@ -9,7 +9,7 @@ use App\Entity\Creator;
 class CreatorConverter
 {
 
-    public function ConvertResponseToComicEntities(array $apiResponseCreators) : array {
+    public function ConvertResponseToCreatorEntities(array $apiResponseCreators) : array {
         $creators =[];
 
         $comicData = $apiResponseCreators['data']['results'];

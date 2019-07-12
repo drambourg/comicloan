@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Character;
 use App\Service\APIConnect;
 use App\Service\CharacterConverter;
+use App\Service\ComicConverter;
+use App\Service\CreatorConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpClient\HttpClient;
@@ -16,20 +18,38 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class CharacterRepository extends ServiceEntityRepository
 {
-    private $apiCharacterConnect;
     private $apiConnect;
     private $characterConverter;
+    private $comicConverter;
+    private $creatorConverter;
 
 
-    public function __construct(RegistryInterface $registry, APIConnect $apiConnect,CharacterConverter $characterConverter)
+    public function __construct(
+        RegistryInterface $registry,
+        APIConnect $apiConnect,
+        CharacterConverter $characterConverter,
+        ComicConverter $comicConverter,
+        CreatorConverter $creatorConverter
+
+    )
     {
         parent::__construct($registry, Character::class);
         $this->characterConverter = $characterConverter;
+        $this->comicConverter = $comicConverter;
+        $this->creatorConverter = $creatorConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiCharacterConnect = $apiConnect->getApiurl() . $apiConnect::BASE_URI_CHARACTER;
     }
 
-    public function findallCharacters(array $criteria = []): array
+    /**
+     * @param array $criteria
+     * @return array
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function findAllCharacters(array $criteria = []): array
     {
         $query = $this->apiConnect->baseParamsConnect();
         $query = array_merge($query, $criteria);
@@ -37,11 +57,80 @@ class CharacterRepository extends ServiceEntityRepository
         $httpClient = HttpClient::create();
         $response = $httpClient->request(
             'GET',
-            $this->apiCharacterConnect,[
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER, [
             'query' => $query
         ]);
 
         return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
+    }
+
+    /**
+     * @param int $characterId
+     * @param array $criteria
+     * @return array
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function findCharacterById(int $characterId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER . '/' . $characterId,
+            [
+                'query' => $query
+            ]);
+
+        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
+    }
+
+    /**
+     * @param int $characterId
+     * @param array $criteria
+     * @return array
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function findComicsByCharacterId(int $characterId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER . '/' . $characterId . '/comics',
+            [
+                'query' => $query
+            ]);
+
+        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+    }
+
+
+    public function findCreatorsByCharacterId(int $characterId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER . '/' . $characterId . '/creators',
+            [
+                'query' => $query
+            ]);
+
+        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
     }
 
     /**

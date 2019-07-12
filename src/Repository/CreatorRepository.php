@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Creator;
 use App\Service\APIConnect;
+use App\Service\ComicConverter;
 use App\Service\CreatorConverter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -17,23 +18,26 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class CreatorRepository extends ServiceEntityRepository
 {
-    private $apiCreatorConnect;
     private $apiConnect;
     private $creatorConverter;
+    private $comicConverter;
 
 
     public function __construct(
         RegistryInterface $registry,
         APIConnect $apiConnect,
-        CreatorConverter $creatorConverter)
-    {
+        CreatorConverter $creatorConverter,
+        ComicConverter $comicConverter
+    ) {
         parent::__construct($registry, Creator::class);
         $this->creatorConverter = $creatorConverter;
+        $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiCreatorConnect = $apiConnect->getApiurl() . $apiConnect::BASE_URI_CREATOR;
+
     }
 
-    public function findAllComics(array $criteria = []): array
+
+    public function findAllCreators(array $criteria = []): array
     {
         $query = $this->apiConnect->baseParamsConnect();
         $query = array_merge($query, $criteria);
@@ -41,12 +45,45 @@ class CreatorRepository extends ServiceEntityRepository
         $httpClient = HttpClient::create();
         $response = $httpClient->request(
             'GET',
-            $this->apiCreatorConnect,[
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CREATOR,[
             'query' => $query
         ]);
 
-        return $this->creatorConverter->ConvertResponseToComicEntities($response->toArray());
+        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
     }
+
+    public function findCreatorById(int $creatorId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+                $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CREATOR. '/' . $creatorId,
+            [
+                'query' => $query
+            ]);
+
+        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
+    }
+
+    public function findAllCreatorsFromComicId(int $comicId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_COMIC. '/' . $comicId . '/creators',
+            [
+                'query' => $query
+            ]);
+
+        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
+    }
+
 
 
 }

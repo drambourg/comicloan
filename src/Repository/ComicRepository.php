@@ -33,7 +33,6 @@ class ComicRepository extends ServiceEntityRepository
         parent::__construct($registry, Comic::class);
         $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiComicConnect = $apiConnect->getApiurl() . $apiConnect::BASE_URI_COMIC;
         $this->characterRepository = $characterRepository;
     }
 
@@ -45,7 +44,7 @@ class ComicRepository extends ServiceEntityRepository
         $httpClient = HttpClient::create();
         $response = $httpClient->request(
             'GET',
-            $this->apiComicConnect,[
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_COMIC,[
             'query' => $query
         ]);
 
@@ -60,10 +59,27 @@ class ComicRepository extends ServiceEntityRepository
         $httpClient = HttpClient::create();
         $response = $httpClient->request(
             'GET',
-            $this->characterRepository->getApiConnect() . '/' . $characterId . 'comics',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER . '/' . $characterId . '/comics',
             [
             'query' => $query,
         ]);
+
+        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+    }
+
+
+    public function findAllComicsFromCreatorId(int $creatorId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CREATOR. '/' . $creatorId . '/comics',
+            [
+                'query' => $query
+            ]);
 
         return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
     }

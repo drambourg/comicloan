@@ -21,13 +21,13 @@ class ComicConverter
             $comic->setIssueNumber($comicDatum['issueNumber']);
             $comic->setVariantDescription($comicDatum['variantDescription']);
             $comic->setDescription($comicDatum['description']);
-            $comic->setModified(new \DateTimeImmutable($comicDatum['modified']));
+            $comic->setModified(new \DateTime($comicDatum['modified']));
             $comic->setIsbn($comicDatum['isbn']);
             $comic->setFormat($comicDatum['format']);
             $comic->setPageCount($comicDatum['pageCount']);
             $comic->setDetailUrl($comicDatum['urls'][0]['url']??null);
             $comic->setPurchaseURL($comicDatum['urls'][1]['url']??null);
-            $comic->setOnsaleDate(new \DateTimeImmutable($comicDatum['dates'][0]['date'])??null);
+            $comic->setOnsaleDate(new \DateTime($comicDatum['dates'][0]['date'])??null);
 /*            $comic->setDigitalPurchaseDate(new \DateTimeImmutable($comicDatum['dates'][3]['date'])??null);*/
             $comic->setPrintPrice($comicDatum['prices'][0]['price']??null);
             $comic->setDigitalPurchasePrice($comicDatum['prices'][1]['price']??null);

@@ -103,7 +103,7 @@ class Character
 
     public function getModified(): ?\DateTimeInterface
     {
-        return $this->modified;
+        return $this->modified->format("Y") != '-0001'? $this->modified:null;
     }
 
     public function setModified(?\DateTimeInterface $modified): self

@@ -194,7 +194,7 @@ class Comic
 
     public function getModified(): ?\DateTimeInterface
     {
-        return $this->modified;
+        return $this->modified->format("Y") != '-0001'? $this->modified:null;
     }
 
     public function setModified(?\DateTimeInterface $modified): self
@@ -266,7 +266,7 @@ class Comic
 
     public function getOnsaleDate(): ?\DateTimeInterface
     {
-        return $this->onsaleDate;
+        return $this->onsaleDate->format("Y") != '-0001'? $this->onsaleDate:null;
     }
 
     public function setOnsaleDate(?\DateTimeInterface $onsaleDate): self
@@ -278,7 +278,7 @@ class Comic
 
     public function getDigitalPurchaseDate(): ?\DateTimeInterface
     {
-        return $this->digitalPurchaseDate;
+        return $this->digitalPurchaseDate->format("Y") != '-0001'? $this->digitalPurchaseDate:null;
     }
 
     public function setDigitalPurchaseDate(?\DateTimeInterface $digitalPurchaseDate): self

@@ -31,7 +31,7 @@
                                     {% if character.description is empty %}
                                         No description
                                     {% else %}
-                                        {{ character.description | striptags | slice(0, 150) }} [...]
+                                        {{ character.description|length > 150 ? character.description|raw|striptags|slice(0, 150) ~ ' [...]' : character.description  }}
                                     {% endif %}</p>
                                 <a href="#" class="button">Read more</a>
                             </div>

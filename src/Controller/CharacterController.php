@@ -17,7 +17,7 @@ class CharacterController extends AbstractController
      */
     public function index(CharacterRepository $characterRepository)
     {        $characters = $characterRepository->findallCharacters();
-
+        $date = DateTime::createFromFormat("Y-m-d", "2068-06-15");
         return $this->render('character/index.html.twig', [
             'controller_name' => 'HomeController',
             'characters' => $characters,

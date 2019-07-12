@@ -16,8 +16,6 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class CharacterRepository extends ServiceEntityRepository
 {
-    const BASE_URI ='/v1/public/characters';
-
     private $apiCharacterConnect;
     private $apiConnect;
     private $characterConverter;
@@ -28,7 +26,7 @@ class CharacterRepository extends ServiceEntityRepository
         parent::__construct($registry, Character::class);
         $this->characterConverter = $characterConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiCharacterConnect = $apiConnect->getApiurl() . self::BASE_URI;
+        $this->apiCharacterConnect = $apiConnect->getApiurl() . $apiConnect::BASE_URI_CHARACTER;
     }
 
     public function findallCharacters(array $criteria = []): array

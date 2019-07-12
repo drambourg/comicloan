@@ -17,8 +17,6 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class CreatorRepository extends ServiceEntityRepository
 {
-    const BASE_URI_CREATOR ='/v1/public/creators';
-
     private $apiCreatorConnect;
     private $apiConnect;
     private $creatorConverter;
@@ -32,7 +30,7 @@ class CreatorRepository extends ServiceEntityRepository
         parent::__construct($registry, Creator::class);
         $this->creatorConverter = $creatorConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiCreatorConnect = $apiConnect->getApiurl() . self::BASE_URI_CREATOR;
+        $this->apiCreatorConnect = $apiConnect->getApiurl() . $apiConnect::BASE_URI_CREATOR;
     }
 
     public function findAllComics(array $criteria = []): array

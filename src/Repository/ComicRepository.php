@@ -18,8 +18,6 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class ComicRepository extends ServiceEntityRepository
 {
-    const BASE_URI_COMIC ='/v1/public/comics';
-
     private $apiComicConnect;
     private $apiConnect;
     private $comicConverter;
@@ -35,7 +33,7 @@ class ComicRepository extends ServiceEntityRepository
         parent::__construct($registry, Comic::class);
         $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
-        $this->apiComicConnect = $apiConnect->getApiurl() . self::BASE_URI_COMIC;
+        $this->apiComicConnect = $apiConnect->getApiurl() . $apiConnect::BASE_URI_COMIC;
         $this->characterRepository = $characterRepository;
     }
 

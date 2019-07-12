@@ -10,12 +10,15 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class APIConnect
 {
 
+    const BASE_URI_CHARACTER ='/v1/public/characters';
+    const BASE_URI_COMIC ='/v1/public/comics';
+    const BASE_URI_CREATOR ='/v1/public/creators';
     private $apiurl;
-    private $apihash;
     private $apiTS;
     private $apiPrivateKey;
     private $apiPublicKey;
     private $params;
+
 
     public function __construct(ParameterBagInterface $parameterBag)
     {

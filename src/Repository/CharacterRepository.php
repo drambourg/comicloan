@@ -116,24 +116,7 @@ class CharacterRepository extends ServiceEntityRepository
         return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
     }
 
-
-    public function findCreatorsByCharacterId(int $characterId, array $criteria = []): array
-    {
-        $query = $this->apiConnect->baseParamsConnect();
-        $query = array_merge($query, $criteria);
-
-        $httpClient = HttpClient::create();
-        $response = $httpClient->request(
-            'GET',
-            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER . '/' . $characterId . '/creators',
-            [
-                'query' => $query
-            ]);
-
-        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
-    }
-
-    /**
+        /**
      * @return string
      */
     public function getApiCharacterConnect(): string

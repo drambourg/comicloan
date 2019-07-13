@@ -51,6 +51,21 @@ class ComicRepository extends ServiceEntityRepository
         return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
     }
 
+    public function findComicById(int $comicId, array $criteria = []): array
+    {
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_COMIC . '/' . $comicId,[
+            'query' => $query
+        ]);
+
+        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+    }
+
     public function findAllComicsFromCharacterId(int $characterId, array $criteria = []): array
     {
         $query = $this->apiConnect->baseParamsConnect();

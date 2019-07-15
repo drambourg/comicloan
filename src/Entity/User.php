@@ -59,7 +59,7 @@ class User implements UserInterface
     private $avatarPicture;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime")
      */
     private $dateCreated;
 
@@ -201,12 +201,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDateCreated(): ?\DateTimeImmutable
+    public function getDateCreated(): ?\DateTime
     {
         return $this->dateCreated;
     }
 
-    public function setDateCreated(\DateTimeImmutable $dateCreated): self
+    public function setDateCreated(\DateTime $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
 

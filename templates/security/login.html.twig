@@ -3,34 +3,52 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <div class="container-fluid" id="login">
+        <div class="img-login"></div>
+        <div class="row m-0">
+            <div class="col-md-4 mx-auto">
+                <div class="card card-login">
+                    <form method="post">
+                        <div class="card-header">
+                            <h1 class="mb-3 font-weight-normal">Please sign in</h1>
+                        </div>
+                        <div class="card-body">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                            <div class="pt-1">
+                                <label for="inputPseudoname">Pseudoname</label>
+                                <input type="text" value="{{ last_username }}" name="pseudoname" id="inputPseudoname"
+                                       class="form-control"
+                                       placeholder="Pseudoname" required autofocus>
+                            </div>
+                            <div class="pt-3">
+                                <label for="inputPassword">Password</label>
+                                <input type="password" name="password" id="inputPassword" class="form-control"
+                                       placeholder="Password"
+                                       required>
+                            </div>
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >
+                            <div class="pt-1 text-right">
+                                <a class="third after" href="#"><small>Forgot password ?</small></a>
+                            </div>
+                            <hr />
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputPseudoname" class="sr-only">Pseudoname</label>
-    <input type="text" value="{{ last_username }}" name="pseudoname" id="inputPseudoname" class="form-control" placeholder="Pseudoname" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                            <div class="pt-1 text-center">
+                                <a class="first after" href="#">Create your account Now!!</a>
+                            </div>
+                        </div>
+                        <div class="card-footer text-muted text-center">
+                            <button class="btn btn-lg btn-outline-light w-50 btn-login-sign" type="submit">
+                                Sign in
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+            </div>
         </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </div>
 {% endblock %}

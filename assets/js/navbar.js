@@ -9,13 +9,6 @@ function checkScroll() {
         $('.navbar').removeClass("bg-custom");
     }
 }
-/*
-
-$(".navbar-toggler.collapsed").click(function(){
-    console.log($(".navbar-toggler").attr('aria-expanded'))/!*$("#iconlogonavbar").fadeIn(1000);*!/
-});
-*/
-
 
 $(".navbar-toggler").click(function(){
     if ($('#togglerButton').attr('aria-expanded')=='false') {

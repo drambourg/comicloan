@@ -23,14 +23,6 @@ sans-serif;
   box-sizing: border-box;
 }
 
-body {
-  background-image: linear-gradient(to right, $regal-blue, $san-juan);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
-  font-family: $open-sans;
-}
-
 a {
   text-decoration: none;
 }
@@ -45,6 +37,7 @@ h1 .title {
   margin: 50px auto 0;
 }
 
+#characters {
 // Base styles
 .card {
   cursor: pointer;
@@ -210,4 +203,5 @@ h1 .title {
       }
     }
   }
+}
 }

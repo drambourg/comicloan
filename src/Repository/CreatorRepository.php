@@ -20,19 +20,15 @@ class CreatorRepository extends ServiceEntityRepository
 {
     private $apiConnect;
     private $creatorConverter;
-    private $comicConverter;
-
 
     public function __construct(
         RegistryInterface $registry,
         APIConnect $apiConnect,
-        CreatorConverter $creatorConverter,
-        ComicConverter $comicConverter
+        CreatorConverter $creatorConverter
     ) {
         parent::__construct($registry, Creator::class);
-        $this->creatorConverter = $creatorConverter;
-        $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
+        $this->creatorConverter = $creatorConverter;
 
     }
 
@@ -83,7 +79,5 @@ class CreatorRepository extends ServiceEntityRepository
 
         return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
     }
-
-
 
 }

@@ -3,27 +3,31 @@
 
 namespace App\Service;
 
-
 use App\Entity\Creator;
 
 class CreatorConverter
 {
+    private $apiConnect;
+
+    public function __construct(APIConnect $apiConnect)
+    {
+        $this->apiConnect = $apiConnect;
+    }
 
     public function ConvertResponseToCreatorEntities(array $apiResponseCreators) : array {
         $creators =[];
 
-        $comicData = $apiResponseCreators['data']['results'];
-        foreach ($comicData as $comicDatum) {
-            $creator = new Creator();
-            $creator->setId($comicDatum['id']);
-            $creator->setFirstName($comicDatum['firstName']);
-            $creator->setMiddleName($comicDatum['middleName']);
-            $creator->setLastName($comicDatum['lastName']);
-            $creator->setSuffix($comicDatum['suffix']);
-            $creator->setFullName($comicDatum['fullName']);
-            $creator->setThumbnailPath($comicDatum['thumbnail']['path']??null);
-            $creator->setThumbnailExtension($comicDatum['thumbnail']['extension']??null);
-
+        $creatorData = $apiResponseCreators['data']['results'];
+        foreach ($creatorData as $creatorDatum) {
+            $creator = new Creator($this->apiConnect);
+            $creator->setId($creatorDatum['id']);
+            $creator->setFirstName($creatorDatum['firstName']);
+            $creator->setMiddleName($creatorDatum['middleName']);
+            $creator->setLastName($creatorDatum['lastName']);
+            $creator->setSuffix($creatorDatum['suffix']);
+            $creator->setFullName($creatorDatum['fullName']);
+            $creator->setThumbnailPath($creatorDatum['thumbnail']['path']??null);
+            $creator->setThumbnailExtension($creatorDatum['thumbnail']['extension']??null);
             $creators[] = $creator;
         }
         return $creators;

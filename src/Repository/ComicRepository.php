@@ -18,22 +18,17 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class ComicRepository extends ServiceEntityRepository
 {
-    private $apiComicConnect;
     private $apiConnect;
     private $comicConverter;
-    private $characterRepository;
-
 
     public function __construct(
         RegistryInterface $registry,
         APIConnect $apiConnect,
-        ComicConverter $comicConverter,
-        CharacterRepository $characterRepository)
+        ComicConverter $comicConverter)
     {
         parent::__construct($registry, Comic::class);
         $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
-        $this->characterRepository = $characterRepository;
     }
 
     public function findAllComics(array $criteria = []): array
@@ -97,22 +92,6 @@ class ComicRepository extends ServiceEntityRepository
             ]);
 
         return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
-    }
-
-    /**
-     * @return string
-     */
-    public function getApiComicConnect(): string
-    {
-        return $this->apiComicConnect;
-    }
-
-    /**
-     * @param string $apiCharacterConnect
-     */
-    public function setApiComicConnect(string $apiComicConnect): void
-    {
-        $this->apiComicConnect = $apiComicConnect;
     }
 
     /**

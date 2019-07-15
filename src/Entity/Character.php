@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Service\APIConnect;
+use App\Service\ComicConverter;
 use App\Service\Picture;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CharacterRepository")
@@ -58,8 +60,12 @@ class Character
      */
     private $comics;
 
-    public function __construct()
-    {
+    private $apiConnect;
+
+    public function __construct(
+        APIConnect $apiConnect
+     ) {
+        $this->apiConnect =  $apiConnect;
         $this->comics = new ArrayCollection();
     }
 
@@ -155,12 +161,46 @@ class Character
         return $picture;
     }
 
-    /**
-     * @return Collection|Comic[]
-     */
-    public function getComics(): Collection
+
+    public function getComics(array $criteria = []): array
     {
-        return $this->comics;
+        $comics=[];
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_CHARACTER . '/' . $this->id . '/comics',
+            [
+                'query' => $query,
+            ]);
+
+        $comicValues = $response->toArray();
+        $comicData = $comicValues['data']['results'];
+        foreach ($comicData as $comicDatum) {
+            $comic = new Comic( $this->apiConnect);
+            $comic->setId($comicDatum['id']);
+            $comic->setDigitalId($comicDatum['digitalId']);
+            $comic->setTitle($comicDatum['title']);
+            $comic->setIssueNumber($comicDatum['issueNumber']);
+            $comic->setVariantDescription($comicDatum['variantDescription']);
+            $comic->setDescription($comicDatum['description']);
+            $comic->setModified(new \DateTime($comicDatum['modified']));
+            $comic->setIsbn($comicDatum['isbn']);
+            $comic->setFormat($comicDatum['format']);
+            $comic->setPageCount($comicDatum['pageCount']);
+            $comic->setDetailUrl($comicDatum['urls'][0]['url']??null);
+            $comic->setPurchaseURL($comicDatum['urls'][1]['url']??null);
+            $comic->setOnsaleDate(new \DateTime($comicDatum['dates'][0]['date'])??null);
+            $comic->setPrintPrice($comicDatum['prices'][0]['price']??null);
+            $comic->setDigitalPurchasePrice($comicDatum['prices'][1]['price']??null);
+            $comic->setThumbnailPath($comicDatum['thumbnail']['path']??null);
+            $comic->setThumbnailExtension($comicDatum['thumbnail']['extension']??null);
+            $comics[] = $comic;
+        }
+
+        return $comics;
     }
 
     public function addComic(Comic $comic): self

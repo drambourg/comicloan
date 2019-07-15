@@ -36,6 +36,13 @@
                                 <a href="#" class="button">Read more</a>
                             </div>
                         </div>
+                        <div>
+                            <ul>
+                                {% for comic in character.comics %}
+                                    <li>{{ comic.title }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

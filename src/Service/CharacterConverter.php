@@ -5,9 +5,16 @@ namespace App\Service;
 
 
 use App\Entity\Character;
+use App\Repository\ComicRepository;
 
 class CharacterConverter
 {
+    private $apiConnect;
+
+    public function __construct(APIConnect $apiConnect)
+    {
+        $this->apiConnect = $apiConnect;
+    }
 
     public function ConvertResponseToCharacterEntities(array $apiResponseCharacters) : array
     {
@@ -15,7 +22,7 @@ class CharacterConverter
 
         $charactersData = $apiResponseCharacters['data']['results'];
         foreach ($charactersData as $characterDatum) {
-            $character = new Character();
+            $character = new Character($this->apiConnect);
             $character->setId($characterDatum['id']);
             $character->setName($characterDatum['name']);
             $character->setDescription($characterDatum['description']);

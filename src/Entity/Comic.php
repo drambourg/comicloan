@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Service\APIConnect;
 use App\Service\Picture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ComicRepository")
@@ -93,9 +95,6 @@ class Comic
      */
     private $digitalPurchasePrice;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Character", mappedBy="comics")
-     */
     private $characters;
 
     /**
@@ -118,8 +117,12 @@ class Comic
      */
     private $creators;
 
-    public function __construct()
+    private $apiConnect;
+
+    public function __construct(
+        APIConnect $apiConnect)
     {
+        $this->apiConnect =  $apiConnect;
         $this->characters = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->creators = new ArrayCollection();
@@ -318,12 +321,38 @@ class Comic
         return $this;
     }
 
-    /**
-     * @return Collection|Character[]
-     */
-    public function getCharacters(): Collection
+    public function getCharacters(array $criteria = []): array
     {
-        return $this->characters;
+        $characters =[];
+
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_COMIC . '/' . $this->id . '/characters',
+            [
+                'query' => $query
+            ]);
+        $characterValues = $response->toArray();
+        $charactersData = $characterValues['data']['results'];
+        foreach ($charactersData as $characterDatum) {
+            $character = new Character($this->apiConnect);
+            $character->setId($characterDatum['id']);
+            $character->setName($characterDatum['name']);
+            $character->setDescription($characterDatum['description']);
+            $character->setModified(new \DateTimeImmutable($characterDatum['modified']));
+            $character->setThumbnailPath($characterDatum['thumbnail']['path']);
+            $character->setThumbnailExtension($characterDatum['thumbnail']['extension']);
+            $character->setResourceURI($characterDatum['resourceURI']);
+            /*            $comics = $this->comicRepository->findAllComicsFromCharacterId($characterDatum['id']);
+                        foreach ($comics as $comic) {
+                            $character->addComic($comic);
+                        }*/
+            $characters[] = $character;
+        }
+        return $characters;
     }
 
     public function addCharacter(Character $character): self
@@ -407,12 +436,37 @@ class Comic
         return $this;
     }
 
-    /**
-     * @return Collection|Creator[]
-     */
-    public function getCreators(): Collection
+    public function getCreators(array $criteria = []): array
     {
-        return $this->creators;
+        $creators =[];
+
+
+        $query = $this->apiConnect->baseParamsConnect();
+        $query = array_merge($query, $criteria);
+
+        $httpClient = HttpClient::create();
+        $response = $httpClient->request(
+            'GET',
+            $this->apiConnect->getApiurl() . $this->apiConnect::BASE_URI_COMIC. '/' . $this->id . '/creators',
+            [
+                'query' => $query
+            ]);
+
+        $creatorValues = $response->toArray();
+        $creatorData = $creatorValues['data']['results'];
+        foreach ($creatorData as $creatorDatum) {
+            $creator = new Creator($this->apiConnect);
+            $creator->setId($creatorDatum['id']);
+            $creator->setFirstName($creatorDatum['firstName']);
+            $creator->setMiddleName($creatorDatum['middleName']);
+            $creator->setLastName($creatorDatum['lastName']);
+            $creator->setSuffix($creatorDatum['suffix']);
+            $creator->setFullName($creatorDatum['fullName']);
+            $creator->setThumbnailPath($creatorDatum['thumbnail']['path']??null);
+            $creator->setThumbnailExtension($creatorDatum['thumbnail']['extension']??null);
+            $creators[] = $creator;
+        }
+        return $creators;
     }
 
     public function addCreator(Creator $creator): self

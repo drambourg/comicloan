@@ -4,59 +4,26 @@ namespace App\Entity;
 
 use App\Service\APIConnect;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpClient\HttpClient;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CreatorRepository")
- */
 class Creator
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $firstName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $middleName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $lastName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $suffix;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $fullName;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $thumbnailPath;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $thumbnailExtension;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Comic", inversedBy="creators")
-     */
     private $comics;
 
     private $apiConnect;

@@ -4,31 +4,16 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ComicPictureRepository")
- */
+
 class ComicPicture
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $path;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $extension;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comic", inversedBy="images")
-     */
     private $comic;
 
     public function getId(): ?int

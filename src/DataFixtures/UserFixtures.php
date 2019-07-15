@@ -6,10 +6,18 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\Date;
 
 class UserFixtures extends Fixture
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $user = new User();
@@ -21,7 +29,10 @@ class UserFixtures extends Fixture
         $user->setDateCreated(new \DateTime("2014-03-18"));
         $user->setCity("Orléans");
         $user->setRoles(['ROLE_ADMIN']);
-        $user->setPassword("comic");
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            'comic'
+        ));
         $manager->persist($user);
 
         $faker = Faker\Factory::create('fr_FR');
@@ -37,7 +48,10 @@ class UserFixtures extends Fixture
             $user->setDateCreated($faker->dateTimeBetween($startDate = '-4 years', $endDate = 'now'));
             $user->setCity($faker->city);
             $user->setRoles(['ROLE_AUTHOR']);
-            $user->setPassword("comic");
+            $user->setPassword($this->passwordEncoder->encodePassword(
+                $user,
+                'comic'
+            ));
             $manager->persist($user);
         }
         $manager->flush();

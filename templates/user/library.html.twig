@@ -3,10 +3,10 @@
 {% block title %}My Comic Library{% endblock %}
 
 {% block body %}
-    <div class="container-fluid m-0 p-0">
-        <div class="row justify-content-center">
+    <div class="container-fluid m-0 p-0 mx-auto">
+        <div class="row justify-content-around mx-auto">
             {% for comic in comics %}
-                <div class="card comic-card col-md-2 mb-4 mx-2 p-0">
+                <div class="card comic-card col-sm-12 col-md-4 col-xl-2 mb-4 mx-2 p-0">
                     <div class="card-header text-dark">
                         <div class="row no-gutters p-2 m-0">
                             <div class="col-md-10 m-0">
@@ -15,11 +15,23 @@
                         </div>
                     </div>
                     <div class="card-body m-0 p-0 rounded-0">
-                            <img src="{{ comic.ThumbnailPicture.getPictureSquareSD }}" class="card-img-top img-fluid rounded-0"
-                                 alt="{{ comic.title }}">
+                        <img src="{{ comic.ThumbnailPicture.getPictureSquareSD }}"
+                             class="card-img-top img-fluid rounded-0"
+                             alt="{{ comic.title }}">
                     </div>
-                    <div class="card-footer text-right">
-                        <button type="button" class="btn btn-danger button-readmore">Read more ...</button>
+                    <div class="card-footer text-right py-2 px-1">
+                        <div class="row p-0 m-0">
+                            <div class="col-md-4 text-left">
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                                <div class="switch-text">I Have !</div>
+                            </div>
+                            <div class="col-md-8 text-right d-flex">
+                                <button type="button" class="btn btn-danger button-readmore my-auto ml-auto">Read more ...</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

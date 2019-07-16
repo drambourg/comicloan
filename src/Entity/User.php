@@ -80,6 +80,11 @@ class User implements UserInterface
      */
     private $email;
 
+    public function __construct()
+    {
+        $this->setRoles(['ROLE_AUTHOR']);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

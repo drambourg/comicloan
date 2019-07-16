@@ -1,12 +1,17 @@
 .comic-card {
-  min-height: 400px;
+  min-height: 200px;
   .card-header {
+    min-height: 100px;
+    height: calc(100px + (150 - 100) * ((100vw - 300px) / (1600 - 300)));
     background-color: $marvel-primary ;
     .date-on-sale {
       color: white ;
     }
   }
-
+  .small-picture-cover {
+    width: 250px;
+    height: auto;
+  }
   .button-readmore {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $font-primary-color;

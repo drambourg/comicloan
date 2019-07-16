@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -59,9 +61,27 @@ class User implements UserInterface
     private $city;
 
     /**
+     * @Vich\UploadableField(mapping="img_avatar", fileNameProperty="avatarPicture")
+     * @Assert\File(
+     *     mimeTypes={ "image/jpg", "image/png", "image/jpeg", "image/gif" },
+     *     maxSize="2M",
+     *     mimeTypesMessage="Veuillez choisir un fichier de type .jpg, .jpeg, .png ou .gif",
+     *     maxSizeMessage="Veuillez choisir un fichier de 1.9Mo maximum"
+     *  )
+     */
+    private $imageFile;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatarPicture;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -209,6 +229,19 @@ class User implements UserInterface
         $this->city = $city;
 
         return $this;
+    }
+    public function setImageFile(File $imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
 
     public function getAvatarPicture(): ?string

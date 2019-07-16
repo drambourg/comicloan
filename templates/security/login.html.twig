@@ -20,7 +20,7 @@
                                 <label for="inputPseudoname">Pseudoname</label>
                                 <input type="text" value="{{ last_username }}" name="pseudoname" id="inputPseudoname"
                                        class="form-control"
-                                       placeholder="Pseudoname" required autofocus>
+                                       placeholder="Pseudo" required autofocus>
                             </div>
                             <div class="pt-3">
                                 <label for="inputPassword">Password</label>
@@ -35,9 +35,8 @@
                                 <a class="third after" href="#"><small>Forgot password ?</small></a>
                             </div>
                             <hr />
-
                             <div class="pt-1 text-center">
-                                <a class="first after" href="#">Create your account Now!!</a>
+                                <a class="first after" href="{{ path('app_register') }}">Create your account Now!!</a>
                             </div>
                         </div>
                         <div class="card-footer text-muted text-center">

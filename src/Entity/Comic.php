@@ -97,10 +97,6 @@ class Comic
 
     private $characters;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ComicPicture", mappedBy="comic")
-     */
-    private $images;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -375,36 +371,6 @@ class Comic
         return $this;
     }
 
-    /**
-     * @return Collection|ComicPicture[]
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(ComicPicture $image): self
-    {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setComic($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(ComicPicture $image): self
-    {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
-            // set the owning side to null (unless already changed)
-            if ($image->getComic() === $this) {
-                $image->setComic(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getThumbnailPicture(): ?Picture
     {

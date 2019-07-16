@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block title %}ComicLoan - Register now!!{% endblock %}
+
+{% block body %}
+<div class="container-fluid" id="login">
+    <div class="img-login"></div>
+    <div class="row m-0">
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 mx-auto">
+            <div class="card card-login">
+                {{ form_start(registrationForm, {'attr': { 'class':"py-0"}}) }}
+                <div class="card-header border-0 p-0 text-center">
+                    <h1 class="mb-1 font-weight-normal">Create your account</h1>
+                    <hr class="hr-text" data-content="">
+                </div>
+                <div class="card-body py-0">
+                    <div>
+                        {{ form_widget(registrationForm.dateCreated, {'attr': {'class':"form-control"}}) }}
+                        <div class="py-1">
+                            {{ form_label(registrationForm.pseudoname) }}
+                            {{ form_widget(registrationForm.pseudoname, {'attr': {'class':"form-control"}}) }}
+                        </div>
+                        <div class="py-1">
+                            {{ form_label(registrationForm.email) }}
+                            {{ form_widget(registrationForm.email, {'attr': {'class':"form-control"}}) }}
+                        </div>
+                        <hr class="hr-text" data-content="">
+                        <div class="py-1">
+                            {{ form_label(registrationForm.country) }}
+                            {{ form_widget(registrationForm.country, {'attr': {'class':"form-control"}}) }}
+                        </div>
+                        <div class="py-1">
+                            {{ form_label(registrationForm.city) }}
+                            {{ form_widget(registrationForm.city, {'attr': {'class':"form-control"}}) }}
+                        </div>
+                        <hr class="hr-text" data-content="">
+                        <div>
+                            <div class="py-1">
+                                {{ form_label(registrationForm.plainPassword.first) }}
+                                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class':"form-control"}}) }}
+                            </div>
+                            <div class="py-1">
+                                {{ form_label(registrationForm.plainPassword.second) }}
+                                {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class':"form-control"}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="hr-text" data-content="">
+                    <div class="card-footer text-muted text-center pt-3 border-0">
+                        <button class="btn btn-lg btn-outline-light w-50 btn-login-sign" type="submit">
+                            Register
+                        </button>
+                    </div>
+                    {{ form_end(registrationForm) }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

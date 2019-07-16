@@ -6,17 +6,11 @@ use App\Entity\Character;
 use App\Entity\Comic;
 use App\Service\APIConnect;
 use App\Service\ComicConverter;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpClient\HttpClient;
 
-/**
- * @method Comic|null find($id, $lockMode = null, $lockVersion = null)
- * @method Comic|null findOneBy(array $criteria, array $orderBy = null)
- * @method Comic[]    findAll()
- * @method Comic[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class ComicRepository extends ServiceEntityRepository
+
+class ComicRepository
 {
     private $apiConnect;
     private $comicConverter;
@@ -26,7 +20,6 @@ class ComicRepository extends ServiceEntityRepository
         APIConnect $apiConnect,
         ComicConverter $comicConverter)
     {
-        parent::__construct($registry, Comic::class);
         $this->comicConverter = $comicConverter;
         $this->apiConnect = $apiConnect;
     }

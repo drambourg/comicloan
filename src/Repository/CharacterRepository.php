@@ -5,31 +5,22 @@ namespace App\Repository;
 use App\Entity\Character;
 use App\Service\APIConnect;
 use App\Service\CharacterConverter;
-use App\Service\ComicConverter;
-use App\Service\CreatorConverter;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+
 use Symfony\Component\HttpClient\HttpClient;
 
-/**
- * @method Character|null find($id, $lockMode = null, $lockVersion = null)
- * @method Character|null findOneBy(array $criteria, array $orderBy = null)
- * @method Character[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class CharacterRepository extends ServiceEntityRepository
+
+class CharacterRepository
 {
     private $apiConnect;
     private $characterConverter;
 
 
     public function __construct(
-        RegistryInterface $registry,
         APIConnect $apiConnect,
         CharacterConverter $characterConverter
 
     )
     {
-        parent::__construct($registry, Character::class);
         $this->characterConverter = $characterConverter;
         $this->apiConnect = $apiConnect;
     }

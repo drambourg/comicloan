@@ -1,0 +1,13 @@
+easy_admin:
+  entities:
+    # change the following to the namespaces of your own entities
+    - App\Entity\User
+    - App\Entity\UserLibrary
+  user:
+    # this method/property must return the string representation of the user
+    # (Symfony will look for getFullName(), isFullName(), ..., and 'fullName' property)
+    name_property_path: 'pseudoname'
+
+    # this method/property must return the absolute URL of the user avatar image
+    # (Symfony will look for getGravatar(), isGravatar(), ..., and 'gravatar' property)
+    #avatar_property_path: 'gravatar'

@@ -5,112 +5,49 @@ namespace App\Entity;
 use App\Service\APIConnect;
 use App\Service\Picture;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpClient\HttpClient;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ComicRepository")
- */
 class Comic
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
     private $digitalId;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $title;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
     private $issueNumber;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $variantDescription;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $description;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private $modified;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $isbn;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $format;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
     private $pageCount;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $detailUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $purchaseURL;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private $onsaleDate;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
     private $digitalPurchaseDate;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
     private $printPrice;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
     private $digitalPurchasePrice;
 
     private $characters;
 
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $thumbnailPath;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $thumbnailExtension;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Creator", mappedBy="comics")
-     */
     private $creators;
 
     private $apiConnect;

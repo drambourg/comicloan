@@ -9,55 +9,32 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpClient\HttpClient;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\CharacterRepository")
- */
+
 class Character
 {
-    /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     */
+
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $description;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
+
     private $modified;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+
     private $resourceURI;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+
     private $thumbnailPath;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+
     private $thumbnailExtension;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+
     private $picturePath;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Comic", inversedBy="characters")
-     */
     private $comics;
 
     private $apiConnect;

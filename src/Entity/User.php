@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -80,9 +82,15 @@ class User implements UserInterface
      */
     private $email;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserLibrary", mappedBy="user", orphanRemoval=true)
+     */
+    private $userLibraries;
+
     public function __construct()
     {
         $this->setRoles(['ROLE_AUTHOR']);
+        $this->userLibraries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -255,6 +263,37 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLibrary[]
+     */
+    public function getUserLibraries(): Collection
+    {
+        return $this->userLibraries;
+    }
+
+    public function addUserLibrary(UserLibrary $userLibrary): self
+    {
+        if (!$this->userLibraries->contains($userLibrary)) {
+            $this->userLibraries[] = $userLibrary;
+            $userLibrary->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLibrary(UserLibrary $userLibrary): self
+    {
+        if ($this->userLibraries->contains($userLibrary)) {
+            $this->userLibraries->removeElement($userLibrary);
+            // set the owning side to null (unless already changed)
+            if ($userLibrary->getUser() === $this) {
+                $userLibrary->setUser(null);
+            }
+        }
 
         return $this;
     }

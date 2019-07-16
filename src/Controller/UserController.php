@@ -2,11 +2,18 @@
 
 namespace App\Controller;
 
+use App\Repository\ComicRepository;
+use App\Repository\UserLibraryRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/user", name="user")
+ * @Route("/user")
  */
 class UserController extends AbstractController
 {
@@ -19,15 +26,50 @@ class UserController extends AbstractController
             'controller_name' => 'UserController',
         ]);
     }
-
     /**
-     * @Route("/library", name="user_library")
+     * Liste l'ensemble des articles triés par date de publication pour une page donnée.
+     *
+     * @Route("/articles/{page}", requirements={"page" = "\d+"}, name="front_articles_index")
+     * @Method("GET")
+     * @Template("XxxYyyBundle:Front/Article:index.html.twig")
+     *
+     * @param int $page Le numéro de la page
+     *
+     * @return array
      */
-    public function showLibrary(UserLibraryRepository $userLibraryRepository)
-    {
-        $comics = $userLibraryRepository->findByUser();
+    /**
+     * @Route("/library",
+     *     name="user_library")
+     */
+    public function showLibrary(
+        SessionInterface $session,
+        UserLibraryRepository $userLibraryRepository,
+        PaginatorInterface $paginator,
+        ComicRepository $comicRepository,
+        Request $request
+    ) {
+
+        $comics = [];
+        $userComics= [];
+
+        if ($session->get('user')) {
+            $libraryComics = $userLibraryRepository->findByUser($session->get('user'));
+            foreach ($libraryComics as $libraryComic) {
+                $comic = $comicRepository->findComicById($libraryComic->getComicId());
+                if ($comic!==[]) {
+                    $comics = array_merge($comics, $comic);
+                    $userComics[]= $libraryComic;
+                }
+            }
+        }
+        $comicPaginates = $paginator->paginate(
+            $comics,
+            $request->query->getInt('page', 1),
+            5);
+
         return $this->render('user/library.html.twig', [
-            'controller_name' => 'UserController',
+            'comics' => $comicPaginates,
+            'userComics' => $userComics,
         ]);
     }
 }

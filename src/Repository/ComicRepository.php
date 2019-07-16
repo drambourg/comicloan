@@ -2,11 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Character;
-use App\Entity\Comic;
 use App\Service\APIConnect;
 use App\Service\ComicConverter;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpClient\HttpClient;
 
 
@@ -16,7 +13,6 @@ class ComicRepository
     private $comicConverter;
 
     public function __construct(
-        RegistryInterface $registry,
         APIConnect $apiConnect,
         ComicConverter $comicConverter)
     {
@@ -51,7 +47,11 @@ class ComicRepository
             'query' => $query
         ]);
 
-        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+        }
     }
 
     public function findAllComicsFromCharacterId(int $characterId, array $criteria = []): array

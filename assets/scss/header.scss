@@ -1,18 +1,22 @@
-.jumbo-fluidvh {
+.jumbo-fluid {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-image: url('../img/bg/bg_town.png');
   background-color: rgba(0, 0, 0, 0.5);
-  /*  background-blend-mode: color;*/
-  height: 100vh;
+  height: 40vh;
   margin-bottom: unset;
   transition: all 2s linear;
+  .active {
+    box-shadow:  2px -55px 96px -70px rgba(227,210,20,1) inset;
+  }
 
 }
-.jumbo-fluidvh.active {
-  box-shadow:  2px -55px 96px -70px rgba(227,210,20,1) inset;
+
+.jumbo-fluid.jumbo-full{
+  height: 100vh;
 }
+
 header .title-wrapper {
   position: absolute;
   left: 0;

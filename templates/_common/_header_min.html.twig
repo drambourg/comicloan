@@ -1,0 +1,9 @@
+{% include '_common/_navbar.html.twig' %}
+<header>
+    <div class="jumbotron jumbotron-fluid jumbo-fluid m-0 p-0  d-flex">
+        <div class="container-fluid p-0 my-auto">
+                <h1 class=" header-title-min glow ">{{ title_h1 | default('Comic Loan !!!') }}</h1>
+                {% if title_h2 is defined %}<h2 class="mt-3 p-0 text-center ">{{ title_h2 }}</h2>{% endif %}
+        </div>
+    </div>
+</header>

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comic;
+use App\Entity\UserLibrary;
 use App\Repository\ComicRepository;
 use App\Repository\UserLibraryRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -71,5 +74,27 @@ class UserController extends AbstractController
             'comics' => $comicPaginates,
             'userComics' => $userComics,
         ]);
+
     }
+
+    /**
+     * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
+     * @param Request $request
+     * @param Article $article
+     * @param ObjectManager $manager
+     * @return Response
+     */
+  /*  public function favorite(Request $request, int $idComic, ObjectManager $manager): Response
+    {
+        if ($this->getUser()->get->getI()->contains($article)) {
+            $this->getUser()->removeFavorite($article)   ;
+        }
+        else {
+            $this->getUser()->addFavorite($article);
+        }
+        $manager->flush();
+
+        return $this->json([
+            'isFavorite' => $this->getUser()->isFavorite($article)
+        ]);*/
 }

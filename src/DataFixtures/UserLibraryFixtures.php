@@ -22,7 +22,7 @@ class UserLibraryFixtures extends Fixture implements DependentFixtureInterface
                 $userLibrary = new UserLibrary();
                 $userLibrary->setUser($user);
                 $userLibrary->setComicId($faker->numberBetween($min = 2, $max = self::NUMBER_MAX_COMIC_API));
-                $userLibrary->setLoanable($faker->boolean);
+                $userLibrary->setIsLoanable($faker->boolean);
                 $manager->persist($userLibrary);
             }
             $manager->flush();

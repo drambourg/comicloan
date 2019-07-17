@@ -24,7 +24,7 @@ class UserLibrary
     /**
      * @ORM\Column(type="boolean")
      */
-    private $loanable;
+    private $isLoanable;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userLibraries")
@@ -49,14 +49,14 @@ class UserLibrary
         return $this;
     }
 
-    public function getLoanable(): ?bool
+    public function getIsLoanable(): ?bool
     {
-        return $this->loanable;
+        return $this->isLoanable;
     }
 
-    public function setLoanable(bool $loanable): self
+    public function setIsLoanable(bool $IsLoanable): self
     {
-        $this->loanable = $loanable;
+        $this->isLoanable = $IsLoanable;
 
         return $this;
     }

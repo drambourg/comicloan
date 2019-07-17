@@ -1,11 +1,10 @@
-{% extends 'comicloaner.html.twig' %}
+{% extends 'comicloaner_simple.html.twig' %}
 
 {% block title %}My Comic Library{% endblock %}
 
 {% block body %}
     <div class="container-fluid m-0 p-0 mx-auto">
         <div class="row justify-content-around mx-auto">
-
             {% for comic in comics %}
                 <div class="card comic-card col-sm-12 col-md-4 col-xl-2 mb-4 mx-2 p-0">
                     <div class="card-header text-dark">

@@ -53,6 +53,10 @@ h1,h2,h3,h4,h5 {
 h1 {
   color: $font-primary-color;
 }
+.header-title-min{
+  font-size: calc(7vw + 15px);
+  transform: rotate(0deg);
+}
 .header-title{
   font-size: calc(7vw + 15px);
   transform-origin: bottom;

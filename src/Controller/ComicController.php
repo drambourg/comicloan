@@ -18,7 +18,8 @@ class ComicController extends AbstractController
     {
         $comics = $comicRepository->findAllComics();
         return $this->render('comic/index.html.twig', [
-            'controller_name' => 'ComicController',
+            'title_h1' => 'Comics',
+            'title_h2' => 'Wanna read ?!!',
             'comics' => $comics,
         ]);
     }

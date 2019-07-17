@@ -7,8 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
-
 
 class HomeController extends AbstractController
 {
@@ -21,6 +19,8 @@ class HomeController extends AbstractController
 
         $characters = $characterRepository->findallCharacters();
         return $this->render('home/index.html.twig', [
+            'title_h1' => 'Comic Loan !',
+            'title_h2' => 'Share your collection with your league!!',
             'characters' => $characters,
         ]);
     }

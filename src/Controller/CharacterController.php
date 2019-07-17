@@ -20,7 +20,8 @@ class CharacterController extends AbstractController
         $characters = $characterRepository->findallCharacters();
 
         return $this->render('character/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'title_h1' => 'Characters',
+            'title_h2' => 'Call Your Hero!!',
             'characters' => $characters,
         ]);
     }

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container-fluid m-0 p-0">
-        <section id="searchbar">
+        <section id="searchbar" class="pt-2">
             <div class="container">
                 <form method="get" id="form_search">
                     <input type="text" name="search" placeholder="Search..." onkeypress="pressEnter(event);">
@@ -14,7 +14,12 @@
         </section>
         <section>
             <div class="container-fluid m-0 p-0">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center my-4 px-0 m-0" id="resultSearchBar">
+                    <div class="result-text col-sm-8 col-md-4 d-flex">
+                        <div class="my-auto  mx-auto">{{  countComics != 0 ? countComics ~ ' Comics found'  : 'No Comic found' }}</div>
+                    </div>
+                </div>
+                <div class="row justify-content-center my-2">
                     {% for comic in comics %}
                         <div class="card comic-card col-md-5 mb-4 mx-2 p-0">
                             <div class="card-header text-dark">
@@ -55,6 +60,11 @@
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+                <div class="row text-center">
+                    <div class="navigation  mx-auto">
+                        {{ knp_pagination_render(comics) }}
+                    </div>
                 </div>
             </div>
         </section>

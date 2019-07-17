@@ -1,0 +1,17 @@
+{% extends 'comicloaner.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid m-0 p-0">
+        <section id="searchbar">
+            <div class="container">
+                <input type="text" placeholder="Search...">
+                <div class="search"></div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('navbar') }}
+{% endblock %}

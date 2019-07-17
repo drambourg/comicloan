@@ -26,7 +26,7 @@
             </li>
             <li class="nav-item {% if app.request.attributes.get("_route") == 'character_index' %} active {% endif %}">
                 <a class="nav-link" href="{{ path('character_index') }}">
-                    <i class="fa icon  mb-3">H
+                    <i class="fa icon mb-3">H
                     </i>
                     Characters
                 </a>
@@ -40,22 +40,27 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <i class="fa icon  mb-3">G
-                        <span class="badge badge-success">22</span>
-                    </i>
-                    Events
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                <div class="nav-link dropdown-toggle text-center"  id="navbarDropdown" >
+                    <button type="button" class="nav-link bg-transparent border-0" data-toggle="dropdown">
+                        <div>
+                            <i class="fab fa-searchengin icon-fas-xl">
+                            </i>
+                        </div>
+                        <div>
+                            Search Engine
+                        </div>
+                     </button>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{ path('search_by_comic') }}">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                    </div>
                 </div>
             </li>
         </ul>
-
         <ul class="navbar-nav ">
             {% if app.user %}
                 <li class="nav-item">
@@ -83,7 +88,8 @@
 
                     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                         <li role="presentation"><a class="dropdown-item px-1" href="#">MyProfile</a></li>
-                        <li role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My Library</a></li>
+                        <li role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My
+                                Library</a></li>
                         <li role="presentation"><a class="dropdown-item  px-1" href="#">My Stats</a></li>
                         <li role="presentation"><a class="dropdown-item  px-1" href="{{ path('app_logout') }}">Log
                                 out</a>
@@ -96,7 +102,7 @@
                     <a class="nav-link" href="{{ path('app_login') }}">
                         <div><i class="fas fa-user-circle icon-fas">
                             </i></div>
-                  Sign In</a>
+                        Sign In</a>
                 </li>
             {% endif %}
         </ul>

@@ -36,6 +36,12 @@ header .title-wrapper {
     padding: 3px;
   }
 
+  .icon-fas-xl{
+    color: $font-primary-color;
+    font-size: 40px;
+    padding: 3px;
+  }
+
   .icon-fas{
     color: $font-primary-color;
     font-size: 40px;
@@ -67,7 +73,7 @@ header .title-wrapper {
   box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
 
 
-  a {
+  a, i {
     color: $primary-color;
     font-size: 1.1rem;
     &:hover {
@@ -75,6 +81,9 @@ header .title-wrapper {
       border: none;
     }
   }
+}
+.dropdown{
+  cursor: pointer;
 }
 
 .dropdown-toggle::after {

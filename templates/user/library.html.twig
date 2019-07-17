@@ -24,7 +24,7 @@
                         <div class="row p-0 m-0">
                             <div class="col-md-4 text-left">
                                 <label class="switch">
-                                    <input type="checkbox" {{ userComics[loop.index0].isLoanable? 'checked' : '' }}>
+                                    <input type="checkbox" id="comic-{{ userComics[loop.index0].id }}" onclick="onClickIsLoaned('{{ path('comic_loanabale', {'id': userComics[loop.index0].id}) }}', {{userComics[loop.index0].id }})" {{ userComics[loop.index0].isLoanable? 'checked' : '' }}>
                                     <span class="slider round"></span>
                                 </label>
                                 <div class="switch-text">Ok to loan</div>
@@ -43,23 +43,21 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-
+{% block javascripts %}
+    {{ parent() }}
     <script>
-        function setLoanable(url, comicId) {
-            fetch(url)
-                .then(response => response.json())
-                .then(json => {
-                    let comicElt = document.getElementById('loanable' + comicId);
-                    if (json.isFavorite) {
-                        comicElt.classList.remove('far');
-                        comicElt.classList.add('fas');
-                    }
-                    else {
-                        comicElt.classList.remove('fas');
-                        comicElt.classList.add('far');
-                    }
+        function onClickIsLoaned(url, comicId) {
+            event.preventDefault();
+            const request = new Request(url, {method: 'GET'});
+            fetch(request)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    $('#comic-' + comicId).prop( "checked",data.isLoanable);
                 });
         }
     </script>
-{% endblock %}
+{% endblock  %}

@@ -78,23 +78,14 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
-     * @param Request $request
-     * @param Article $article
-     * @param ObjectManager $manager
-     * @return Response
+     * @Route("/library/comic_loanable/{id}", name="comic_loanabale", methods={"GET","POST"})
      */
-  /*  public function favorite(Request $request, int $idComic, ObjectManager $manager): Response
+    public function comicLoanable(int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
     {
-        if ($this->getUser()->get->getI()->contains($article)) {
-            $this->getUser()->removeFavorite($article)   ;
-        }
-        else {
-            $this->getUser()->addFavorite($article);
-        }
-        $manager->flush();
-
-        return $this->json([
-            'isFavorite' => $this->getUser()->isFavorite($article)
-        ]);*/
+         $libraryComic = $userLibraryRepository->findOneBy(['id' => $id]);
+         $libraryComic->setIsLoanable(!$libraryComic->getIsLoanable());
+         $manager->persist($libraryComic);
+         $manager->flush();
+        return  $this->json(['isLoanable' => $libraryComic->getIsLoanable()]);
+    }
 }

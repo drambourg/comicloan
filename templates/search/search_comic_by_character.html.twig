@@ -1,0 +1,55 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 p-0">
+        <section id="searchbar" class="pt-2">
+            <div class="container">
+                <form method="get" id="form_search">
+                    <input type="text" name="search" placeholder="Search..." onkeypress="pressEnter(event);">
+                    <div class="search"></div>
+                </form>
+            </div>
+        </section>
+        <section>
+            <div class="container-fluid m-0 p-0">
+                <div class="row justify-content-center my-4 px-0 m-0" id="resultSearchBar">
+                    <div class="result-text col-sm-8 col-md-4 d-flex">
+                        <div class="my-auto  mx-auto">{{ countComics != 0 ? countComics ~ ' Comics found'  : 'No Comic found' }}</div>
+                    </div>
+                </div>
+                {% if maxCharacters < countCharacters %}
+                    <div class="row justify-content-center my-4 px-0 m-0" id="resultSearchBar">
+                        <div class="result-text-alert col-sm-10 col-md-8 d-flex">
+                            <div class="my-auto  mx-auto">{{ countCharacters ~ ' characters found. Limit to 10 first found.' }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row justify-content-center my-2">
+                    {% for comic in comics %}
+                        {% include('_common/_card_comic.html.twig') %}
+                    {% endfor %}
+                </div>
+                <div class="row text-center">
+                    <div class="navigation  mx-auto">
+                        {{ knp_pagination_render(comics) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('navbar') }}
+    <script>
+        function pressEnter(event) {
+            var code = event.which || event.keyCode;
+            if (code == 13) { //le code de la touche Enter
+                document.getElementById("form_search").submit();
+            }
+        }
+    </script>
+{% endblock %}

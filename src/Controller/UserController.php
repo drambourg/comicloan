@@ -60,7 +60,7 @@ class UserController extends AbstractController
             foreach ($libraryComics as $libraryComic) {
                 $comic = $comicRepository->findComicById($libraryComic->getComicId());
                 if ($comic!==[]) {
-                    $comics = array_merge($comics, $comic);
+                    $comics = array_merge($comics, $comic['comics']);
                     $userComics[]= $libraryComic;
                 }
             }
@@ -73,6 +73,7 @@ class UserController extends AbstractController
         return $this->render('user/library.html.twig', [
             'comics' => $comicPaginates,
             'userComics' => $userComics,
+            'countComics' => count($userComics),
         ]);
 
     }

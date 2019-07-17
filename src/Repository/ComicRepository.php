@@ -32,7 +32,15 @@ class ComicRepository
             'query' => $query
         ]);
 
-        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'comics' => $this->comicConverter->ConvertResponseToComicEntities($results),
+            ];
+        }
     }
 
     public function findComicById(int $comicId, array $criteria = []): array
@@ -50,7 +58,11 @@ class ComicRepository
         if (200 !== $response->getStatusCode()) {
             return [];
         } else {
-            return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'comics' => $this->comicConverter->ConvertResponseToComicEntities($results),
+            ];
         }
     }
 
@@ -66,8 +78,15 @@ class ComicRepository
             [
             'query' => $query,
         ]);
-
-        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'comics' => $this->comicConverter->ConvertResponseToComicEntities($results),
+            ];
+        }
     }
 
 
@@ -84,7 +103,15 @@ class ComicRepository
                 'query' => $query
             ]);
 
-        return $this->comicConverter->ConvertResponseToComicEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'comics' => $this->comicConverter->ConvertResponseToComicEntities($results),
+            ];
+        }
     }
 
     /**

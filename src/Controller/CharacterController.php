@@ -22,7 +22,8 @@ class CharacterController extends AbstractController
         return $this->render('character/index.html.twig', [
             'title_h1' => 'Characters',
             'title_h2' => 'Call Your Hero!!',
-            'characters' => $characters,
+            'characters' => $characters['characters'],
+            'countCharacter' => $characters['count'],
         ]);
     }
 }

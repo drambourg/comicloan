@@ -38,7 +38,15 @@ class CharacterRepository
             'query' => $query
         ]);
 
-        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'characters' =>$this->characterConverter->ConvertResponseToCharacterEntities($results),
+            ];
+        }
     }
 
     /**
@@ -64,7 +72,15 @@ class CharacterRepository
                 'query' => $query
             ]);
 
-        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'characters' =>$this->characterConverter->ConvertResponseToCharacterEntities($results),
+            ];
+        }
     }
 
     /**
@@ -90,7 +106,15 @@ class CharacterRepository
                 'query' => $query
             ]);
 
-        return $this->characterConverter->ConvertResponseToCharacterEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'characters' =>$this->characterConverter->ConvertResponseToCharacterEntities($results),
+            ];
+        }
     }
 
 

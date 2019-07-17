@@ -16,11 +16,14 @@ class ComicController extends AbstractController
      */
     public function index(ComicRepository $comicRepository)
     {
-        $comics = $comicRepository->findAllComics();
+        $criteria['orderBy']='title';
+
+        $comics = $comicRepository->findAllComics($criteria);
         return $this->render('comic/index.html.twig', [
             'title_h1' => 'Comics',
             'title_h2' => 'Wanna read ?!!',
-            'comics' => $comics,
+            'comics' => $comics['comics'],
+            'comicCount' => $comics['count'],
         ]);
     }
 }

@@ -38,7 +38,15 @@ class CreatorRepository
             'query' => $query
         ]);
 
-        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'creators' => $this->creatorConverter->ConvertResponseToCreatorEntities($results),
+            ];
+        }
     }
 
     public function findCreatorById(int $creatorId, array $criteria = []): array
@@ -54,7 +62,15 @@ class CreatorRepository
                 'query' => $query
             ]);
 
-        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'creators' => $this->creatorConverter->ConvertResponseToCreatorEntities($results),
+            ];
+        }
     }
 
     public function findAllCreatorsFromComicId(int $comicId, array $criteria = []): array
@@ -70,7 +86,15 @@ class CreatorRepository
                 'query' => $query
             ]);
 
-        return $this->creatorConverter->ConvertResponseToCreatorEntities($response->toArray());
+        if (200 !== $response->getStatusCode()) {
+            return [];
+        } else {
+            $results=$response->toArray();
+            return [
+                'count' => $results['data']['total'],
+                'creators' => $this->creatorConverter->ConvertResponseToCreatorEntities($results),
+            ];
+        }
     }
 
 }

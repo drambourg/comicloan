@@ -16,8 +16,16 @@ class SearchComicController extends AbstractController
      */
     public function SearchByComic(ComicRepository $comicRepository)
     {
+        $criteria['orderBy']='title';
+        if (isset($_GET['search'])) {
+            $criteria['titleStartsWith']='%' . ($_GET['search'] . '%');
+        }
+
+        $comics = $comicRepository->findAllComics($criteria);
+
         return $this->render('search/search_by_comic.html.twig', [
-            'controller_name' => 'SearchComicController',
+            'countComics' =>$comics['count'],
+            'comics' => $comics['comics'],
         ]);
     }
 }

@@ -6,8 +6,56 @@
     <div class="container-fluid m-0 p-0">
         <section id="searchbar">
             <div class="container">
-                <input type="text" placeholder="Search...">
-                <div class="search"></div>
+                <form method="get" id="form_search">
+                    <input type="text" name="search" placeholder="Search..." onkeypress="pressEnter(event);">
+                    <div class="search"></div>
+                </form>
+            </div>
+        </section>
+        <section>
+            <div class="container-fluid m-0 p-0">
+                <div class="row justify-content-center">
+                    {% for comic in comics %}
+                        <div class="card comic-card col-md-5 mb-4 mx-2 p-0">
+                            <div class="card-header text-dark">
+                                <div class="row no-gutters p-2 m-0">
+                                    <div class="col-md-10 m-0">
+                                        <h4 class="marvel-title">{{ comic.title }}</h4>
+                                    </div>
+                                    <div class="col-md-2 text-right text m-0 date-on-sale">
+                                        <i class="fas fa-calendar-alt px-1"></i><span>{{ comic.onsaleDate ? comic.onsaleDate | date('Y-m-d') : 'Unknown date ' }}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row no-gutters m-1">
+                                <div class="col-md-4 p-1">
+                                    <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
+                                         class="card-img img-fluid p-2"
+                                         alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body mt-5">
+                                        <h5 class="card-title"></h5>
+                                        <p class="card-text">
+                                            {% if comic.description is empty %}
+                                                No description
+                                            {% else %}
+                                                {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
+                                            {% endif %}
+                                        </p>
+                                        <p class="card-text">
+                                            <small class="text-muted">Last updated 3 mins ago</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <button type="button" class="btn btn-danger button-readmore">Read more ...</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </section>
     </div>
@@ -16,4 +64,12 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('navbar') }}
+    <script>
+        function pressEnter(event) {
+            var code = event.which || event.keyCode;
+            if (code == 13) { //le code de la touche Enter
+                document.getElementById("form_search").submit();
+            }
+        }
+    </script>
 {% endblock %}

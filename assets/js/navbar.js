@@ -4,14 +4,14 @@ function checkScroll() {
     if ($(window).scrollTop() > startY) {
         $('.navbar').addClass("bg-dark");
         $('.navbar').addClass("bg-custom");
-        $('.jumbo-fluidvh').removeClass("active");
-        $('.jumbo-fluidvh').addClass("unactive");
+        $('.jumbo-fluid').removeClass("active");
+        $('.jumbo-fluid').addClass("unactive");
 
     } else {
         $('.navbar').removeClass("bg-dark");
         $('.navbar').removeClass("bg-custom");
-        $('.jumbo-fluidvh').addClass("active");
-        $('.jumbo-fluidvh').removeClass("unactive");
+        $('.jumbo-fluid').addClass("active");
+        $('.jumbo-fluih').removeClass("unactive");
     }
 }
 

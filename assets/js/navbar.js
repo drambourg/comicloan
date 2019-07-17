@@ -4,9 +4,14 @@ function checkScroll() {
     if ($(window).scrollTop() > startY) {
         $('.navbar').addClass("bg-dark");
         $('.navbar').addClass("bg-custom");
+        $('.jumbo-fluidvh').removeClass("active");
+        $('.jumbo-fluidvh').addClass("unactive");
+
     } else {
         $('.navbar').removeClass("bg-dark");
         $('.navbar').removeClass("bg-custom");
+        $('.jumbo-fluidvh').addClass("active");
+        $('.jumbo-fluidvh').removeClass("unactive");
     }
 }
 

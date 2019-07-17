@@ -32,6 +32,19 @@
 }
 
 
+body{
+  background-size: cover;
+  background-position: bottom center;
+  background-attachment: fixed;
+  background-image: url('../img/bg/bg_comic_characters_bottom_nb.png');
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-bottom: unset;
+}
+
+#content{
+  box-shadow:  2px 0px 25px 0px rgba(0,0,0,1) inset;
+}
+
 h1,h2,h3,h4,h5 {
   font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
   color: $font-primary-color;

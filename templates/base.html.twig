@@ -9,7 +9,9 @@
 </head>
 <body>
 {% block header %}{% endblock %}
+<section id="content">
 {% block body %}{% endblock %}
+</section>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     {{ encore_entry_script_tags('navbar') }}

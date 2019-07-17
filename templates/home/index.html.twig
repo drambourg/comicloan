@@ -2,45 +2,23 @@
 
 
 {% block body %}
-    <section id="content">
     <div class="container-fluid m-0 p-0">
-        <div class="row m-0">
-            {% for character in characters %}
-                <div class="character card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
-                    <div class="wrapper"
-                         style="background-image: url('{{ character.picturePath('portrait_uncanny') }}')">
-                        <div class="header">
-                            <div class="date">
-                                <span class="day">{{ character.modified |date("d") }}</span>
-                                <span class="month">{{ character.modified |date("m") }}</span>
-                                <span class="year">{{ character.modified |date("Y") }}</span>
-                            </div>
-                            <ul class="menu-content">
-                                <div class="row m-0 p-0 ">
-                                    <div class="col-1"><span><i class="fas fa-book"></i>45</span></div>
-                                    <div class="col-1"><span><i class="fas fa-heart"></i>19</span></div>
-                                    <div class="col-1"><span><i class="fas fa-comment"></i>7</span></div>
-                                </div>
-                            </ul>
-                        </div>
-                        <div class="data">
-                            <div class="content">
-                                <h1 class="title"><a href="#">{{ character.name }}</a></h1>
-                                <p class="text">
-                                    {% if character.description is empty %}
-                                        No description
-                                    {% else %}
-                                        {{ character.description | striptags | slice(0, 150) }} [...]
-                                    {% endif %}</p>
-                                <a href="#" class="button">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
+        <h1>WELCOME!!</h1>
     </div>
-    </section>
 {% endblock %}
 
     {% block javascripts %}

@@ -18,4 +18,16 @@
     background-color: $marvel-primary ;
   }
 
+  .button-add-comic-library {
+    font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+    color: $font-primary-color;
+    background-color: $marvel-primary ;
+  }
+
+  .button-remove-comic-library {
+    font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+    color: $primary-color;
+    background-color: $font-primary-color ;
+  }
+
 }

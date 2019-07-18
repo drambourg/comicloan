@@ -11,6 +11,7 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -108,5 +109,23 @@ class UserController extends AbstractController
         $manager->flush();
 
         return  $this->json(['ownComic' => true]);
+    }
+
+    /**
+     * @Route("/library/remove_comic/{id}", name="library_comic_remove", methods={"GET","POST"})
+     * @param int $id
+     * @param UserLibraryRepository $userLibraryRepository
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function removeComicToLibrary (int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
+    {
+        $comics = $userLibraryRepository->findBy(['comicId' => $id, 'user' => $this->getUser()]);
+        foreach ($comics as $comic) {
+            $manager->remove($comic);
+            $manager->flush();
+        }
+
+        return  $this->json(['ownComic' => false]);
     }
 }

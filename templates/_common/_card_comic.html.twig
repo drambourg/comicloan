@@ -32,13 +32,22 @@
         </div>
     </div>
     <div class="card-footer text-right">
-        <div class="row p-0 m-0 d-flex justify-content-between">
-            <button type="button" id="{{ comic.id }}"
-                    class="btn btn-danger button-readmore"
-                    onclick="addToMyLibrary('{{ path('library_comic_add', {'id':comic.id}) }}', {{ comic.id }})"
-            >Add to my library
-            </button>
-            <div class="col-sm-12 col-md-4 text-right">
+        <div class="row p-0 m-0 d-flex justify-content-center">
+            {% if  app.user %}
+                <div class="col-sm-12 col-md-6 text-center">
+                    <button type="button" id="{{ comic.id }}-add"
+                            class="btn btn-danger button-add-comic-library"
+                            onclick="addToMyLibrary('{{ path('library_comic_add', {'id':comic.id}) }}', {{ comic.id }})"
+                            {{ comic.id in comicsUserLibraryIds?'hidden': '' }}>I got It!
+                    </button>
+                    <button type="button" id="{{ comic.id }}-remove"
+                            class="btn btn-danger button-remove-comic-library"
+                            onclick="removeFromMyLibrary('{{ path('library_comic_remove', {'id':comic.id}) }}', {{ comic.id }})"
+                            {{ comic.id in comicsUserLibraryIds?'' : 'hidden' }}>Remove It !
+                    </button>
+                </div>
+            {% endif %}
+            <div class="col-sm-12 col-md-4 text-center">
                 <button type="button" class="btn btn-danger button-readmore">Read more ...</button>
             </div>
         </div>

@@ -89,4 +89,24 @@ class UserController extends AbstractController
          $manager->flush();
         return  $this->json(['isLoanable' => $libraryComic->getIsLoanable()]);
     }
+
+    /**
+     * @Route("/library/add_comic/{id}", name="library_comic_add", methods={"GET","POST"})
+     * @param int $id
+     * @param UserLibraryRepository $userLibraryRepository
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function addComicToLibrary (int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
+    {
+        $libraryComic = new $userLibraryRepository;
+        $libraryComic->setUser($this->getUser());
+        $libraryComic->setComicId($id);
+        $libraryComic->setIsLoanable(true);
+
+        $manager->persist($libraryComic);
+        $manager->flush();
+
+        return  $this->json(['ownComic' => true]);
+    }
 }

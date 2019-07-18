@@ -32,6 +32,15 @@
         </div>
     </div>
     <div class="card-footer text-right">
-        <button type="button" class="btn btn-danger button-readmore">Read more ...</button>
+        <div class="row p-0 m-0 d-flex justify-content-between">
+            <button type="button" id="{{ comic.id }}"
+                    class="btn btn-danger button-readmore"
+                    onclick="addToMyLibrary('{{ path('library_comic_add', {'id':comic.id}) }}', {{ comic.id }})"
+            >Add to my library
+            </button>
+            <div class="col-sm-12 col-md-4 text-right">
+                <button type="button" class="btn btn-danger button-readmore">Read more ...</button>
+            </div>
+        </div>
     </div>
 </div>

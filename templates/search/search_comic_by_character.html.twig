@@ -44,6 +44,7 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('navbar') }}
+    {{ encore_entry_script_tags('manage_library') }}
     <script>
         function pressEnter(event) {
             var code = event.which || event.keyCode;

@@ -97,9 +97,9 @@ class UserController extends AbstractController
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function addComicToLibrary (int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
+    public function addComicToLibrary (int $id, ObjectManager $manager)
     {
-        $libraryComic = new $userLibraryRepository;
+        $libraryComic = new UserLibrary();
         $libraryComic->setUser($this->getUser());
         $libraryComic->setComicId($id);
         $libraryComic->setIsLoanable(true);

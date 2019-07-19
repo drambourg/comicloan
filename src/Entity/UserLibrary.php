@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,17 @@ class UserLibrary
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ComicLoan", mappedBy="userLibrary")
+     */
+    private $comicLoans;
+
+
+    public function __construct()
+    {
+        $this->comicLoans = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +82,37 @@ class UserLibrary
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ComicLoan[]
+     */
+    public function getComicLoans(): Collection
+    {
+        return $this->comicLoans;
+    }
+
+    public function addComicLoan(ComicLoan $comicLoan): self
+    {
+        if (!$this->comicLoans->contains($comicLoan)) {
+            $this->comicLoans[] = $comicLoan;
+            $comicLoan->setUserLibrary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComicLoan(ComicLoan $comicLoan): self
+    {
+        if ($this->comicLoans->contains($comicLoan)) {
+            $this->comicLoans->removeElement($comicLoan);
+            // set the owning side to null (unless already changed)
+            if ($comicLoan->getUserLibrary() === $this) {
+                $comicLoan->setUserLibrary(null);
+            }
+        }
 
         return $this;
     }

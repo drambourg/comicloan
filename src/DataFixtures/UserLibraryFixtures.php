@@ -17,7 +17,7 @@ class UserLibraryFixtures extends Fixture implements DependentFixtureInterface
         $faker = Faker\Factory::create('fr_FR');
         for ($nUser = 0; $nUser <= UserFixtures::USER_COUNT; $nUser++) {
             $user = $this->getReference('user_' . $nUser);
-            $collectionComics = $faker->numberBetween($min = 5, $max = 25);
+            $collectionComics = $faker->numberBetween($min = 5, $max = 20);
             for ($nComic = 0; $nComic < $collectionComics; $nComic++) {
                 $userLibrary = new UserLibrary();
                 $userLibrary->setUser($user);

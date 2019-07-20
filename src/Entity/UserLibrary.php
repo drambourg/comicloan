@@ -36,6 +36,7 @@ class UserLibrary
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ComicLoan", mappedBy="userLibrary")
+     * @ORM\OrderBy({"dateOut" = "DESC"})
      */
     private $comicLoans;
 

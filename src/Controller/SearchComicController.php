@@ -58,6 +58,7 @@ class SearchComicController extends AbstractController
             'comicsUserLibrary' => $comicsCollection ?? [],
             'comicsUserLibraryIds' => $comicsCollectionIds ?? [],
             'countComics' => $comics['count'] ?? 0,
+            'activeloan' => true,
         ]);
     }
 
@@ -123,7 +124,7 @@ class SearchComicController extends AbstractController
                 'characters' => $characters,
                 'countCharacters' => $charactersFound,
                 'maxCharacters' => $maxCharacterResultGeneral,
-                /*'comics' => $comics['comics'],*/
+                'activeloan' => true,
             ]);
         }
     }

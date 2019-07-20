@@ -29,7 +29,8 @@
                                 <div class="switch-text">Ok to loan</div>
                             </div>
                             <div class="col-md-8 text-right d-flex">
-                                <button type="button" class="btn btn-danger button-readmore my-auto ml-auto">Read more ...</button>
+                                <a type="button" class="btn btn-danger button-readmore my-auto ml-auto"
+                                href="{{ path('loan_manager', {'id': userComics[loop.index0].id}) }}">Manage It!</a>
                             </div>
                         </div>
                     </div>

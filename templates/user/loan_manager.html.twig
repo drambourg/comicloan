@@ -1,0 +1,63 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}My Comic Library{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 p-0 mx-auto">
+        <div class="row justify-content-around mx-auto">
+            {% if comic %}
+                {% include('_common/_card_comic.html.twig') %}
+            {% endif %}
+        </div>
+        <h2 class="title-dark text-center">Loan Timer</h2>
+        <div class="row justify-content-around mx-auto my-2">
+        {% for comicLoan in comicLoans %}
+                <div class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0 {{ comicLoan.status == 0? 'no-back-loaned' }}">
+                    <div class="card-header text-dark p-1">
+                        <div class="row no-gutters p-2 m-0">
+                            <div class="col-md-10 m-0">
+                                <div class="row p-0 m-0">
+                                    <div class="col-md-2 m-0">
+                                        <img class="avatar-icon rounded-circle img-thumbnail"
+                                             src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                    </div>
+                                    <div class="col-md-10 m-0 p-0 text-left">
+                                        <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body m-0 p-1 rounded-0">
+                        <p>Loan Date : {{ comicLoan.dateOut |date("d-m-Y") }}</p>
+                        <p>Back Loan Date : {{ comicLoan.dateIn ? comicLoan.dateIn |date("d-m-Y") }}</p>
+                    </div>
+                    <div class="card-footer text-right py-2 px-1">
+                        <div class="row p-0 m-0">
+                            <div class="col-md-4 text-left">
+                                {#   <label class="switch">
+                                       <input type="checkbox" id="comic-{{ userComics[loop.index0].id }}" onclick="onClickIsLoaned('{{ path('comic_loanabale', {'id': userComics[loop.index0].id}) }}', {{userComics[loop.index0].id }})" {{ userComics[loop.index0].isLoanable? 'checked' : '' }}>
+                                       <span class="slider round"></span>
+                                   </label>
+                                   <div class="switch-text">Ok to loan</div>#}
+                            </div>
+                            <div class="col-md-8 text-right d-flex">
+                                {# <button type="button" class="btn btn-danger button-readmore my-auto ml-auto">Read more ...</button>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        {% endfor %}
+        </div>
+        <div class="row text-center">
+            <div class="navigation  mx-auto">
+                {#                {{ knp_pagination_render(comics) }}#}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

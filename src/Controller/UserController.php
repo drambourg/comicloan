@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comic;
 use App\Entity\UserLibrary;
+use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
 use App\Repository\UserLibraryRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -77,6 +78,27 @@ class UserController extends AbstractController
             'countComics' => count($userComics),
         ]);
 
+    }
+
+    /**
+     * @Route("/library/loanmanager/{id}", name="loan_manager")
+     */
+    public function ManageLoanComics(
+        int $id,
+        UserLibraryRepository $userLibraryRepository,
+        ComicRepository $comicRepository,
+        ComicLoanRepository $comicLoanRepository
+    ) {
+        $libraryComic = $userLibraryRepository->findOneById($id);
+
+        return $this->render('user/loan_manager.html.twig', [
+            'title_h1' => 'Loan Manager',
+            'title_h2' => 'Where is it ?!',
+            'comic' => $comicRepository->findComicById($libraryComic->getComicId())['comics'][0]?? [],
+            'userComic' => $libraryComic?? [],
+            'comicLoans' =>  $libraryComic->getComicLoans()?? [],
+            'activeloan' => false,
+        ]);
     }
 
     /**

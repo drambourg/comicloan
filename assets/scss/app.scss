@@ -66,6 +66,9 @@ h1 {
 }
 h2{
   font-size: calc(3vw + 15px);
+  &.title-dark {
+    color : $marvel-primary
+  }
 }
 
 .marvel-title h5 {

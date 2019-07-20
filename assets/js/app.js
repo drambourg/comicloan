@@ -16,3 +16,8 @@ require('@fortawesome/fontawesome-free/css/all.min.css');
 require('waypoints/lib/noframework.waypoints.min');
 const simpleParallax = require('simple-parallax-js')
 window.simpleParallax = simpleParallax;
+
+const Highcharts = require('highcharts/highcharts');
+require('highcharts/highcharts-more')(Highcharts);
+require("highcharts/modules/solid-gauge")(Highcharts);
+window.Highcharts = Highcharts;

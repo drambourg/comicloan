@@ -10,8 +10,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class UserLibraryFixtures extends Fixture implements DependentFixtureInterface
 {
-    const NUMBER_MAX_COMIC_API = 44547;
-
+/*    const NUMBER_MAX_COMIC_API = 44547;*/
+    const NUMBER_MAX_COMIC_API = 20;
     public function load(ObjectManager $manager)
     {
         $faker = Faker\Factory::create('fr_FR');

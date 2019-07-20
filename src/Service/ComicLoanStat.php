@@ -26,40 +26,43 @@ class ComicLoanStat
         $this->comicLoanRepository = $comicLoanRepository;
     }
 
-    public function RatioUserHaveTheComic(int $idComic) : ?array {
+    public function RatioUserHaveTheComic(int $idComic): ?array
+    {
         $nUserCountHaveComic = count($this->userLibraryRepository->findByComicId($idComic));
         $nUserCount = count($this->userRepository->findAll());
-
+        $nUserCount == 0 ? $ratio = 0 : $ratio = (int)ceil(($nUserCountHaveComic / $nUserCount) * 100);
         return [
-            'ratio' => (int) ceil(($nUserCountHaveComic / $nUserCount) * 100),
-            'count' => $nUserCount]
-            ;
+            'ratio' => $ratio,
+            'count' => $nUserCountHaveComic,
+        ];
     }
 
-    public function RatioUserLoanTheComic(int $idComic) : ?array {
+    public function RatioUserLoanTheComic(int $idComic): ?array
+    {
         $nUserCountHaveComic = count($this->userLibraryRepository->findByComicId($idComic));
-        $nUserCountHaveComicLoanable = count($this->userLibraryRepository->findBy(['comicId'=>$idComic, 'isLoanable'=> true]));
-
+        $nUserCountHaveComicLoanable = count($this->userLibraryRepository->findBy(['comicId' => $idComic, 'isLoanable' => true]));
+        $nUserCountHaveComic == 0 ? $ratio = 0 : $ratio = (int)ceil(($nUserCountHaveComicLoanable / $nUserCountHaveComic) * 100);
         return [
-            'ratio' => (int) ceil(($nUserCountHaveComicLoanable / $nUserCountHaveComic) * 100),
-            'count' => $nUserCountHaveComicLoanable]
-            ;
+            'ratio' => $ratio,
+            'count' => $nUserCountHaveComicLoanable,
+        ];
     }
 
-    public function RatioLoanableTheComic(int $idComic) : ?array {
-        $loanableComics = $this->userLibraryRepository->findBy(['comicId'=>$idComic, 'isLoanable'=> true]);
+    public function RatioLoanableTheComic(int $idComic): ?array
+    {
+        $loanableComics = $this->userLibraryRepository->findBy(['comicId' => $idComic, 'isLoanable' => true]);
         $nUserCountHaveComicLoanable = count($loanableComics);
-        $nComicLoaning=0;
-        foreach ( $loanableComics as $comicUser) {
-            if ($this->comicLoanRepository->findBy(['userLibrary' => $comicUser->getId(), 'status' =>false]) ){
+        $nComicLoaning = 0;
+        foreach ($loanableComics as $comicUser) {
+            if ($this->comicLoanRepository->findBy(['userLibrary' => $comicUser->getId(), 'status' => false])) {
                 $nComicLoaning++;
             };
         }
-
+        $nUserCountHaveComicLoanable == 0 ? $ratio = 0 : $ratio = (int)ceil((($nUserCountHaveComicLoanable - $nComicLoaning) / $nUserCountHaveComicLoanable) * 100);
         return [
-            'ratio' => (int) ceil((($nUserCountHaveComicLoanable-$nComicLoaning) / $nUserCountHaveComicLoanable) * 100),
-            'count' => ($nUserCountHaveComicLoanable-$nComicLoaning)]
-            ;
+            'ratio' => $ratio,
+            'count' => ($nUserCountHaveComicLoanable - $nComicLoaning)
+        ];
     }
 
 }

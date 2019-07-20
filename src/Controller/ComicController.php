@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
 use App\Service\ComicLoanStat;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,14 +39,13 @@ class ComicController extends AbstractController
     public function show(
         int $id,
         ComicRepository $comicRepository,
-        ComicLoanStat $comicLoanStat
+        ComicLoanStat $comicLoanStat,
+        ComicLoanRepository $comicLoanRepository
     ) {
 
         $comic = $comicRepository->findComicById($id)['comics'][0]??[];
         $characters = $comic->getCharacters();
         $creators = $comic->getCreators();
-
-
 
         return $this->render('comic/show.html.twig', [
             'title_h1' => 'Comic',
@@ -57,6 +57,7 @@ class ComicController extends AbstractController
             'chartComicUserHaveIt' => $comicLoanStat->RatioUserHaveTheComic($id),
             'chartComicLoanIt' => $comicLoanStat->RatioUserLoanTheComic($id),
             'chartComicLoanAvailable' => $comicLoanStat->RatioLoanableTheComic($id),
+            'comicLoans' => $comicLoanRepository->findLastLoanerFromComicId($id),
         ]);
     }
 }

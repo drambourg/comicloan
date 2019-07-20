@@ -19,6 +19,19 @@ class ComicLoanRepository extends ServiceEntityRepository
         parent::__construct($registry, ComicLoan::class);
     }
 
+
+    public function findLastLoanerFromComicId(int $idComic, int $limitResult = 3)
+    {
+        return $this->createQueryBuilder('cl')
+            ->join('cl.userLibrary', 'ul')
+            ->andWhere('ul.comicId = :comicId')
+            ->setParameter('comicId', $idComic)
+            ->orderBy('cl.dateOut', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return ComicLoan[] Returns an array of ComicLoan objects
     //  */

@@ -81,10 +81,10 @@
                         </tbody>
                     </table>
                     <div class="row mx-auto m-0 p-2 text-center">
-                            <div class="col-12" ><a href="{{ comic.detailUrl }}" target="_blank" type="button"
-                               class="btn btn-danger button-readmore"
+                        <div class="col-12"><a href="{{ comic.detailUrl }}" target="_blank" type="button"
+                                               class="btn btn-danger button-readmore"
                                     {{ comic.detailUrl?'':'disabled' }} %}
-                        >More Info on Marvel ...</a></div>
+                            >More Info on Marvel ...</a></div>
                     </div>
                 </div>
                 {#                <div class="card-footer text-right">
@@ -114,11 +114,39 @@
                     <div class="col-md-4">
                     </div>
                 </div>
-                <div class="row m-0">
-                    <div class="col-8">
-                    </div>
-                    <div class="col-4">
-                    </div>
+                <div class="text-center">
+                    <hr class="hr-text-color-2" data-content="">
+                    <h5 class="secondary-color">Last Loaners !</h5>
+                </div>
+                <div class="row m-0 justify-content-center p-1">
+                    {% for comicLoan in comicLoans %}
+                        <div id="comicloan-{{ comicLoan.id }}"
+                             class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
+                            <div class="card-header text-dark p-1">
+                                <div class="row no-gutters p-2 m-0">
+                                    <div class="col-md-10 m-0">
+                                        <div class="row p-0 m-0">
+                                            <div class="col-md-12 m-0">
+                                                <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                     src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                            </div>
+                                            <div class="col-md-10 m-0 p-0 text-left">
+                                                <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body m-0 p-1 rounded-0">
+                                <p class="small-display">Loan Date : {{ comicLoan.dateOut |date("Y-m-d") }}</p>
+                                <p  class="small-display">Back Loan Date : <span
+                                            id="comicloan-back-date-{{ comicLoan.id }}">{{ comicLoan.dateIn ? comicLoan.dateIn |date("Y-m-d") }}</span>
+                                </p>
+
+                            </div>
+                        </div>
+
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -208,9 +236,7 @@
     <script>
         if (!Highcharts.theme) {
             Highcharts.setOptions({
-                chart: {
-
-                },
+                chart: {},
                 colors: ['#206083', '#801005', '#212529'],
                 title: {
                     style: {
@@ -224,6 +250,7 @@
                 }
             });
         }
+
         function renderIcons() {
             // Move icon
             if (!this.series[0].icon) {
@@ -291,7 +318,7 @@
                     render: renderIcons
                 },
                 style: {
-                    cursor : 'pointer',
+                    cursor: 'pointer',
                     fontFamily: 'ComicBook'
                 }
             },
@@ -309,8 +336,8 @@
                 style: {
                     fontSize: '16px'
                 },
-                pointFormat: '<div class="text-center">{series.name}<br><span style="text-align: center; font-size:1.5em; color: {point.color}; font-weight: bold">{point.number} Heroes</span>' +
-                    '           <br><span style="font-size:1.3em; color: {point.color}; font-weight: bold">{point.y}%</span></div>',
+                pointFormat: '<div class="text-center">{series.name}<br><span style="text-align: center; font-size:1.5em; color: {point.color}; font-weight: bold">{point.number}</span>' +
+                    '<br><span style="font-size:1.3em; color: {point.color}; font-weight: bold">{point.y}%</span></div>',
                 positioner: function (labelWidth) {
                     return {
                         x: (this.chart.chartWidth - labelWidth) / 2,
@@ -371,7 +398,7 @@
                     radius: '112%',
                     innerRadius: '88%',
                     y: {{ chartComicUserHaveIt.ratio }},
-                    number: {{ chartComicUserHaveIt.count }}
+                    number: {{ chartComicUserHaveIt.count }} +' Heroes'
                 }]
             }, {
                 name: 'Loan It, ok?',
@@ -380,7 +407,7 @@
                     radius: '87%',
                     innerRadius: '63%',
                     y: {{ chartComicLoanIt.ratio }},
-                    number: {{ chartComicLoanIt.count }}
+                    number: {{ chartComicLoanIt.count }} +' Heroes'
                 }]
             }, {
                 name: 'You want It?',
@@ -389,7 +416,7 @@
                     radius: '62%',
                     innerRadius: '38%',
                     y: {{ chartComicLoanAvailable.ratio }},
-                    number: {{ chartComicLoanAvailable.count }}
+                    number: {{ chartComicLoanAvailable.count }} +' Available'
                 }]
             }]
         });

@@ -85,7 +85,11 @@
     margin: 0px;
     font-size: 16px;
     color: $secondary-color;
+    &.small-display {
+    font-size: calc(.3vw + 10px);
   }
+  }
+
 
   .card-header {
     background-color: $bg-secondary;

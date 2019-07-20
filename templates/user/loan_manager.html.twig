@@ -11,14 +11,15 @@
         </div>
         <h2 class="title-dark text-center">Loan Timer</h2>
         <div class="row justify-content-around mx-auto my-2">
-        {% for comicLoan in comicLoans %}
-                <div class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0 {{ comicLoan.status == 0? 'no-back-loaned' }}">
+            {% for comicLoan in comicLoans %}
+                <div id="comicloan-{{ comicLoan.id }}"
+                     class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0 {{ comicLoan.status == 0? 'no-back-loaned' }}">
                     <div class="card-header text-dark p-1">
                         <div class="row no-gutters p-2 m-0">
                             <div class="col-md-10 m-0">
                                 <div class="row p-0 m-0">
                                     <div class="col-md-2 m-0">
-                                        <img class="avatar-icon rounded-circle img-thumbnail"
+                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
                                              src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
                                     </div>
                                     <div class="col-md-10 m-0 p-0 text-left">
@@ -29,35 +30,60 @@
                         </div>
                     </div>
                     <div class="card-body m-0 p-1 rounded-0">
-                        <p>Loan Date : {{ comicLoan.dateOut |date("d-m-Y") }}</p>
-                        <p>Back Loan Date : {{ comicLoan.dateIn ? comicLoan.dateIn |date("d-m-Y") }}</p>
+                        <p>Loan Date : {{ comicLoan.dateOut |date("Y-m-d") }}</p>
+                        <p>Back Loan Date : <span
+                                    id="comicloan-back-date-{{ comicLoan.id }}">{{ comicLoan.dateIn ? comicLoan.dateIn |date("Y-m-d") }}</span>
+                        </p>
                     </div>
                     <div class="card-footer text-right py-2 px-1">
                         <div class="row p-0 m-0">
-                            <div class="col-md-4 text-left">
-                                {#   <label class="switch">
-                                       <input type="checkbox" id="comic-{{ userComics[loop.index0].id }}" onclick="onClickIsLoaned('{{ path('comic_loanabale', {'id': userComics[loop.index0].id}) }}', {{userComics[loop.index0].id }})" {{ userComics[loop.index0].isLoanable? 'checked' : '' }}>
-                                       <span class="slider round"></span>
-                                   </label>
-                                   <div class="switch-text">Ok to loan</div>#}
-                            </div>
-                            <div class="col-md-8 text-right d-flex">
-                                {# <button type="button" class="btn btn-danger button-readmore my-auto ml-auto">Read more ...</button>#}
+                            <div class="col-md-12 text-right">
+                                <span class="switch-text my-auto"
+                                      id="comicloan-text-{{ comicLoan.id }}">{{ comicLoan.status? 'Loan back  !!' : 'In Loan ?' }}</span>
+                                {% if not comicLoan.status %}
+                                    <label class="switch" id="comicloan-switch-{{ comicLoan.id }}">
+                                        <input id="comicloan-check-{{ comicLoan.id }}" type="checkbox"
+                                               onclick="BackLoanToMyLibrary('{{ path('comic_back_loan', {'id': comicLoan.id}) }}', {{ comicLoan.id }})" {{ comicLoan.status? '' : 'checked' }}>
+                                        <span class="slider round"></span>
+                                    </label>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
 
-        {% endfor %}
+            {% endfor %}
         </div>
-        <div class="row text-center">
-            <div class="navigation  mx-auto">
-                {#                {{ knp_pagination_render(comics) }}#}
-            </div>
-        </div>
+        >
     </div>
 {% endblock %}
 
+
 {% block javascripts %}
     {{ parent() }}
+    <script>
+
+        function BackLoanToMyLibrary(url, comicLoanId) {
+            event.preventDefault();
+            if (confirm('Are you sure to get back this comic?')) {
+                const request = new Request(url, {method: 'GET'});
+                fetch(request)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        $('#comicloan-back-date-' + comicLoanId).fadeIn(4000, function () {
+                            $(this).html(data.dateBack)
+                        });
+                        $('#comicloan-text-' + comicLoanId).fadeIn(4000, function () {
+                            $(this).html('Loan back  !!').fadeIn();
+                        });
+                        $('#comicloan-switch-' + comicLoanId).fadeOut('slow');
+                        $('#comicloan-check-' + comicLoanId).prop("checked", !data.status);
+                            $('#comicloan-' + comicLoanId).removeClass("no-back-loaned");
+                    });
+            }
+        }
+    </script>
 {% endblock %}
+

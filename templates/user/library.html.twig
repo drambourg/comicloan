@@ -4,9 +4,16 @@
 
 {% block body %}
     <div class="container-fluid m-0 p-0 mx-auto">
-        <div class="row justify-content-around mx-auto">
+        <div class="row justify-content-center mx-auto">
             {% for comic in comics %}
-                <div class="card comic-card col-sm-12 col-md-4 col-xl-2 mb-4 mx-2 p-0">
+                {% set currentLoan = false %}
+                {% for comicLoan in userComics[loop.index0].comicLoans  %}
+                    {% if comicLoan.status == false %}
+                        {% set currentLoan = true %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="card comic-card col-sm-12 col-md-4 col-xl-2 mb-4 mx-2 p-0  {{ currentLoan? 'no-back-loaned':'' }}">
                     <div class="card-header text-dark">
                         <div class="row no-gutters p-2 m-0">
                             <div class="col-md-10 m-0">

@@ -102,6 +102,22 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/library/comic_loan_back/{id}", name="comic_back_loan", methods={"GET","POST"})
+     */
+    public function comicLoanBack(int $id, ComicLoanRepository $comicLoanRepository, ObjectManager $manager)
+    {
+        $comicLoan = $comicLoanRepository->findOneBy(['id' => $id]);
+        $comicLoan->setStatus( !$comicLoan->getStatus());
+        $comicLoan->setDateIn( new \DateTime());
+        $manager->persist($comicLoan);
+        $manager->flush();
+        return  $this->json([
+            'status' => $comicLoan->getStatus(),
+            'dateBack' => $comicLoan->getDateIn()->format('Y-m-d'),
+            ]);
+    }
+
+    /**
      * @Route("/library/comic_loanable/{id}", name="comic_loanabale", methods={"GET","POST"})
      */
     public function comicLoanable(int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)

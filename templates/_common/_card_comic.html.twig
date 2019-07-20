@@ -48,7 +48,7 @@
                 </div>
             {% endif %}
             <div class="col-sm-12 col-md-4 text-center">
-                <button type="button" class="btn btn-danger button-readmore">Read more ...</button>
+                <a href="{{ path('comic_show', {'id':comic.id}) }}" type="button" class="btn btn-danger button-readmore">Read more ...</a>
             </div>
         </div>
     </div>

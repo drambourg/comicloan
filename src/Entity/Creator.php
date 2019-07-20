@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Service\APIConnect;
+use App\Service\Picture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpClient\HttpClient;
@@ -103,6 +104,12 @@ class Creator
         $this->fullName = $fullName;
 
         return $this;
+    }
+
+    public function getPicture(): ?Picture
+    {
+        $picture = new Picture($this->thumbnailPath,$this->thumbnailExtension );
+        return $picture;
     }
 
     public function getThumbnailPath(): ?string

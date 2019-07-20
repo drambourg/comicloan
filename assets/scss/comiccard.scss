@@ -1,88 +1,126 @@
 .comic-card {
   min-height: 200px;
   transition: all 0.9s ease-out 0s;
-  &.no-back-loaned{    box-shadow: inset 0 0 0px 0px #fff, 0 0 12px #cbcbcb, 0 0 6px 5px #b92426, 0 0 25px #cb202e;
+
+  &.no-back-loaned {
+    box-shadow: inset 0 0 0px 0px #fff, 0 0 12px #cbcbcb, 0 0 6px 5px #b92426, 0 0 25px #cb202e;
     transition: all 0.9s ease-out 0s;
   }
+
   .card-header {
     min-height: 100px;
     height: calc(100px + (150 - 100) * ((100vw - 300px) / (1600 - 300)));
-    background-color: $marvel-primary ;
+    background-color: $marvel-primary;
+
     .date-on-sale {
-      color: white ;
+      color: white;
     }
   }
+
+  .card-header-adjust {
+    min-height: 80px;
+    height: auto;
+    background-color: $marvel-primary;
+  }
+
+  .card-header-adjust-color2 {
+    color : $font-primary-color;
+    height: auto;
+    min-height: 80px;
+    background-color: $bg-secondary;
+  }
+
   .small-picture-cover {
     width: 250px;
     height: auto;
   }
+
   .button-readmore {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $font-primary-color;
-    background-color: $marvel-primary ;
+    background-color: $marvel-primary;
   }
 
   .button-add-comic-library {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $font-primary-color;
-    background-color: $marvel-primary ;
+    background-color: $marvel-primary;
   }
 
   .button-remove-comic-library {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $primary-color;
-    background-color: $font-primary-color ;
+    background-color: $font-primary-color;
+  }
+
+  .comic-feature-table td, .comic-feature-table th {
+    padding: 2px;
+  }
+
+  .comic-feature-table{
+    font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+    font-size: calc(.3vw + 12px);
+
   }
 
 }
 
-.comic-loaner-card{
+.comic-loaner-card {
   font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
   opacity: .9;
-    min-height: 150px;
+  min-height: 150px;
   transition: all 0.9s ease-out 0s;
-  &.no-back-loaned{    box-shadow: inset 0 0 0px 0px #fff, 0 0 12px #cbcbcb, 0 0 6px 5px #b92426, 0 0 25px #cb202e;
+
+  &.no-back-loaned {
+    box-shadow: inset 0 0 0px 0px #fff, 0 0 12px #cbcbcb, 0 0 6px 5px #b92426, 0 0 25px #cb202e;
     transition: all 0.9s ease-out 0s;
   }
+
   p {
     margin: 0px;
     font-size: 16px;
-    color:$secondary-color ;
+    color: $secondary-color;
   }
+
   .card-header {
-    background-color: $bg-secondary ;
+    background-color: $bg-secondary;
+
     h5 {
-      color:$font-primary-color ;
+      color: $font-primary-color;
     }
+
     .date-on-sale {
-      color: white ;
+      color: white;
     }
 
   }
+
   .avatar-icon {
-    width:50px;
+    width: 50px;
     height: auto;
   }
+
   .small-picture-cover {
     width: 250px;
     height: auto;
   }
+
   .button-readmore {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $font-primary-color;
-    background-color: $marvel-primary ;
+    background-color: $marvel-primary;
   }
 
   .button-add-comic-library {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $font-primary-color;
-    background-color: $marvel-primary ;
+    background-color: $marvel-primary;
   }
 
   .button-remove-comic-library {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $primary-color;
-    background-color: $font-primary-color ;
+    background-color: $font-primary-color;
   }
 
 }

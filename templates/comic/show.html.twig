@@ -1,0 +1,192 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 p-0">
+        <div class="row justify-content-center no-gutters">
+            <div class="card comic-card col-md-5 mb-4 mx-2 p-0 ">
+                <div class="card-header text-dark">
+                    <div class="row no-gutters p-2 m-0">
+                        <div class="col-md-12 m-0">
+                            <h4 class="marvel-title">{{ comic.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-gutters m-1">
+                    <div class="col-md-4 p-1">
+                        <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
+                             class="card-img img-fluid p-2"
+                             alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body mt-5">
+                            <h5 class="card-title"></h5>
+                            <p class="card-text">
+                                {% if comic.description is empty %}
+                                    No description
+                                {% else %}
+                                    {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-3">
+                    <table class="table borderless comic-feature-table m-0">
+                        <tbody>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Page count</th>
+                            <td>{{ comic.pageCount > 0 ? comic.pageCount : 'Unknown' }}</td>
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">on Sale date</th>
+                            <td>{{ comic.onsaleDate ? comic.onsaleDate|date("Y-m-d") : 'Unknown' }}</td>
+
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Print Price</th>
+                            <td>{{ comic.printPrice ? comic.printPrice ~ ' $$': 'Unknown' }}</td>
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Digital Price</th>
+                            <td>{{ comic.digitalPurchasePrice ? comic.digitalPurchasePrice ~ ' $$': 'Unknown' }}</td>
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="row mx-auto m-0 p-2 text-center">
+                            <div class="col-12" ><a href="{{ comic.detailUrl }}" target="_blank" type="button"
+                               class="btn btn-danger button-readmore"
+                                    {{ comic.detailUrl?'':'disabled' }} %}
+                        >More Info on Marvel ...</a></div>
+                    </div>
+                </div>
+                {#                <div class="card-footer text-right">
+                                    <div class="row p-0 m-0 d-flex justify-content-center">
+                                        {% if  app.user and activeloan %}
+                                            <div class="col-sm-12 col-md-6 text-center">
+                                                <button type="button" id="{{ comic.id }}-add"
+                                                        class="btn btn-danger button-add-comic-library"
+                                                        onclick="addToMyLibrary('{{ path('library_comic_add', {'id':comic.id}) }}', {{ comic.id }})"
+                                                        {{ comic.id in comicsUserLibraryIds?'hidden': '' }}>I got It!
+                                                </button>
+                                                <button type="button" id="{{ comic.id }}-remove"
+                                                        class="btn btn-danger button-remove-comic-library"
+                                                        onclick="removeFromMyLibrary('{{ path('library_comic_remove', {'id':comic.id}) }}', {{ comic.id }})"
+                                                        {{ comic.id in comicsUserLibraryIds?'' : 'hidden' }}>Remove It !
+                                                </button>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>#}
+            </div>
+            <div class="card comic-card col-md-5 mb-4 mx-2 p-0">
+            </div>
+        </div>
+        <div class="row justify-content-center no-gutters">
+            <div class="card comic-card col-md-10 mb-4 mx-2 p-0 ">
+                <div class="card-header card-header-adjust-color2 text-dark d-flex">
+                    <div class="row no-gutters p-2 m-0 my-auto">
+                        <div class="col-md-12 m-0">
+                            <h4 class="marvel-title">Characters in Story</h4>
+                        </div>
+                    </div>
+                </div>
+                {% if characters|length > 0 %}
+                    <div class="container-fluid m-0 p-0" id="characters">
+                        <div class="row no-gutters m-1">
+                            {% for character in characters %}
+                                <div class="character card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                                    <div class="wrapper"
+                                         style="background-image: url('{{ character.picture.getPictureSquareHD }}')">
+                                        <div class="data">
+                                            <div class="content">
+                                                <h1 class="title">{{ character.name }}</h1>
+                                                <p class="text">
+                                                    {% if character.description is empty %}
+                                                        No description
+                                                    {% else %}
+                                                        {{ character.description|length > 150 ? character.description|raw|striptags|slice(0, 150) ~ ' [...]' : character.description }}
+                                                    {% endif %}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="d-flex row">
+                        <div class="my-auto mx-auto">
+                            <h4 class="secondary-color">Oopps ...No characters referenced!</h4>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row justify-content-center no-gutters">
+            <div class="card comic-card col-md-10 mb-4 mx-2 p-0 ">
+                <div class="card-header card-header-adjust-color2 text-dark d-flex">
+                    <div class="row no-gutters p-2 m-0 my-auto">
+                        <div class="col-md-12 m-0">
+                            <h4 class="marvel-title">Writers & Artists</h4>
+                        </div>
+                    </div>
+                </div>
+                {% if creators|length > 0 %}
+                    <div class="container-fluid m-0 p-0" id="characters">
+                        <div class="row no-gutters m-1">
+
+                            {% for creator in creators %}
+                                <div class="creator card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                                    <div class="wrapper"
+                                         style="background-image: url('{{ creator.picture.getPictureSquareHD }}')">
+                                        <div class="data">
+                                            <div class="content">
+                                                <h1 class="title">{{ creator.fullName }}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="d-flex row">
+                        <div class="my-auto mx-auto">
+                            <h4 class="secondary-color">Oopps ...No writes & artists referenced!</h4>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

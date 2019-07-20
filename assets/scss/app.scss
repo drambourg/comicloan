@@ -71,9 +71,18 @@ h2{
   }
 }
 
+.borderless td, .borderless th {
+  border: none;
+}
+
 .marvel-title h5 {
   font-size: calc(.1vw + 10px);
 }
+
+h5.secondary-color, h4.secondary-color {
+  color: $bg-secondary;
+}
+
 
 
 a,a:visited,a:hover,a:active{
@@ -223,6 +232,35 @@ a.before:hover:before,a.after:hover:after{
     color: $font-primary-color;
   }
 }
+
+.hr-text-color-2 {
+  text-align: center;
+  font-size: 16px;
+  position: relative;
+  border: 0;
+  height: 0.5em;
+  margin-top: 0.4em;
+  margin-bottom: 0.1em;
+  &:before {
+    content: '';
+    background: linear-gradient(to right, transparent, $marvel-primary, transparent);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+  }
+  &:after {
+    content: attr(data-content);
+    position: relative;
+    display: inline-block;
+    color: $marvel-primary;
+    padding: 0 .5em;
+    line-height: 0.1em;
+    color: $marvel-primary;
+  }
+}
+
 
 .form-error-message{
   font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;

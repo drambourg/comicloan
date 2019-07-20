@@ -279,10 +279,6 @@ class Comic
             $character->setThumbnailPath($characterDatum['thumbnail']['path']);
             $character->setThumbnailExtension($characterDatum['thumbnail']['extension']);
             $character->setResourceURI($characterDatum['resourceURI']);
-            /*            $comics = $this->comicRepository->findAllComicsFromCharacterId($characterDatum['id']);
-                        foreach ($comics as $comic) {
-                            $character->addComic($comic);
-                        }*/
             $characters[] = $character;
         }
         return $characters;

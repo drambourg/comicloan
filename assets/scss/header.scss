@@ -15,6 +15,58 @@
   height: 100vh;
 }
 
+#captainamerica {
+  width:30vh;
+  height: auto;
+  position: absolute;
+
+  left: 60%;
+  margin-right: 10vw;
+}
+
+#thor {
+  width:30vh;
+  height: auto;
+  position: absolute;
+}
+
+#deadpool {
+  width:25vh;
+  height: auto;
+  right: 90%;
+  top: 100%;
+  position: absolute;
+}
+
+#wolverine {
+  width:25vh;
+  right:10%;
+  top: 100%;
+  height: auto;
+  position: absolute;
+}
+
+#spiderman {
+  width:20vh;
+  height: auto;
+  position: absolute;
+  left: 20%;
+  top: 0%;
+}
+
+#ironman {
+  width:30vh;
+  height: auto;
+  position: absolute;
+  top: 5%;
+  right: 100%;
+  /*
+  margin-left: [-50% of your image's width];
+    margin-top: [-50% of your image's height];
+  */
+
+
+}
 header .title-wrapper {
   position: absolute;
   left: 0;

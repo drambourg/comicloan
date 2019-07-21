@@ -19,7 +19,7 @@ class RequestComicLoan
     /**
      * @ORM\Column(type="integer")
      */
-    private $ComicId;
+    private $comicId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -49,12 +49,12 @@ class RequestComicLoan
 
     public function getComicId(): ?int
     {
-        return $this->ComicId;
+        return $this->comicId;
     }
 
-    public function setComicId(int $ComicId): self
+    public function setComicId(int $comicId): self
     {
-        $this->ComicId = $ComicId;
+        $this->comicId = $comicId;
 
         return $this;
     }

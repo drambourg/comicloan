@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\RequestComicLoanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -96,7 +97,6 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\RequestComicLoan", mappedBy="user")
      */
     private $requestComicLoans;
-
 
     public function __construct()
     {

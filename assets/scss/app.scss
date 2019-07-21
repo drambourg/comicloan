@@ -90,8 +90,13 @@ h5.ternary-color, h4.ternary-color {
   color: $marvel-primary;
 }
 
+p {
+  font-size: calc(.2vw + 13px);
+  font-family: 'Lato', sans-serif;
+}
+
 p.simple-font{
-  font-size: calc(.3vw + 13px);
+  font-size: calc(.2vw + 13px);
   font-family: 'Lato', sans-serif;
 }
 

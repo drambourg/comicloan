@@ -60,20 +60,21 @@
 
         <ul class="navbar-nav ">
             {% if app.user %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+
+                <li class="nav-item {% if app.request.attributes.get("_route") == 'user_request_calls' %} active {% endif %}">
+                    <a class="nav-link" href="{{ path('user_request_calls') }}">
                         <i class="fa fa-bell icon-sm">
-                            <span class="badge badge-info">11</span>
+{#                            <span class="badge badge-info">{{ app.user.getCountRequestsConcerned() }}</span>#}
                         </i>
-                        Alerts
+                        Help Calls!
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fa fa-envelope icon-sm">
-                            <span class="badge badge-success">11</span>
+{#                            <span class="badge badge-success">11</span>#}
                         </i>
-                        Messages
+                        Heroes Loans
                     </a>
                 </li>
                 <div class="dropdown">

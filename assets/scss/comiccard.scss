@@ -120,6 +120,12 @@
     background-color: $marvel-primary;
   }
 
+  .button-readmore-disabled {
+    font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+    color: $marvel-primary;
+    background-color: $bg-secondary;
+  }
+
   .button-add-comic-library {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
     color: $font-primary-color;

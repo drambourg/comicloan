@@ -8,6 +8,8 @@ use App\Entity\UserLibrary;
 use App\Repository\ComicLoanRepository;
 use App\Repository\UserLibraryRepository;
 use App\Repository\UserRepository;
+use DateInterval;
+use DateTime;
 use Ghunti\HighchartsPHP\Highchart;
 
 class ComicLoanStat
@@ -62,6 +64,31 @@ class ComicLoanStat
         return [
             'ratio' => $ratio,
             'count' => ($nUserCountHaveComicLoanable - $nComicLoaning)
+        ];
+    }
+
+    public function RatioLoanedTheComic(int $idComic): ?array
+    {
+        $allComicLoans = $this->comicLoanRepository->AllLoansFromComicId($idComic)??[];
+
+        return [
+            'loans' => $allComicLoans,
+            'count' => count($allComicLoans),
+        ];
+    }
+
+    public function RatioLoanedLastMonthTheComic(int $idComic): ?array
+    {
+
+        $date = new DateTime();
+        $interval = new DateInterval('P1M');
+        $date->sub($interval);
+
+        $allComicLoans = $this->comicLoanRepository->AllLoansSinceDateFromComicId($idComic, $date)??[];
+
+        return [
+            'loans' => $allComicLoans,
+            'count' => count($allComicLoans),
         ];
     }
 

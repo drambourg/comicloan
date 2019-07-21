@@ -32,6 +32,32 @@ class ComicLoanRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function AllLoansFromComicId(int $idComic)
+    {
+        return $this->createQueryBuilder('cl')
+            ->join('cl.userLibrary', 'ul')
+            ->andWhere('ul.comicId = :comicId')
+            ->setParameter('comicId', $idComic)
+            ->orderBy('cl.dateOut', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function AllLoansSinceDateFromComicId(int $idComic, \DateTime $limitResultDate)
+    {
+        return $this->createQueryBuilder('cl')
+            ->join('cl.userLibrary', 'ul')
+            ->andWhere('ul.comicId = :comicId')
+            ->setParameter('comicId', $idComic)
+            ->andWhere('cl.dateOut >= :datelimit')
+            ->setParameter('datelimit', $limitResultDate)
+            ->orderBy('cl.dateOut', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     // /**
     //  * @return ComicLoan[] Returns an array of ComicLoan objects
     //  */

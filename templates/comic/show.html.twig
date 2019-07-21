@@ -87,31 +87,20 @@
                             >More Info on Marvel ...</a></div>
                     </div>
                 </div>
-                {#                <div class="card-footer text-right">
-                                    <div class="row p-0 m-0 d-flex justify-content-center">
-                                        {% if  app.user and activeloan %}
-                                            <div class="col-sm-12 col-md-6 text-center">
-                                                <button type="button" id="{{ comic.id }}-add"
-                                                        class="btn btn-danger button-add-comic-library"
-                                                        onclick="addToMyLibrary('{{ path('library_comic_add', {'id':comic.id}) }}', {{ comic.id }})"
-                                                        {{ comic.id in comicsUserLibraryIds?'hidden': '' }}>I got It!
-                                                </button>
-                                                <button type="button" id="{{ comic.id }}-remove"
-                                                        class="btn btn-danger button-remove-comic-library"
-                                                        onclick="removeFromMyLibrary('{{ path('library_comic_remove', {'id':comic.id}) }}', {{ comic.id }})"
-                                                        {{ comic.id in comicsUserLibraryIds?'' : 'hidden' }}>Remove It !
-                                                </button>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>#}
             </div>
-            <div class="card col-md-5 mb-4 mx-2 p-0">
+            <div class="card col-md-5 mb-4 mx-2 p-3">
                 <div class="row m-0">
                     <div class="col-md-12 col-xl-8">
                         <div id="container-chart-comic" class="text-center"></div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 comic-card text-center">
+                        <h5 class="secondary-color">Total Loaned !</h5>
+                        <hr class="hr-text-color-2" data-content="">
+                        <div class="counter counter-basic" data-count="{{ statsComicLoans.count }}">0</div>
+                        <h5 class="secondary-color mt-2">Last Month Loaned !</h5>
+                        <hr class="hr-text-color-2" data-content="">
+                        <div class="counter counter-basic" data-count="{{ statsComicLastMonthLoans.count }}">0</div>
+
                     </div>
                 </div>
                 <div class="text-center">
@@ -139,7 +128,7 @@
                             </div>
                             <div class="card-body m-0 p-1 rounded-0">
                                 <p class="small-display">Loan Date : {{ comicLoan.dateOut |date("Y-m-d") }}</p>
-                                <p  class="small-display">Back Loan Date : <span
+                                <p class="small-display">Back Loan Date : <span
                                             id="comicloan-back-date-{{ comicLoan.id }}">{{ comicLoan.dateIn ? comicLoan.dateIn |date("Y-m-d") }}</span>
                                 </p>
 
@@ -233,6 +222,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags('counter') }}
     <script>
         if (!Highcharts.theme) {
             Highcharts.setOptions({
@@ -250,7 +240,6 @@
                 }
             });
         }
-
         function renderIcons() {
             // Move icon
             if (!this.series[0].icon) {
@@ -289,7 +278,6 @@
                 this.plotHeight / 2 - this.series[1].points[0].shapeArgs.innerR -
                 (this.series[1].points[0].shapeArgs.r - this.series[1].points[0].shapeArgs.innerR) / 2
             );
-
             // Stand icon
             if (!this.series[2].icon) {
                 this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
@@ -309,7 +297,6 @@
                 (this.series[2].points[0].shapeArgs.r - this.series[2].points[0].shapeArgs.innerR) / 2
             );
         }
-
         Highcharts.chart('container-chart-comic', {
             chart: {
                 type: 'solidgauge',
@@ -420,6 +407,5 @@
                 }]
             }]
         });
-
     </script>
 {% endblock %}

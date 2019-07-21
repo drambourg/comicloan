@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
+use App\Repository\UserLibraryRepository;
 use App\Service\ComicLoanStat;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+
 /**
  * @Route("/comics")
  */
-
 class ComicController extends AbstractController
 {
     /**
@@ -18,7 +19,7 @@ class ComicController extends AbstractController
      */
     public function index(ComicRepository $comicRepository)
     {
-        $criteria['orderBy']='title';
+        $criteria['orderBy'] = 'title';
 
         $comics = $comicRepository->findAllComics($criteria);
         return $this->render('comic/index.html.twig', [
@@ -40,12 +41,23 @@ class ComicController extends AbstractController
         int $id,
         ComicRepository $comicRepository,
         ComicLoanStat $comicLoanStat,
-        ComicLoanRepository $comicLoanRepository
-    ) {
+        ComicLoanRepository $comicLoanRepository,
+        UserLibraryRepository $userLibraryRepository
+    )
+    {
 
-        $comic = $comicRepository->findComicById($id)['comics'][0]??[];
+        $comic = $comicRepository->findComicById($id)['comics'][0] ?? [];
         $characters = $comic->getCharacters();
         $creators = $comic->getCreators();
+
+        if ($this->getUser()) {
+            $comicUser = $userLibraryRepository->findOneBy(
+                [
+                    'user' => $this->getUser(),
+                    'comicId' => $id
+                ]
+            );
+        }
 
         return $this->render('comic/show.html.twig', [
             'title_h1' => 'Comic',
@@ -54,9 +66,12 @@ class ComicController extends AbstractController
             'characters' => $characters ?? [],
             'creators' => $creators ?? [],
             'activeloan' => true,
+            'comicUser' =>$comicUser?? [],
             'chartComicUserHaveIt' => $comicLoanStat->RatioUserHaveTheComic($id),
             'chartComicLoanIt' => $comicLoanStat->RatioUserLoanTheComic($id),
             'chartComicLoanAvailable' => $comicLoanStat->RatioLoanableTheComic($id),
+            'statsComicLoans' => $comicLoanStat->RatioLoanedTheComic($id),
+            'statsComicLastMonthLoans' => $comicLoanStat->RatioLoanedLastMonthTheComic($id),
             'comicLoans' => $comicLoanRepository->findLastLoanerFromComicId($id),
         ]);
     }

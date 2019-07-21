@@ -1,4 +1,5 @@
 @import "_vars";
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 @import "charactercard";
 @import "header";
 @import "maintitle";
@@ -85,6 +86,14 @@ h5.secondary-color, h4.secondary-color {
   color: $bg-secondary;
 }
 
+h5.ternary-color, h4.ternary-color {
+  color: $marvel-primary;
+}
+
+p.simple-font{
+  font-size: calc(.3vw + 13px);
+  font-family: 'Lato', sans-serif;
+}
 
 
 a,a:visited,a:hover,a:active{

@@ -103,16 +103,13 @@
                         <div class="col-md-12 pt-3 border-0" id="loanComicAction">
                             <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
                             <a href="#"  class=" btn btn-danger button-readmore">I Want loan ?!</a></div>
-
                         </div>
                     </div>
-
                 <div class="text-center">
                     <hr class="hr-text-color-2" data-content="">
                     <h5 class="secondary-color">Last Loaners !</h5>
                 </div>
                 <div class="row m-0 justify-content-center p-1">
-
                     {% for comicLoan in comicLoans %}
                         <div id="comicloan-{{ comicLoan.id }}"
                              class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
@@ -227,7 +224,6 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('counter') }}
-
     <script>
         var imageloan = document.querySelectorAll('.img-loan');
         new simpleParallax(imageloan, {

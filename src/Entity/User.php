@@ -92,11 +92,19 @@ class User implements UserInterface
      */
     private $comicLoans;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RequestComicLoan", mappedBy="user")
+     */
+    private $requestComicLoans;
+
+
     public function __construct()
     {
         $this->setRoles(['ROLE_AUTHOR']);
         $this->userLibraries = new ArrayCollection();
         $this->comicLoans = new ArrayCollection();
+        $this->userRequests = new ArrayCollection();
+        $this->requestComicLoans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -334,4 +342,36 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|RequestComicLoan[]
+     */
+    public function getRequestComicLoans(): Collection
+    {
+        return $this->requestComicLoans;
+    }
+
+    public function addRequestComicLoan(RequestComicLoan $requestComicLoan): self
+    {
+        if (!$this->requestComicLoans->contains($requestComicLoan)) {
+            $this->requestComicLoans[] = $requestComicLoan;
+            $requestComicLoan->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequestComicLoan(RequestComicLoan $requestComicLoan): self
+    {
+        if ($this->requestComicLoans->contains($requestComicLoan)) {
+            $this->requestComicLoans->removeElement($requestComicLoan);
+            // set the owning side to null (unless already changed)
+            if ($requestComicLoan->getUser() === $this) {
+                $requestComicLoan->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

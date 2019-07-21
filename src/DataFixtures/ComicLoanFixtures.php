@@ -4,11 +4,9 @@ namespace App\DataFixtures;
 
 use App\Entity\ComicLoan;
 use Faker;
-use App\Entity\UserLibrary;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Validator\Constraints\Date;
 
 class ComicLoanFixtures extends Fixture implements DependentFixtureInterface
 {

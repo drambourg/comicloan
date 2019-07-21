@@ -13,15 +13,15 @@
                 <a class="nav-link" href="{{ path('home') }}">
                     <i class="fa icon  mb-3">F
                     </i>
-                    Marvel's World
+                    Loan's World
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {% if app.request.attributes.get("_route") == 'loan_request_index' %} active {% endif %}">
+                <a class="nav-link" href="{{ path('loan_request_index') }}">
                     <i class="fa icon  mb-3">W
                         <span class="badge badge-danger">11</span>
                     </i>
-                    The Wolrd Loans
+                    Loan Requests
                 </a>
             </li>
             <li class="nav-item {% if app.request.attributes.get("_route") == 'character_index' %} active {% endif %}">
@@ -44,10 +44,8 @@
                    aria-haspopup="true" aria-expanded="false">
                     <div>
                     <i class="fab fa-searchengin fas-navbar-xl">
-                        {#<span class="badge badge-success">22</span>#}
                     </i>
                     </div>
-                  {#  <i class="fab fa-searchengin"></i>#}
                     Search
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">

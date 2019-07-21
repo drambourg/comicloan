@@ -93,21 +93,26 @@
                     <div class="col-md-12 col-xl-8">
                         <div id="container-chart-comic" class="text-center"></div>
                     </div>
-                    <div class="col-md-4 comic-card text-center">
+                    <div class="col-md-12 col-xl-4 comic-card text-center">
                         <h5 class="secondary-color">Total Loaned !</h5>
                         <hr class="hr-text-color-2" data-content="">
                         <div class="counter counter-basic" data-count="{{ statsComicLoans.count }}">0</div>
                         <h5 class="secondary-color mt-2">Last Month Loaned !</h5>
                         <hr class="hr-text-color-2" data-content="">
                         <div class="counter counter-basic" data-count="{{ statsComicLastMonthLoans.count }}">0</div>
+                        <div class="col-md-12 pt-3 border-0" id="loanComicAction">
+                            <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
+                            <a href="#"  class=" btn btn-danger button-readmore">I Want loan ?!</a></div>
 
+                        </div>
                     </div>
-                </div>
+
                 <div class="text-center">
                     <hr class="hr-text-color-2" data-content="">
                     <h5 class="secondary-color">Last Loaners !</h5>
                 </div>
                 <div class="row m-0 justify-content-center p-1">
+
                     {% for comicLoan in comicLoans %}
                         <div id="comicloan-{{ comicLoan.id }}"
                              class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
@@ -134,7 +139,6 @@
 
                             </div>
                         </div>
-
                     {% endfor %}
                 </div>
             </div>
@@ -223,6 +227,17 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('counter') }}
+
+    <script>
+        var imageloan = document.querySelectorAll('.img-loan');
+        new simpleParallax(imageloan, {
+            orientation: 'down',
+            scale : 1.2,
+            overflow: true,
+            delay: .6,
+            transition: 'cubic-bezier(0,0,0,1)'
+        });
+    </script>
     <script>
         if (!Highcharts.theme) {
             Highcharts.setOptions({

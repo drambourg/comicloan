@@ -102,7 +102,11 @@
                         <div class="counter counter-basic" data-count="{{ statsComicLastMonthLoans.count }}">0</div>
                         <div class="col-md-12 pt-3 border-0" id="loanComicAction">
                             <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
-                            <a href="#"  class=" btn btn-danger button-readmore">I Want loan ?!</a></div>
+                            {% if  chartComicLoanAvailable.count == 0 %}
+                                <a href="#"  class=" btn btn-danger button-readmore-disabled disabled">No available ...</a></div>
+                            {% else %}
+                                <a href="#"  class=" btn btn-danger button-readmore">I Want loan ?!</a></div>
+                            {% endif %}
                         </div>
                     </div>
                 <div class="text-center">

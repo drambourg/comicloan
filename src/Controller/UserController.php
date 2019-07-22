@@ -73,6 +73,8 @@ class UserController extends AbstractController
             10);
 
         return $this->render('user/library.html.twig', [
+            'title_h1' => 'Loan Manager',
+            'title_h2' => 'My collection',
             'comics' => $comicPaginates,
             'userComics' => $userComics,
             'countComics' => count($userComics),

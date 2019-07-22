@@ -3,8 +3,8 @@
 {% block title %}My Comic Library{% endblock %}
 
 {% block body %}
-    <div class="container-fluid m-0 p-0 mx-auto">
-        <div class="row justify-content-around mx-auto">
+    <div class="container-fluid m-0 py-3 px-2 mx-auto">
+        <div class="row m-0 justify-content-around mx-auto">
             {% if comic %}
                 {% include('_common/_card_comic.html.twig') %}
             {% endif %}

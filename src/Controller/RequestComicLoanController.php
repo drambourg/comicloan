@@ -22,7 +22,9 @@ class RequestComicLoanController extends AbstractController
      */
     public function index(
         PaginatorInterface $paginator,
+        UserLibraryRepository $userLibraryRepository,
         RequestComicLoanRepository $requestComicLoanRepository,
+        ComicLoanRepository $comicLoanRepository,
         ComicRepository $comicRepository,
         Request $request
     )
@@ -30,21 +32,40 @@ class RequestComicLoanController extends AbstractController
         $limitByPage = 10;
         $currentPage = $request->query->getInt('page', 1);
 
-        $loanRequests = $requestComicLoanRepository->findBy([],['dateAt' => 'DESC']);
+        $userComics = [];
+        $comicUserIds = [0];
+
+        if ($this->getUser()) {
+            foreach ($userLibraryRepository->findBy(['user' => $this->getUser(), 'isLoanable' => true]) as $comicUser) {
+                $comicAvailable = false;
+                $comicLoanRepository->findOneBy([
+                    'userLibrary' => $comicUser->getId(),
+                    'status' => false,
+                ]) ?? $comicAvailable = true;
+                $userComics[] = [
+                    'available' => $comicAvailable,
+                    'comicUser' => $comicUser,
+                ];
+                $comicUserIds[] = $comicUser->getComicId();
+            }
+        }
+        $loanRequests = $requestComicLoanRepository->findBy([], ['dateAt' => 'DESC']);
         $loanRequestsPaginates = $paginator->paginate(
             $loanRequests ?? [],
             $currentPage,
             $limitByPage);
 
         $comicInfos = [];
-        foreach($loanRequestsPaginates as $loanRequest) {
+        foreach ($loanRequestsPaginates as $loanRequest) {
             $comicInfos[] = $comicRepository->findComicById($loanRequest->getComicId())['comics'][0];
         }
         return $this->render('request_comic_loan/index.html.twig', [
             'title_h1' => 'Request Comics',
-            'title_h2' => 'Need Help ?!',
+            'title_h2' => 'Needs You Help ?!',
             'requests' => $loanRequestsPaginates,
-            'comicRequestedInfos' => $comicInfos??[],
+            'comicRequestedInfos' => $comicInfos ?? [],
+            'userComics' => $userComics ?? [],
+            'requestCount' => count($loanRequests) ?? 0,
             'controller_name' => 'RequestComicLoanController',
         ]);
     }
@@ -65,38 +86,39 @@ class RequestComicLoanController extends AbstractController
         $limitByPage = 10;
         $currentPage = $request->query->getInt('page', 1);
 
-        $userComics =[];
-        $comicUserIds=[0];
+        $userComics = [];
+        $comicUserIds = [0];
 
-        foreach ( $userLibraryRepository->findBy(['user' => $this->getUser(), 'isLoanable' =>true]) as $comicUser) {
+        foreach ($userLibraryRepository->findBy(['user' => $this->getUser(), 'isLoanable' => true]) as $comicUser) {
             $comicAvailable = false;
             $comicLoanRepository->findOneBy([
-                        'userLibrary'=> $comicUser->getId(),
-                        'status'=>false,
-                    ])??$comicAvailable=true;
+                'userLibrary' => $comicUser->getId(),
+                'status' => false,
+            ]) ?? $comicAvailable = true;
             $userComics[] = [
                 'available' => $comicAvailable,
-                'comicUser' =>$comicUser,
+                'comicUser' => $comicUser,
             ];
-            $comicUserIds[]= $comicUser->getComicId();
+            $comicUserIds[] = $comicUser->getComicId();
         }
         $loanRequests = $requestComicLoanRepository->findBy([
-            'comicId' => $comicUserIds],['dateAt' => 'DESC']);
+            'comicId' => $comicUserIds], ['dateAt' => 'DESC']);
         $loanRequestsPaginates = $paginator->paginate(
             $loanRequests ?? [],
             $currentPage,
             $limitByPage);
 
         $comicInfos = [];
-        foreach($loanRequestsPaginates as $loanRequest) {
+        foreach ($loanRequestsPaginates as $loanRequest) {
             $comicInfos[] = $comicRepository->findComicById($loanRequest->getComicId())['comics'][0];
         }
         return $this->render('request_comic_loan/calls_user.html.twig', [
             'title_h1' => 'Request Comics',
-            'title_h2' => 'Need Help ?!',
+            'title_h2' => 'Needs You Help ?!',
             'requests' => $loanRequestsPaginates,
-            'comicRequestedInfos' => $comicInfos??[],
-            'userComics'=>$userComics,
+            'comicRequestedInfos' => $comicInfos ?? [],
+            'userComics' => $userComics,
+            'requestCount' => count($loanRequests) ?? 0,
             'controller_name' => 'RequestComicLoanController',
         ]);
     }

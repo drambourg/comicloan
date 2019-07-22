@@ -177,12 +177,13 @@ class RequestComicLoanController extends AbstractController
         $comicLoan->setStatus(false);
         $comicLoan->setView(false);
         $comicLoan->setUserLoaner($loanRequest->getUser());
-        $comicLoan->setDateIn(new \DateTime());
+        $comicLoan->setDateOut(new \DateTime());
         $comicLoan->setUserLibrary($userComic);
-
 
         $manager->persist($comicLoan);
         $manager->flush();
+
+        $this->addFlash('success', 'You loan comic to ' . $loanRequest->getUser()->getPseudoname() . '! You`re Awesome!');
 
         return $this->redirectToRoute('loan_manager', ['id' => $userComic->getId()]);
 

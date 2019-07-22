@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\ComicLoan;
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
 use App\Repository\RequestComicLoanRepository;
 use App\Repository\UserLibraryRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,7 +76,7 @@ class RequestComicLoanController extends AbstractController
     /**
      * @Route("/user/calls", name="user_request_calls")
      */
-    public function index_calls(
+    public function indexCalls(
         PaginatorInterface $paginator,
         UserLibraryRepository $userLibraryRepository,
         RequestComicLoanRepository $requestComicLoanRepository,
@@ -119,7 +121,70 @@ class RequestComicLoanController extends AbstractController
             'comicRequestedInfos' => $comicInfos ?? [],
             'userComics' => $userComics,
             'requestCount' => count($loanRequests) ?? 0,
-            'controller_name' => 'RequestComicLoanController',
         ]);
+    }
+
+    /**
+     * @Route("/user/calls/{id}", name="user_request_call_answer")
+     */
+    public function indexCallShow(
+        int $id,
+        RequestComicLoanRepository $requestComicLoanRepository,
+        UserLibraryRepository $userLibraryRepository,
+        ComicRepository $comicRepository
+    )
+    {
+        $loanRequest = $requestComicLoanRepository->findOneById($id);
+        $userLibraryRepository->findAll();
+        $countLoans = 0;
+        foreach ($userLibraryRepository->findAll() as $userComic) {
+            $countLoans += count($userComic->getComicLoans());
+        }
+        $countRequest = count($requestComicLoanRepository->findByUser($loanRequest->getUser()));
+
+        $comic = $comicRepository->findComicById($loanRequest->getComicId());
+
+        return $this->render('request_comic_loan/calls_user_show.html.twig', [
+            'title_h1' => 'Request Comics',
+            'title_h2' => 'Rescue him ?!',
+            'request' => $loanRequest ?? [],
+            'userComic'=>$userComic??[],
+            'userCountRequests' => $countRequest,
+            'userCountLoans' => $countLoans,
+            'comic' => $comic['comics'][0] ?? [],
+        ]);
+    }
+
+    /**
+     * @Route("/user/calls/valid/{id}", name="user_request_call_valid")
+     * @param int $id
+     * @param RequestComicLoanRepository $requestComicLoanRepository
+     * @param UserLibraryRepository $userLibraryRepository
+     * @param ObjectManager $manager
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function ValidRequest(
+        int $id,
+        RequestComicLoanRepository $requestComicLoanRepository,
+        UserLibraryRepository $userLibraryRepository,
+        ObjectManager $manager
+    )
+    {
+        $loanRequest = $requestComicLoanRepository->findOneById($id);
+        $userComic= $userLibraryRepository->findOneBy(['comicId'=> $loanRequest->getComicId(), 'user' => $this->getUser()]);
+        $comicLoan = new ComicLoan();
+        $comicLoan->setStatus(false);
+        $comicLoan->setView(false);
+        $comicLoan->setUserLoaner($loanRequest->getUser());
+        $comicLoan->setDateIn(new \DateTime());
+        $comicLoan->setUserLibrary($userComic);
+
+
+        $manager->persist($comicLoan);
+        $manager->flush();
+
+        return $this->redirectToRoute('loan_manager', ['id' => $userComic->getId()]);
+
     }
 }

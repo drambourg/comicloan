@@ -75,7 +75,7 @@
                         <div class="row p-0 m-0">
                             <div class="col-md-6 text-left">
                                 {% if userComicRequest.available %}
-                                    <a href="#" type="button" class="btn btn-danger button-readmore">Want to loan ?</a>
+                                    <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}" type="button" class="btn btn-danger button-readmore">Want to loan ?</a>
                                 {% else %}
                                     <a href="#" type="button" class="btn btn-danger button-readmore-disabled disabled "
                                        disabled>Already Loan</a>

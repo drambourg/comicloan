@@ -1,0 +1,184 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 py-3">
+        <div class="row m-0 justify-content-center no-gutters">
+            <div class="card comic-card col-md-5 mb-4 mx-2 p-0 ">
+                <div class="card-header text-dark">
+                    <div class="row no-gutters p-2 m-0">
+                        <div class="col-md-12 m-0">
+                            <h4 class="marvel-title">{{ comic.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="row no-gutters m-1">
+                    <div class="col-md-4 p-1">
+                        <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
+                             class="card-img img-fluid p-2"
+                             alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body mt-5">
+                            <h5 class="card-title"></h5>
+                            <p class="card-text">
+                                {% if comic.description is empty %}
+                                    No description
+                                {% else %}
+                                    {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-3">
+                    <table class="table borderless comic-feature-table m-0">
+                        <tbody>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Page count</th>
+                            <td>{{ comic.pageCount > 0 ? comic.pageCount : 'Unknown' }}</td>
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">on Sale date</th>
+                            <td>{{ comic.onsaleDate ? comic.onsaleDate|date("Y-m-d") : 'Unknown' }}</td>
+
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Print Price</th>
+                            <td>{{ comic.printPrice ? comic.printPrice ~ ' $$': 'Unknown' }}</td>
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th scope="row">Digital Price</th>
+                            <td>{{ comic.digitalPurchasePrice ? comic.digitalPurchasePrice ~ ' $$': 'Unknown' }}</td>
+                        </tr>
+                        <tr class="my-0">
+                            <th colspan="2" class="text-center my-0 p-0">
+                                <hr class="hr-text-color-2" data-content="">
+                            </th>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div class="row mx-auto m-0 p-2 text-center">
+                        <div class="col-12"><a href="{{ comic.detailUrl }}" target="_blank" type="button"
+                                               class="btn btn-danger button-readmore"
+                                    {{ comic.detailUrl?'':'disabled' }} %}
+                            >More Info on Marvel ...</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card comic-loaner-card col-md-5 mb-4 mx-2 p-0">
+                <div id="comicloan-{{ request.id }}"
+                     class="card comic-loaner-card col-sm-12 m-0 p-0">
+                    <div class="card-header text-dark p-1">
+                        <div class="row no-gutters p-2 m-0 d-flex">
+                            <div class="col-md-2 m-0">
+                                <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                     src="{{ request.user.avatarPicture ? request.user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                            </div>
+                            <div class="col-md-10 m-0 p-0 text-left my-auto">
+                                <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body m-0 p-1 rounded-0">
+                        <div class="row m-0 px-3">
+                            <div class="col-12">
+                                <div class="px-3">
+                                    <h5 class="ternary-color text-center">ID Card</h5>
+                                    <hr class="hr-text-color-2" data-content="">
+                                    <table class="table borderless table-striped mt-2">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Email</th>
+                                            <td>{{ request.user.email ? request.user.email  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Created at</th>
+                                            <td>{{ request.user.dateCreated ? request.user.dateCreated|date("Y-m-d")  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Comics in collection</th>
+                                            <td>{{ request.user.userLibraries ? request.user.userLibraries|length  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Comics help done</th>
+                                            <td>{{ userCountLoans }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Comics help calls</th>
+                                            <td>{{ userCountRequests }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Firstname</th>
+                                            <td>{{ request.user.firstName ? request.user.firstName : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Lastname</th>
+                                            <td>{{ request.user.lastName ? request.user.lastName : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Age</th>
+                                            <td>{{ request.user.age ? request.user.age ~ ' years old' : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Country</th>
+                                            <td>{{ request.user.country ? request.user.country  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Town</th>
+                                            <td>{{ request.user.city ? request.user.city  : 'Unknown' }}</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3">
+                                    {% if request.message %}
+                                        <h5 class="ternary-color text-center">You've got a message !</h5>
+                                        <hr class="hr-text-color-2" data-content="">
+                                        <p class="simple-font">
+                                            {{ request.message }}
+                                        </p>
+                                        <hr class="hr-text-color-2" data-content="">
+                                    {% else %}
+                                        <h5 class="ternary-color text-center">No Message ?! ...Hmm...</h5>
+                                        <hr class="hr-text-color-2" data-content="">
+                                    {% endif %}
+                                </div>
+                                <div class="row mx-auto m-0 p-2 text-center">
+                                    <form method="post" action="{{ path('user_request_call_valid', {'id' : request.id  }) }}">
+                                        <button class="btn btn-danger button-readmore">Rescue Him !!</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

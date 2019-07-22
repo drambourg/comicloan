@@ -92,13 +92,19 @@ class UserController extends AbstractController
         ComicLoanRepository $comicLoanRepository
     ) {
         $libraryComic = $userLibraryRepository->findOneById($id);
-
+        $comicLoans = $comicLoanRepository->findBy(
+            [
+                'userLibrary' =>$libraryComic
+            ],
+            [
+                'dateOut' =>'DESC'
+            ]);
         return $this->render('user/loan_manager.html.twig', [
             'title_h1' => 'Loan Manager',
             'title_h2' => 'Where is it ?!',
             'comic' => $comicRepository->findComicById($libraryComic->getComicId())['comics'][0]?? [],
             'userComic' => $libraryComic?? [],
-            'comicLoans' =>  $libraryComic->getComicLoans()?? [],
+            'comicLoans' =>  $comicLoans?? [],
             'activeloan' => false,
         ]);
     }

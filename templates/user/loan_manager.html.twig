@@ -4,6 +4,14 @@
 
 {% block body %}
     <div class="container-fluid m-0 py-3 px-2 mx-auto">
+            {% for category, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ category }} text-center">
+                       <h5>{{ message }}</h5>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
         <div class="row m-0 justify-content-around mx-auto">
             {% if comic %}
                 {% include('_common/_card_comic.html.twig') %}

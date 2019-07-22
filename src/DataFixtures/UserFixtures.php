@@ -47,7 +47,7 @@ class UserFixtures extends Fixture
                 $user->setLastName($faker->lastName);
             }
             $faker->boolean ?: $user->setAge($faker->numberBetween($min = 18, $max = 50));
-            $faker->boolean ?: $user->setAvatarPicture($faker->imageUrl($width = 200, $height = 200));
+            $faker->boolean(90) ?: $user->setAvatarPicture($faker->imageUrl($width = 200, $height = 200));
             $user->setDateCreated($faker->dateTimeBetween($startDate = '-4 years', $endDate = 'now'));
             $user->setCity($faker->city);
             $user->setCountry("France");

@@ -51,7 +51,7 @@ class RequestComicLoanController extends AbstractController
                 $comicUserIds[] = $comicUser->getComicId();
             }
         }
-        $loanRequests = $requestComicLoanRepository->findBy([], ['dateAt' => 'DESC']);
+        $loanRequests = $requestComicLoanRepository->findBy(['status' => false], ['dateAt' => 'DESC']);
         $loanRequestsPaginates = $paginator->paginate(
             $loanRequests ?? [],
             $currentPage,
@@ -104,7 +104,9 @@ class RequestComicLoanController extends AbstractController
             $comicUserIds[] = $comicUser->getComicId();
         }
         $loanRequests = $requestComicLoanRepository->findBy([
-            'comicId' => $comicUserIds], ['dateAt' => 'DESC']);
+            'comicId' => $comicUserIds,
+            'status' => false
+        ], ['dateAt' => 'DESC']);
         $loanRequestsPaginates = $paginator->paginate(
             $loanRequests ?? [],
             $currentPage,
@@ -181,6 +183,10 @@ class RequestComicLoanController extends AbstractController
         $comicLoan->setUserLibrary($userComic);
 
         $manager->persist($comicLoan);
+        $manager->flush();
+
+        $loanRequest->setStatus(true);
+        $manager->persist($loanRequest);
         $manager->flush();
 
         $this->addFlash('success', 'You loan comic to ' . $loanRequest->getUser()->getPseudoname() . '! You`re Awesome!');

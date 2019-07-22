@@ -3,424 +3,468 @@
 {% block title %}ComicLoan - Marvel's Comics!{% endblock %}
 
 {% block body %}
-    <div class="container-fluid m-0 px-2  p-3">
-        <div class="row m-0 justify-content-center no-gutters">
-            <div class="card comic-card col-md-5 mb-4 mx-2 p-0 ">
-                <div class="card-header text-dark">
-                    <div class="row no-gutters p-2 m-0">
-                        <div class="col-md-12 m-0">
-                            <h4 class="marvel-title">{{ comic.title }}</h4>
-                        </div>
+<div class="container-fluid m-0 px-2  p-3">
+    <div class="row m-0 justify-content-center no-gutters">
+        <div class="card comic-card col-md-5 mb-4 mx-2 p-0 ">
+            <div class="card-header text-dark">
+                <div class="row no-gutters p-2 m-0">
+                    <div class="col-md-12 m-0">
+                        <h4 class="marvel-title">{{ comic.title }}</h4>
                     </div>
                 </div>
-                <div class="row no-gutters m-1">
-                    <div class="col-md-4 p-1">
-                        <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
-                             class="card-img img-fluid p-2"
-                             alt="...">
+            </div>
+            <div class="row no-gutters m-1">
+                <div class="col-md-4 p-1">
+                    <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
+                         class="card-img img-fluid p-2"
+                         alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body mt-5">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text">
+                            {% if comic.description is empty %}
+                                No description
+                            {% else %}
+                                {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
+                            {% endif %}
+                        </p>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body mt-5">
-                            <h5 class="card-title"></h5>
-                            <p class="card-text">
-                                {% if comic.description is empty %}
-                                    No description
-                                {% else %}
-                                    {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
-                                {% endif %}
+                </div>
+            </div>
+            <div class="px-3">
+                <table class="table borderless comic-feature-table m-0">
+                    <tbody>
+                    <tr class="my-0">
+                        <th colspan="2" class="text-center my-0 p-0">
+                            <hr class="hr-text-color-2" data-content="">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Page count</th>
+                        <td>{{ comic.pageCount > 0 ? comic.pageCount : 'Unknown' }}</td>
+                    </tr>
+                    <tr class="my-0">
+                        <th colspan="2" class="text-center my-0 p-0">
+                            <hr class="hr-text-color-2" data-content="">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">on Sale date</th>
+                        <td>{{ comic.onsaleDate ? comic.onsaleDate|date("Y-m-d") : 'Unknown' }}</td>
+
+                    </tr>
+                    <tr class="my-0">
+                        <th colspan="2" class="text-center my-0 p-0">
+                            <hr class="hr-text-color-2" data-content="">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Print Price</th>
+                        <td>{{ comic.printPrice ? comic.printPrice ~ ' $$': 'Unknown' }}</td>
+                    </tr>
+                    <tr class="my-0">
+                        <th colspan="2" class="text-center my-0 p-0">
+                            <hr class="hr-text-color-2" data-content="">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Digital Price</th>
+                        <td>{{ comic.digitalPurchasePrice ? comic.digitalPurchasePrice ~ ' $$': 'Unknown' }}</td>
+                    </tr>
+                    <tr class="my-0">
+                        <th colspan="2" class="text-center my-0 p-0">
+                            <hr class="hr-text-color-2" data-content="">
+                        </th>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="row mx-auto m-0 p-2 text-center">
+                    <div class="col-12"><a href="{{ comic.detailUrl }}" target="_blank" type="button"
+                                           class="btn btn-danger button-readmore"
+                                {{ comic.detailUrl?'':'disabled' }} %}
+                        >More Info on Marvel ...</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="card col-md-5 mb-4 mx-2 p-3">
+            <div class="row m-0">
+                <div class="col-md-12 col-xl-8">
+                    <div id="container-chart-comic" class="text-center"></div>
+                </div>
+                <div class="col-md-12 col-xl-4 comic-card text-center">
+                    <h5 class="secondary-color">Total Loaned !</h5>
+                    <hr class="hr-text-color-2" data-content="">
+                    <div class="counter counter-basic" data-count="{{ statsComicLoans.count }}">0</div>
+                    <h5 class="secondary-color mt-2">Last Month Loaned !</h5>
+                    <hr class="hr-text-color-2" data-content="">
+                    <div class="counter counter-basic" data-count="{{ statsComicLastMonthLoans.count }}">0</div>
+                    <div class="col-md-12 pt-3 border-0" id="loanComicAction">
+                        <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
+                        {% if app.user %}
+                            {% if  chartComicLoanAvailable.count == 0 %}
+                                <a href="#" class=" btn btn-danger button-readmore-disabled disabled">No available
+                                    ...</a>
+                            {% else %}
+                                <a href="#" class=" btn btn-danger button-readmore" data-toggle="modal"
+                                   data-target="#exampleModal">I Want loan ?!</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class=" btn btn-danger button-remove-comic-library">Who
+                                are You?</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <hr class="hr-text-color-2" data-content="">
+                <h5 class="secondary-color">Last Loaners !</h5>
+            </div>
+            <div class="row m-0 justify-content-center p-1">
+                {% for comicLoan in comicLoans %}
+                    <div id="comicloan-{{ comicLoan.id }}"
+                         class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
+                        <div class="card-header text-dark p-1">
+                            <div class="row no-gutters p-2 m-0">
+                                <div class="col-md-10 m-0">
+                                    <div class="row p-0 m-0">
+                                        <div class="col-md-12 m-0">
+                                            <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                 src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                        </div>
+                                        <div class="col-md-10 m-0 p-0 text-left">
+                                            <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body m-0 p-1 rounded-0">
+                            <p class="small-display">Loan Date : {{ comicLoan.dateOut |date("Y-m-d") }}</p>
+                            <p class="small-display">Back Loan Date : <span
+                                        id="comicloan-back-date-{{ comicLoan.id }}">{{ comicLoan.dateIn ? comicLoan.dateIn |date("Y-m-d") }}</span>
                             </p>
                         </div>
                     </div>
-                </div>
-                <div class="px-3">
-                    <table class="table borderless comic-feature-table m-0">
-                        <tbody>
-                        <tr class="my-0">
-                            <th colspan="2" class="text-center my-0 p-0">
-                                <hr class="hr-text-color-2" data-content="">
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="row">Page count</th>
-                            <td>{{ comic.pageCount > 0 ? comic.pageCount : 'Unknown' }}</td>
-                        </tr>
-                        <tr class="my-0">
-                            <th colspan="2" class="text-center my-0 p-0">
-                                <hr class="hr-text-color-2" data-content="">
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="row">on Sale date</th>
-                            <td>{{ comic.onsaleDate ? comic.onsaleDate|date("Y-m-d") : 'Unknown' }}</td>
-
-                        </tr>
-                        <tr class="my-0">
-                            <th colspan="2" class="text-center my-0 p-0">
-                                <hr class="hr-text-color-2" data-content="">
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="row">Print Price</th>
-                            <td>{{ comic.printPrice ? comic.printPrice ~ ' $$': 'Unknown' }}</td>
-                        </tr>
-                        <tr class="my-0">
-                            <th colspan="2" class="text-center my-0 p-0">
-                                <hr class="hr-text-color-2" data-content="">
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="row">Digital Price</th>
-                            <td>{{ comic.digitalPurchasePrice ? comic.digitalPurchasePrice ~ ' $$': 'Unknown' }}</td>
-                        </tr>
-                        <tr class="my-0">
-                            <th colspan="2" class="text-center my-0 p-0">
-                                <hr class="hr-text-color-2" data-content="">
-                            </th>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                    <div class="row mx-auto m-0 p-2 text-center">
-                        <div class="col-12"><a href="{{ comic.detailUrl }}" target="_blank" type="button"
-                                               class="btn btn-danger button-readmore"
-                                    {{ comic.detailUrl?'':'disabled' }} %}
-                            >More Info on Marvel ...</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card col-md-5 mb-4 mx-2 p-3">
-                <div class="row m-0">
-                    <div class="col-md-12 col-xl-8">
-                        <div id="container-chart-comic" class="text-center"></div>
-                    </div>
-                    <div class="col-md-12 col-xl-4 comic-card text-center">
-                        <h5 class="secondary-color">Total Loaned !</h5>
-                        <hr class="hr-text-color-2" data-content="">
-                        <div class="counter counter-basic" data-count="{{ statsComicLoans.count }}">0</div>
-                        <h5 class="secondary-color mt-2">Last Month Loaned !</h5>
-                        <hr class="hr-text-color-2" data-content="">
-                        <div class="counter counter-basic" data-count="{{ statsComicLastMonthLoans.count }}">0</div>
-                        <div class="col-md-12 pt-3 border-0" id="loanComicAction">
-                            <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
-                            {% if  chartComicLoanAvailable.count == 0 %}
-                                <a href="#"  class=" btn btn-danger button-readmore-disabled disabled">No available ...</a></div>
-                            {% else %}
-                                <a href="#"  class=" btn btn-danger button-readmore">I Want loan ?!</a></div>
-                            {% endif %}
-                        </div>
-                    </div>
-                <div class="text-center">
-                    <hr class="hr-text-color-2" data-content="">
-                    <h5 class="secondary-color">Last Loaners !</h5>
-                </div>
-                <div class="row m-0 justify-content-center p-1">
-                    {% for comicLoan in comicLoans %}
-                        <div id="comicloan-{{ comicLoan.id }}"
-                             class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
-                            <div class="card-header text-dark p-1">
-                                <div class="row no-gutters p-2 m-0">
-                                    <div class="col-md-10 m-0">
-                                        <div class="row p-0 m-0">
-                                            <div class="col-md-12 m-0">
-                                                <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                                     src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
-                                            </div>
-                                            <div class="col-md-10 m-0 p-0 text-left">
-                                                <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body m-0 p-1 rounded-0">
-                                <p class="small-display">Loan Date : {{ comicLoan.dateOut |date("Y-m-d") }}</p>
-                                <p class="small-display">Back Loan Date : <span
-                                            id="comicloan-back-date-{{ comicLoan.id }}">{{ comicLoan.dateIn ? comicLoan.dateIn |date("Y-m-d") }}</span>
-                                </p>
-
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center no-gutters">
-            <div class="card comic-card col-md-10 mb-4 mx-2 p-0 ">
-                <div class="card-header card-header-adjust-color2 text-dark d-flex">
-                    <div class="row no-gutters p-2 m-0 my-auto">
-                        <div class="col-md-12 m-0">
-                            <h4 class="marvel-title">Characters in Story</h4>
-                        </div>
-                    </div>
-                </div>
-                {% if characters|length > 0 %}
-                    <div class="container-fluid m-0 p-0" id="characters">
-                        <div class="row no-gutters m-1">
-                            {% for character in characters %}
-                                <div class="character card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
-                                    <div class="wrapper"
-                                         style="background-image: url('{{ character.picture.getPictureSquareHD }}')">
-                                        <div class="data">
-                                            <div class="content">
-                                                <h1 class="title">{{ character.name }}</h1>
-                                                <p class="text">
-                                                    {% if character.description is empty %}
-                                                        No description
-                                                    {% else %}
-                                                        {{ character.description|length > 150 ? character.description|raw|striptags|slice(0, 150) ~ ' [...]' : character.description }}
-                                                    {% endif %}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="d-flex row">
-                        <div class="my-auto mx-auto">
-                            <h4 class="secondary-color">Oopps ...No characters referenced!</h4>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row justify-content-center no-gutters">
-            <div class="card comic-card col-md-10 mb-4 mx-2 p-0 ">
-                <div class="card-header card-header-adjust-color2 text-dark d-flex">
-                    <div class="row no-gutters p-2 m-0 my-auto">
-                        <div class="col-md-12 m-0">
-                            <h4 class="marvel-title">Writers & Artists</h4>
-                        </div>
-                    </div>
-                </div>
-                {% if creators|length > 0 %}
-                    <div class="container-fluid m-0 p-0" id="characters">
-                        <div class="row no-gutters m-1">
-                            {% for creator in creators %}
-                                <div class="creator card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
-                                    <div class="wrapper"
-                                         style="background-image: url('{{ creator.picture.getPictureSquareHD }}')">
-                                        <div class="data">
-                                            <div class="content">
-                                                <h1 class="title">{{ creator.fullName }}</h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="d-flex row">
-                        <div class="my-auto mx-auto">
-                            <h4 class="secondary-color">Oopps ...No writes & artists referenced!</h4>
-                        </div>
-                    </div>
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
-{% endblock %}
+    <div class="row justify-content-center no-gutters">
+        <div class="card comic-card col-md-10 mb-4 mx-2 p-0 ">
+            <div class="card-header card-header-adjust-color2 text-dark d-flex">
+                <div class="row no-gutters p-2 m-0 my-auto">
+                    <div class="col-md-12 m-0">
+                        <h4 class="marvel-title">Characters in Story</h4>
+                    </div>
+                </div>
+            </div>
+            {% if characters|length > 0 %}
+                <div class="container-fluid m-0 p-0" id="characters">
+                    <div class="row no-gutters m-1">
+                        {% for character in characters %}
+                            <div class="character card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                                <div class="wrapper"
+                                     style="background-image: url('{{ character.picture.getPictureSquareHD }}')">
+                                    <div class="data">
+                                        <div class="content">
+                                            <h1 class="title">{{ character.name }}</h1>
+                                            <p class="text">
+                                                {% if character.description is empty %}
+                                                    No description
+                                                {% else %}
+                                                    {{ character.description|length > 150 ? character.description|raw|striptags|slice(0, 150) ~ ' [...]' : character.description }}
+                                                {% endif %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('counter') }}
-    <script>
-        var imageloan = document.querySelectorAll('.img-loan');
-        new simpleParallax(imageloan, {
-            orientation: 'down',
-            scale : 1.2,
-            overflow: true,
-            delay: .6,
-            transition: 'cubic-bezier(0,0,0,1)'
-        });
-    </script>
-    <script>
-        if (!Highcharts.theme) {
-            Highcharts.setOptions({
-                chart: {},
-                colors: ['#206083', '#801005', '#212529'],
-                title: {
-                    style: {
-                        color: 'black'
-                    }
-                },
-                tooltip: {
-                    style: {
-                        color: 'black'
-                    }
-                }
+                    </div>
+                </div>
+            {% else %}
+                <div class="d-flex row">
+                    <div class="my-auto mx-auto">
+                        <h4 class="secondary-color">Oopps ...No characters referenced!</h4>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row justify-content-center no-gutters">
+        <div class="card comic-card col-md-10 mb-4 mx-2 p-0 ">
+            <div class="card-header card-header-adjust-color2 text-dark d-flex">
+                <div class="row no-gutters p-2 m-0 my-auto">
+                    <div class="col-md-12 m-0">
+                        <h4 class="marvel-title">Writers & Artists</h4>
+                    </div>
+                </div>
+            </div>
+            {% if creators|length > 0 %}
+                <div class="container-fluid m-0 p-0" id="characters">
+                    <div class="row no-gutters m-1">
+                        {% for creator in creators %}
+                            <div class="creator card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                                <div class="wrapper"
+                                     style="background-image: url('{{ creator.picture.getPictureSquareHD }}')">
+                                    <div class="data">
+                                        <div class="content">
+                                            <h1 class="title">{{ creator.fullName }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            {% else %}
+                <div class="d-flex row">
+                    <div class="my-auto mx-auto">
+                        <h4 class="secondary-color">Oopps ...No writes & artists referenced!</h4>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade comic-card modalrequest" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header card-header-adjust ">
+                <h4 class="marvel-title">Send a Help Call ?!</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {{ form_start(formRequest) }}
+            <div class="modal-body">
+                <div class="row m-0">
+                        {{ form_label(formRequest.message) }}
+                </div>
+                <div class="row m-0">
+                        {{ form_widget(formRequest.message) }}
+                </div>
+                <div class="form-error-message-dark">
+                    {{ form_errors(formRequest.message) }}
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger  button-remove-comic-library" data-dismiss="modal">No need
+                    help
+                </button>
+                <button type="submit" class="btn btn-danger button-readmore">Help Me!!</button>
+            </div>
+            {{ form_end(formRequest) }}
+        </div>
+    </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        {{ encore_entry_script_tags('counter') }}
+        <script>
+            var imageloan = document.querySelectorAll('.img-loan');
+            new simpleParallax(imageloan, {
+                orientation: 'down',
+                scale: 1.2,
+                overflow: true,
+                delay: .6,
+                transition: 'cubic-bezier(0,0,0,1)'
             });
-        }
-        function renderIcons() {
-            // Move icon
-            if (!this.series[0].icon) {
-                this.series[0].icon = this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
-                    .attr({
-                        stroke: '#ffffff',
-                        'stroke-linecap': 'round',
-                        'stroke-linejoin': 'round',
-                        'stroke-width': 2,
-                        zIndex: 10
-                    })
-                    .add(this.series[2].group);
-            }
-            this.series[0].icon.translate(
-                this.chartWidth / 2 - 10,
-                this.plotHeight / 2 - this.series[0].points[0].shapeArgs.innerR -
-                (this.series[0].points[0].shapeArgs.r - this.series[0].points[0].shapeArgs.innerR) / 2
-            );
-
-            if (!this.series[1].icon) {
-                this.series[1].icon = this.renderer.path(
-                    ['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8,
-                        'M', 8, -8, 'L', 16, 0, 8, 8]
-                )
-                    .attr({
-                        stroke: '#ffffff',
-                        'stroke-linecap': 'round',
-                        'stroke-linejoin': 'round',
-                        'stroke-width': 2,
-                        zIndex: 10
-                    })
-                    .add(this.series[2].group);
-            }
-            this.series[1].icon.translate(
-                this.chartWidth / 2 - 10,
-                this.plotHeight / 2 - this.series[1].points[0].shapeArgs.innerR -
-                (this.series[1].points[0].shapeArgs.r - this.series[1].points[0].shapeArgs.innerR) / 2
-            );
-            // Stand icon
-            if (!this.series[2].icon) {
-                this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
-                    .attr({
-                        stroke: '#ffffff',
-                        'stroke-linecap': 'round',
-                        'stroke-linejoin': 'round',
-                        'stroke-width': 2,
-                        zIndex: 10
-                    })
-                    .add(this.series[2].group);
-            }
-
-            this.series[2].icon.translate(
-                this.chartWidth / 2 - 10,
-                this.plotHeight / 2 - this.series[2].points[0].shapeArgs.innerR -
-                (this.series[2].points[0].shapeArgs.r - this.series[2].points[0].shapeArgs.innerR) / 2
-            );
-        }
-        Highcharts.chart('container-chart-comic', {
-            chart: {
-                type: 'solidgauge',
-                height: '110%',
-                events: {
-                    render: renderIcons
-                },
-                style: {
-                    cursor: 'pointer',
-                    fontFamily: 'ComicBook'
-                }
-            },
-            title: {
-                text: 'In Loan Galaxy',
-                style: {
-                    fontSize: '30px'
-                }
-            },
-
-            tooltip: {
-                borderWidth: 0,
-                backgroundColor: 'none',
-                shadow: false,
-                style: {
-                    fontSize: '16px'
-                },
-                pointFormat: '<div class="text-center">{series.name}<br><span style="text-align: center; font-size:1.5em; color: {point.color}; font-weight: bold">{point.number}</span>' +
-                    '<br><span style="font-size:1.3em; color: {point.color}; font-weight: bold">{point.y}%</span></div>',
-                positioner: function (labelWidth) {
-                    return {
-                        x: (this.chart.chartWidth - labelWidth) / 2,
-                        y: (this.chart.plotHeight / 2) + 15
-                    };
-                }
-            },
-
-            pane: {
-                startAngle: 0,
-                endAngle: 360,
-                background: [{ // Track for Move
-                    outerRadius: '112%',
-                    innerRadius: '88%',
-                    backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0])
-                        .setOpacity(0.3)
-                        .get(),
-                    borderWidth: 0
-                }, { // Track for Exercise
-                    outerRadius: '87%',
-                    innerRadius: '63%',
-                    backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1])
-                        .setOpacity(0.3)
-                        .get(),
-                    borderWidth: 0
-                }, { // Track for Stand
-                    outerRadius: '62%',
-                    innerRadius: '38%',
-                    backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2])
-                        .setOpacity(0.3)
-                        .get(),
-                    borderWidth: 0
-                }]
-            },
-
-            yAxis: {
-                min: 0,
-                max: 100,
-                lineWidth: 0,
-                tickPositions: []
-            },
-
-            plotOptions: {
-                solidgauge: {
-                    dataLabels: {
-                        enabled: false
+        </script>
+        <script>
+            if (!Highcharts.theme) {
+                Highcharts.setOptions({
+                    chart: {},
+                    colors: ['#206083', '#801005', '#212529'],
+                    title: {
+                        style: {
+                            color: 'black'
+                        }
                     },
-                    linecap: 'round',
-                    stickyTracking: false,
-                    rounded: true
-                }
-            },
+                    tooltip: {
+                        style: {
+                            color: 'black'
+                        }
+                    }
+                });
+            }
 
-            series: [{
-                name: 'Yep, I Have it!',
-                data: [{
-                    color: Highcharts.getOptions().colors[0],
-                    radius: '112%',
-                    innerRadius: '88%',
-                    y: {{ chartComicUserHaveIt.ratio }},
-                    number: {{ chartComicUserHaveIt.count }} +' Heroes'
+            function renderIcons() {
+                // Move icon
+                if (!this.series[0].icon) {
+                    this.series[0].icon = this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
+                        .attr({
+                            stroke: '#ffffff',
+                            'stroke-linecap': 'round',
+                            'stroke-linejoin': 'round',
+                            'stroke-width': 2,
+                            zIndex: 10
+                        })
+                        .add(this.series[2].group);
+                }
+                this.series[0].icon.translate(
+                    this.chartWidth / 2 - 10,
+                    this.plotHeight / 2 - this.series[0].points[0].shapeArgs.innerR -
+                    (this.series[0].points[0].shapeArgs.r - this.series[0].points[0].shapeArgs.innerR) / 2
+                );
+
+                if (!this.series[1].icon) {
+                    this.series[1].icon = this.renderer.path(
+                        ['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8,
+                            'M', 8, -8, 'L', 16, 0, 8, 8]
+                    )
+                        .attr({
+                            stroke: '#ffffff',
+                            'stroke-linecap': 'round',
+                            'stroke-linejoin': 'round',
+                            'stroke-width': 2,
+                            zIndex: 10
+                        })
+                        .add(this.series[2].group);
+                }
+                this.series[1].icon.translate(
+                    this.chartWidth / 2 - 10,
+                    this.plotHeight / 2 - this.series[1].points[0].shapeArgs.innerR -
+                    (this.series[1].points[0].shapeArgs.r - this.series[1].points[0].shapeArgs.innerR) / 2
+                );
+                // Stand icon
+                if (!this.series[2].icon) {
+                    this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+                        .attr({
+                            stroke: '#ffffff',
+                            'stroke-linecap': 'round',
+                            'stroke-linejoin': 'round',
+                            'stroke-width': 2,
+                            zIndex: 10
+                        })
+                        .add(this.series[2].group);
+                }
+
+                this.series[2].icon.translate(
+                    this.chartWidth / 2 - 10,
+                    this.plotHeight / 2 - this.series[2].points[0].shapeArgs.innerR -
+                    (this.series[2].points[0].shapeArgs.r - this.series[2].points[0].shapeArgs.innerR) / 2
+                );
+            }
+
+            Highcharts.chart('container-chart-comic', {
+                chart: {
+                    type: 'solidgauge',
+                    height: '110%',
+                    events: {
+                        render: renderIcons
+                    },
+                    style: {
+                        cursor: 'pointer',
+                        fontFamily: 'ComicBook'
+                    }
+                },
+                title: {
+                    text: 'In Loan Galaxy',
+                    style: {
+                        fontSize: '30px'
+                    }
+                },
+
+                tooltip: {
+                    borderWidth: 0,
+                    backgroundColor: 'none',
+                    shadow: false,
+                    style: {
+                        fontSize: '16px'
+                    },
+                    pointFormat: '<div class="text-center">{series.name}<br><span style="text-align: center; font-size:1.5em; color: {point.color}; font-weight: bold">{point.number}</span>' +
+                        '<br><span style="font-size:1.3em; color: {point.color}; font-weight: bold">{point.y}%</span></div>',
+                    positioner: function (labelWidth) {
+                        return {
+                            x: (this.chart.chartWidth - labelWidth) / 2,
+                            y: (this.chart.plotHeight / 2) + 15
+                        };
+                    }
+                },
+
+                pane: {
+                    startAngle: 0,
+                    endAngle: 360,
+                    background: [{ // Track for Move
+                        outerRadius: '112%',
+                        innerRadius: '88%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }, { // Track for Exercise
+                        outerRadius: '87%',
+                        innerRadius: '63%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }, { // Track for Stand
+                        outerRadius: '62%',
+                        innerRadius: '38%',
+                        backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2])
+                            .setOpacity(0.3)
+                            .get(),
+                        borderWidth: 0
+                    }]
+                },
+
+                yAxis: {
+                    min: 0,
+                    max: 100,
+                    lineWidth: 0,
+                    tickPositions: []
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            enabled: false
+                        },
+                        linecap: 'round',
+                        stickyTracking: false,
+                        rounded: true
+                    }
+                },
+
+                series: [{
+                    name: 'Yep, I Have it!',
+                    data: [{
+                        color: Highcharts.getOptions().colors[0],
+                        radius: '112%',
+                        innerRadius: '88%',
+                        y: {{ chartComicUserHaveIt.ratio }},
+                        number: {{ chartComicUserHaveIt.count }} +' Heroes'
+                    }]
+                }, {
+                    name: 'Loan It, ok?',
+                    data: [{
+                        color: Highcharts.getOptions().colors[1],
+                        radius: '87%',
+                        innerRadius: '63%',
+                        y: {{ chartComicLoanIt.ratio }},
+                        number: {{ chartComicLoanIt.count }} +' Heroes'
+                    }]
+                }, {
+                    name: 'You want It?',
+                    data: [{
+                        color: Highcharts.getOptions().colors[2],
+                        radius: '62%',
+                        innerRadius: '38%',
+                        y: {{ chartComicLoanAvailable.ratio }},
+                        number: {{ chartComicLoanAvailable.count }} +' Available'
+                    }]
                 }]
-            }, {
-                name: 'Loan It, ok?',
-                data: [{
-                    color: Highcharts.getOptions().colors[1],
-                    radius: '87%',
-                    innerRadius: '63%',
-                    y: {{ chartComicLoanIt.ratio }},
-                    number: {{ chartComicLoanIt.count }} +' Heroes'
-                }]
-            }, {
-                name: 'You want It?',
-                data: [{
-                    color: Highcharts.getOptions().colors[2],
-                    radius: '62%',
-                    innerRadius: '38%',
-                    y: {{ chartComicLoanAvailable.ratio }},
-                    number: {{ chartComicLoanAvailable.count }} +' Available'
-                }]
-            }]
-        });
-    </script>
-{% endblock %}
+            });
+        </script>
+    {% endblock %}

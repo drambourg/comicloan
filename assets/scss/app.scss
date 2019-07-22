@@ -287,3 +287,12 @@ a.before:hover:before,a.after:hover:after{
   text-decoration: none;
   list-style-type: none;
 }
+
+.form-error-message-dark{
+  font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+  color: $marvel-primary;
+  padding: 2px;
+  display:inline;
+  text-decoration: none;
+  list-style-type: none;
+}

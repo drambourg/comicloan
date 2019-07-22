@@ -170,7 +170,7 @@
                                 <div class="row mx-auto m-0 p-2 text-center">
                                     <div class=" mx-auto">
                                     <form method="post" action="{{ path('user_request_call_valid', {'id' : request.id  }) }}">
-                                        <button class="btn btn-danger button-readmore">Rescue Him !!</button>
+                                        <button id="loanValidButton" class="btn btn-danger button-readmore">Rescue Him !!</button>
                                     </form>
                                     </div>
                                 </div>
@@ -183,4 +183,19 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.getElementById("loanValidButton").addEventListener("click", function(){
+            if (confirm('Are you sure to rescue him and loan your comic ?')) {
+
+            } else {
+                event.preventDefault();
+            }
+        });
+    </script>
+
+{% endblock %}
+
 

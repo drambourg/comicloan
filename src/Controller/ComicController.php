@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Form\RequestSubmitType;
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
+use App\Repository\RequestComicLoanRepository;
 use App\Repository\UserLibraryRepository;
 use App\Service\ComicLoanStat;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @Route("/comics")
@@ -42,9 +46,32 @@ class ComicController extends AbstractController
         ComicRepository $comicRepository,
         ComicLoanStat $comicLoanStat,
         ComicLoanRepository $comicLoanRepository,
-        UserLibraryRepository $userLibraryRepository
+        RequestComicLoanRepository $requestComicLoanRepository,
+        UserLibraryRepository $userLibraryRepository,
+        Request $request
     )
     {
+
+        $formRequest = $this->createForm(RequestSubmitType::class);
+        $formRequest->handleRequest($request);
+
+        if ($formRequest->isSubmitted() && $formRequest->isValid()) {
+
+            $requestComic = $formRequest->getData();
+            $requestComic->setUser($this->getUser());
+            $requestComic->setComicId($id);
+            $requestComic->setDateAt(new \DateTime());
+            $requestComic->setStatus(false);
+            $requestComic->setResponse(false);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($requestComic);
+            $entityManager->flush();
+
+            $this->addFlash('danger', 'Help Call for a comic Launched!!');
+
+            return $this->redirectToRoute('loan_request_index');
+        }
 
         $comic = $comicRepository->findComicById($id)['comics'][0] ?? [];
         $characters = $comic->getCharacters();
@@ -58,6 +85,7 @@ class ComicController extends AbstractController
                 ]
             );
         }
+
 
         return $this->render('comic/show.html.twig', [
             'title_h1' => 'Comic',
@@ -73,6 +101,7 @@ class ComicController extends AbstractController
             'statsComicLoans' => $comicLoanStat->RatioLoanedTheComic($id),
             'statsComicLastMonthLoans' => $comicLoanStat->RatioLoanedLastMonthTheComic($id),
             'comicLoans' => $comicLoanRepository->findLastLoanerFromComicId($id),
+            'formRequest' => $formRequest->createView(),
         ]);
     }
 }

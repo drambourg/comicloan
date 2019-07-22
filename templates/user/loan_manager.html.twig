@@ -7,11 +7,10 @@
             {% for category, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="alert alert-{{ category }} text-center">
-                       <h5>{{ message }}</h5>
+                       <h5 class="secondary-color">{{ message }}</h5>
                     </div>
                 {% endfor %}
             {% endfor %}
-        </div>
         <div class="row m-0 justify-content-around mx-auto">
             {% if comic %}
                 {% include('_common/_card_comic.html.twig') %}

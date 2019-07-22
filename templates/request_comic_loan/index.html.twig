@@ -3,7 +3,15 @@
 {% block title %}ComicLoan - Marvel's Comics!{% endblock %}
 
 {% block body %}
+
     <div class="container-fluid m-0 py-3">
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }} text-center">
+                    <h5 class="secondary-color">{{ message }}</h5>
+                </div>
+            {% endfor %}
+        {% endfor %}
         <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
             <div class="result-text col-sm-8 col-md-4 d-flex">
                 <div class="my-auto mx-auto">{{ requestCount != 0 ? requestCount ~ ' help calls !'  : 'Nobody needs you, be aware!' }}</div>

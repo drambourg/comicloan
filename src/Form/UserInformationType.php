@@ -41,15 +41,21 @@ class UserInformationType extends AbstractType
                 'attr' => ['placeholder' => 'captain.america@avengers.com'],
                 'label_attr' => ['class' => 'col-sm-12'],
             ])
+            ->add('oldPassword', PasswordType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'Ancien mot de passe',
+                'label_attr' => ['class' => 'col-md-12'],
+                'attr' => ['placeholder' => 'Old password'],
+                'invalid_message' => 'Please enter your old password',
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'required' => false,
                 'options' => ['attr' => ['class' => 'password-field']],
                 'mapped' => false,
                 'label_attr' => ['class' => 'col-sm-12'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
                     new Length([
                         'min' => 8,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',

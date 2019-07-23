@@ -53,25 +53,25 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (empty($oldPassword)) {
                 $this->getDoctrine()->getManager()->flush();
-                $user->setImageFile(null);
+//                $user->setImageFile(null);
 
-                return $this->redirectToRoute('user_dashboard');
+                return $this->redirectToRoute('user_edit');
             }
             if ($passwordEncoder->isPasswordValid($user, $oldPassword)) {
                 $newEncodedPassword = $passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData());
                 $user->setPassword($newEncodedPassword);
                 $this->getDoctrine()->getManager()->flush();
-                $user->setImageFile(null);
+//                $user->setImageFile(null);
 
-                return $this->redirectToRoute('user_dashboard');
+                return $this->redirectToRoute('user_edit');
             }
 
             $form->addError(new FormError('Wrong old password'));
         }
 
-        $user->setImageFile(null);
+//        $user->setImageFile(null);
 
-        return $this->render('user/editUserInformation.html.twig', [
+        return $this->render('user/edit_user.html.twig', [
             'user' => $user,
             'userInformationForm' => $form->createView(),
         ]);

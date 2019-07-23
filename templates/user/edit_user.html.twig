@@ -1,0 +1,11 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Edit your profile!{% endblock %}
+
+{% block body %}
+    {{ form_start(userInformationForm) }}
+    {{ form_widget(userInformationForm) }}
+        <button class="btn">Valider</button>
+    {{ form_end(userInformationForm) }}
+{% endblock %}
+

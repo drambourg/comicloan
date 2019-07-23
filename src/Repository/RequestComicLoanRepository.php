@@ -19,32 +19,16 @@ class RequestComicLoanRepository extends ServiceEntityRepository
         parent::__construct($registry, RequestComicLoan::class);
     }
 
-    // /**
-    //  * @return RequestComicLoan[] Returns an array of RequestComicLoan objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findComicByCountRequested($limit=5, $order='ASC')
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        return $this->createQueryBuilder('rq')
+            ->select('COUNT(rq.id) as count')
+            ->addSelect('rq.comicId')
 
-    /*
-    public function findOneBySomeField($value): ?RequestComicLoan
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
+            ->groupBy('rq.comicId')
+            ->setMaxResults($limit)
+            ->addOrderBy('count',$order)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

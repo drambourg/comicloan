@@ -20,4 +20,46 @@ class UserLibraryRepository extends ServiceEntityRepository
         parent::__construct($registry, UserLibrary::class);
     }
 
+    public function findUserLibraryByCountLoanable($limit=5, $order='ASC')
+    {
+        return $this->createQueryBuilder('ul')
+            ->select('COUNT(ul.id) as count')
+            ->addSelect('ul.comicId')
+            ->groupBy('ul.comicId')
+            ->Where('ul.isLoanable = :isLoanable')
+            ->setParameter('isLoanable', true)
+            ->setMaxResults($limit)
+            ->addOrderBy('count',$order)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUserLibraryByCount($limit=5, $order='ASC')
+    {
+        return $this->createQueryBuilder('ul')
+            ->select('COUNT(ul.id) as count')
+            ->join('ul.user', 'u')
+            ->addSelect('u.id')
+            ->groupBy('ul.user')
+            ->setMaxResults($limit)
+            ->addOrderBy('count',$order)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findUserLibraryAvailable($limit=5, $order='ASC')
+    {
+        return $this->createQueryBuilder('ul')
+            ->select('COUNT(ul.id) as count')
+            ->addSelect('ul.comicId')
+            ->groupBy('ul.comicId')
+            ->Where('ul.isLoanable = :isLoanable')
+            ->setParameter('isLoanable', true)
+            ->anndWhere('ul.isLoanable = :isLoanable')
+            ->setParameter('isLoanable', true)
+            ->setMaxResults($limit)
+            ->addOrderBy('count',$order)
+            ->getQuery()
+            ->getResult();
+    }
 }

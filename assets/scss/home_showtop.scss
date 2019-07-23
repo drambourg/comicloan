@@ -1,0 +1,55 @@
+@mixin img-top{
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100vh;
+  border-bottom: 3vh solid white;
+  background-color: rgba(100, 100, 100, 1);
+}
+
+
+
+#topcomicloaned {
+  @include img-top;
+  background-image: url('../img/bg_top/bg1.png');
+}
+#topuserloaners {
+  @include img-top;
+  background-image: url('../img/bg_top/bg1.png');
+}
+#baduserloaners {
+  @include img-top;
+  background-image: url('../img/bg_top/bg2.png');
+}
+
+#topavailablecomics {
+    @include img-top;
+    background-image: url('../img/bg_top/bg4.png');
+}
+
+#topUserCollections {
+  @include img-top;
+  background-image: url('../img/bg_top/bg5.png');
+}
+
+#topComicLoanables {
+  @include img-top;
+  background-image: url('../img/bg_top/bg6.png');
+}
+
+
+#topRequestedComics {
+  @include img-top;
+  background-image: url('../img/bg_top/bg6.png');
+  border-bottom:none
+}
+
+.card-transparent {
+  opacity: .8;
+}
+.counter-top {
+  font-size: calc(1vw + 15px);
+  padding: 5px;
+  background-color: $bg-secondary;
+  border: calc(.1vw + 1px) solid $font-primary-color ;
+}

@@ -19,6 +19,19 @@ class ComicLoanRepository extends ServiceEntityRepository
         parent::__construct($registry, ComicLoan::class);
     }
 
+    public function findUserLoanerByCountLoan($limit = 5, $order = 'DESC')
+    {
+        return $this->createQueryBuilder('cl')
+            ->select('COUNT(cl.id) as count')
+            ->join('cl.UserLoaner', 'u')
+            ->addSelect('u.id')
+            ->groupBy('cl.UserLoaner')
+            ->setMaxResults($limit)
+            ->addOrderBy('count', $order)
+            ->getQuery()
+            ->getResult();
+
+    }
 
     public function findLastLoanerFromComicId(int $idComic, int $limitResult = 3)
     {
@@ -32,6 +45,20 @@ class ComicLoanRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findUserLibraryAvailable($limit = 0, $order = 'ASC')
+    {
+        $qb = $this->createQueryBuilder('cl')
+            ->join('cl.userLibrary', "ul")
+            ->select('ul.comicId')
+            ->groupBy('cl.userLibrary')
+            ->addGroupBy('ul.comicId')
+            ->andHaving('count(cl.id) = SUM(cl.status)')
+            ->addOrderBy('ul.comicId', $order)
+            ->getQuery();
+
+        return array_map('current', $qb->getScalarResult());
+
+    }
 
     public function AllLoansFromComicId(int $idComic)
     {

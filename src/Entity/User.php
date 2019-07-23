@@ -103,6 +103,13 @@ class User implements UserInterface
      */
     private $userRates;
 
+    private $rate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserRate", mappedBy="author")
+     */
+    private $authorRates;
+
     public function __construct()
     {
         $this->setRoles(['ROLE_AUTHOR']);
@@ -111,11 +118,25 @@ class User implements UserInterface
         $this->userRequests = new ArrayCollection();
         $this->requestComicLoans = new ArrayCollection();
         $this->userRates = new ArrayCollection();
+        $this->authorRates = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getRate(): ?string
+    {
+        $countRate=0;
+        $this->rate =0;
+        foreach($this->getUserRates() as $rate) {
+            $countRate+= $rate->getRate();
+        }
+        if (count($this->getUserRates()) > 0) {
+            $this->rate  = $countRate / count($this->getUserRates());
+        }
+        return $this->rate ;
     }
 
     public function getPseudoname(): ?string
@@ -405,6 +426,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($userRate->getUser() === $this) {
                 $userRate->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserRate[]
+     */
+    public function getAuthorRates(): Collection
+    {
+        return $this->authorRates;
+    }
+
+    public function addAuthorRate(UserRate $authorRate): self
+    {
+        if (!$this->authorRates->contains($authorRate)) {
+            $this->authorRates[] = $authorRate;
+            $authorRate->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuthorRate(UserRate $authorRate): self
+    {
+        if ($this->authorRates->contains($authorRate)) {
+            $this->authorRates->removeElement($authorRate);
+            // set the owning side to null (unless already changed)
+            if ($authorRate->getAuthor() === $this) {
+                $authorRate->setAuthor(null);
             }
         }
 

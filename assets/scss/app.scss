@@ -84,12 +84,19 @@ h2{
   font-size: calc(.1vw + 10px);
 }
 
-h5.secondary-color, h4.secondary-color {
+h5.secondary-color, h4.secondary-color, h3.secondary-color {
   color: $bg-secondary;
 }
 
-h5.ternary-color, h4.ternary-color {
+h5.ternary-color, h4.ternary-color{
   color: $marvel-primary;
+}
+
+
+.avatar-xl {
+  min-width: 10vw;
+  width: 10vw;
+  height: auto;
 }
 
 p {

@@ -37,6 +37,11 @@ class UserRate
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="authorRates")
+     */
+    private $author;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class UserRate
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

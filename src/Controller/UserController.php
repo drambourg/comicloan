@@ -6,6 +6,7 @@ use App\Entity\Comic;
 use App\Entity\UserLibrary;
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
+use App\Repository\RequestComicLoanRepository;
 use App\Repository\UserLibraryRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -36,11 +37,25 @@ class UserController extends AbstractController
     /**
      * @Route("/show/{id}", name="user_show")
      */
-    public function show(int $id, UserRepository $userRepository)
+    public function show(
+        int $id,
+        UserRepository $userRepository,
+        RequestComicLoanRepository $requestComicLoanRepository,
+        UserLibraryRepository $userLibraryRepository
+    )
     {
+        $loanRequest = $requestComicLoanRepository->findOneById($id);
+        $userLibraryRepository->findAll();
+        $countLoans = 0;
+        foreach ($userLibraryRepository->findAll() as $userComic) {
+            $countLoans += count($userComic->getComicLoans());
+        }
+        $countRequest = count($requestComicLoanRepository->findByUser($this->getUser()));
 
-          return $this->render('user/show.html.twig', [
+        return $this->render('user/show.html.twig', [
             'user' => $this->getUser(),
+            'userCountRequests' => $countRequest,
+            'userCountLoans' => $countLoans,
         ]);
     }
     /**
@@ -64,18 +79,19 @@ class UserController extends AbstractController
         PaginatorInterface $paginator,
         ComicRepository $comicRepository,
         Request $request
-    ) {
+    )
+    {
 
         $comics = [];
-        $userComics= [];
+        $userComics = [];
 
         if ($session->get('user')) {
             $libraryComics = $userLibraryRepository->findByUser($session->get('user'));
             foreach ($libraryComics as $libraryComic) {
                 $comic = $comicRepository->findComicById($libraryComic->getComicId());
-                if ($comic!==[]) {
+                if ($comic !== []) {
                     $comics = array_merge($comics, $comic['comics']);
-                    $userComics[]= $libraryComic;
+                    $userComics[] = $libraryComic;
                 }
             }
         }
@@ -102,21 +118,22 @@ class UserController extends AbstractController
         UserLibraryRepository $userLibraryRepository,
         ComicRepository $comicRepository,
         ComicLoanRepository $comicLoanRepository
-    ) {
+    )
+    {
         $libraryComic = $userLibraryRepository->findOneById($id);
         $comicLoans = $comicLoanRepository->findBy(
             [
-                'userLibrary' =>$libraryComic
+                'userLibrary' => $libraryComic
             ],
             [
-                'dateOut' =>'DESC'
+                'dateOut' => 'DESC'
             ]);
         return $this->render('user/loan_manager.html.twig', [
             'title_h1' => 'Loan Manager',
             'title_h2' => 'Where is it ?!',
-            'comic' => $comicRepository->findComicById($libraryComic->getComicId())['comics'][0]?? [],
-            'userComic' => $libraryComic?? [],
-            'comicLoans' =>  $comicLoans?? [],
+            'comic' => $comicRepository->findComicById($libraryComic->getComicId())['comics'][0] ?? [],
+            'userComic' => $libraryComic ?? [],
+            'comicLoans' => $comicLoans ?? [],
             'activeloan' => false,
         ]);
     }
@@ -127,14 +144,14 @@ class UserController extends AbstractController
     public function comicLoanBack(int $id, ComicLoanRepository $comicLoanRepository, ObjectManager $manager)
     {
         $comicLoan = $comicLoanRepository->findOneBy(['id' => $id]);
-        $comicLoan->setStatus( !$comicLoan->getStatus());
-        $comicLoan->setDateIn( new \DateTime());
+        $comicLoan->setStatus(!$comicLoan->getStatus());
+        $comicLoan->setDateIn(new \DateTime());
         $manager->persist($comicLoan);
         $manager->flush();
-        return  $this->json([
+        return $this->json([
             'status' => $comicLoan->getStatus(),
             'dateBack' => $comicLoan->getDateIn()->format('Y-m-d'),
-            ]);
+        ]);
     }
 
     /**
@@ -142,11 +159,11 @@ class UserController extends AbstractController
      */
     public function comicLoanable(int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
     {
-         $libraryComic = $userLibraryRepository->findOneBy(['id' => $id]);
-         $libraryComic->setIsLoanable(!$libraryComic->getIsLoanable());
-         $manager->persist($libraryComic);
-         $manager->flush();
-        return  $this->json(['isLoanable' => $libraryComic->getIsLoanable()]);
+        $libraryComic = $userLibraryRepository->findOneBy(['id' => $id]);
+        $libraryComic->setIsLoanable(!$libraryComic->getIsLoanable());
+        $manager->persist($libraryComic);
+        $manager->flush();
+        return $this->json(['isLoanable' => $libraryComic->getIsLoanable()]);
     }
 
     /**
@@ -156,7 +173,7 @@ class UserController extends AbstractController
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function addComicToLibrary (int $id, ObjectManager $manager)
+    public function addComicToLibrary(int $id, ObjectManager $manager)
     {
         $libraryComic = new UserLibrary();
         $libraryComic->setUser($this->getUser());
@@ -166,7 +183,7 @@ class UserController extends AbstractController
         $manager->persist($libraryComic);
         $manager->flush();
 
-        return  $this->json(['ownComic' => true]);
+        return $this->json(['ownComic' => true]);
     }
 
     /**
@@ -176,7 +193,7 @@ class UserController extends AbstractController
      * @param ObjectManager $manager
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function removeComicToLibrary (int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
+    public function removeComicToLibrary(int $id, UserLibraryRepository $userLibraryRepository, ObjectManager $manager)
     {
         $comics = $userLibraryRepository->findBy(['comicId' => $id, 'user' => $this->getUser()]);
         foreach ($comics as $comic) {
@@ -184,6 +201,6 @@ class UserController extends AbstractController
             $manager->flush();
         }
 
-        return  $this->json(['ownComic' => false]);
+        return $this->json(['ownComic' => false]);
     }
 }

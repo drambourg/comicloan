@@ -5,21 +5,24 @@
 {% block body %}
     <div class="container-fluid m-0 py-3">
         <div class="row m-0 justify-content-center mx-auto">
-            <div class="card comic-loaner-card col-sm-12 m-0 p-0">
+            <div class="card comic-loaner-card col-lg-8 m-0 p-0">
                 <div class="card-header text-dark p-1">
-                    <div class="row no-gutters p-2 m-0 d-flex">
-                        <div class="col-md-2 m-0">
-                            <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                 src="{{ user.avatarPicture ? user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
-                        </div>
-                        <div class="col-md-10 m-0 p-0 text-left my-auto">
-                            <h5 class="marvel-title">{{ user.pseudoname }}</h5>
-                        </div>
-                    </div>
+                    <h3 class="ternary-color text-center">ID Card</h3>
                 </div>
                 <div class="card-body m-0 p-1 rounded-0">
                     <div class="row m-0 px-3">
-                        <div class="col-12">
+                        <div class="col-lg-6 d-flex">
+                            <div class="my-auto mx-auto text-center">
+                                <img class="avatar-xl rounded-circle border-0 img-thumbnail"
+                                     src="{{ user.avatarPicture ? user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                <h2 class="title-dark">{{ user.pseudoname }}</h2>
+                                <hr class="hr-text-color-2" data-content="">
+                                <div class="mt-auto mx-auto">
+                                    <h4 class="ternary-color">Hero rating</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
                             <div class="px-3">
                                 <h5 class="ternary-color text-center">ID Card</h5>
                                 <hr class="hr-text-color-2" data-content="">
@@ -47,11 +50,11 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Firstname</th>
-                                        <td>{{ firstName ? irstName : 'Unknown' }}</td>
+                                        <td>{{ user.firstName ? user.firstName : 'Unknown' }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Lastname</th>
-                                        <td>{{ lastName ? lastName : 'Unknown' }}</td>
+                                        <td>{{ user.lastName ? user.lastName : 'Unknown' }}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Age</th>
@@ -74,7 +77,48 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <hr class="hr-text-color-2 p-3" data-content="">
+        <div class="row m-0 justify-content-center mx-auto">
+            <div class="card comic-loaner-card col-lg-8 m-0 p-0">
+                <div class="card-header text-dark p-1">
+                    <h3 class="ternary-color text-center">
+                        Testimonies</h3>
+                </div>
+                <div class="card-body m-0 p-1 rounded-0">
 
+                    {%  if user.userRates|length > 0  %}
+                        {% for userRate in userRates %}
+                    <div class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
+                        <div class="card-header text-dark p-1">
+                            <div class="row no-gutters p-2 m-0">
+                                <div class="col-md-10 m-0">
+                                    <div class="row p-0 m-0">
+                                        <div class="col-md-12 m-0">
+                                            <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                 src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                        </div>
+                                        <div class="col-md-10 m-0 p-0 text-left">
+                                            <h5 class="marvel-title">{{ userRate.author.pseudoname }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body m-0 p-1 rounded-0">
+                            <p><{{ userRate.comment }}/p>
+                            <p><{{ userRate.rate }}/p>
+                        </div>
+                        <div class="card-footer m-0 p-1 rounded-0 text-right">
+                            <p><{{ userRate.dateAt }}/p>
+                        </div>
+                    </div>
+                        {% endfor %}
+                    {%  else  %}
+                        <h3 class="secondary-color text-center">No one tell your stories... Soon, Hero!</h3>
+                    {%  endif  %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

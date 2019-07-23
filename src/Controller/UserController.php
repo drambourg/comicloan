@@ -7,6 +7,7 @@ use App\Entity\UserLibrary;
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
 use App\Repository\UserLibraryRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -29,6 +30,17 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
+        ]);
+    }
+
+    /**
+     * @Route("/show/{id}", name="user_show")
+     */
+    public function show(int $id, UserRepository $userRepository)
+    {
+
+          return $this->render('user/show.html.twig', [
+            'user' => $this->getUser(),
         ]);
     }
     /**

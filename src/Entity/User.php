@@ -98,6 +98,11 @@ class User implements UserInterface
      */
     private $requestComicLoans;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserRate", mappedBy="user")
+     */
+    private $userRates;
+
     public function __construct()
     {
         $this->setRoles(['ROLE_AUTHOR']);
@@ -105,6 +110,7 @@ class User implements UserInterface
         $this->comicLoans = new ArrayCollection();
         $this->userRequests = new ArrayCollection();
         $this->requestComicLoans = new ArrayCollection();
+        $this->userRates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -368,6 +374,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($requestComicLoan->getUser() === $this) {
                 $requestComicLoan->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserRate[]
+     */
+    public function getUserRates(): Collection
+    {
+        return $this->userRates;
+    }
+
+    public function addUserRate(UserRate $userRate): self
+    {
+        if (!$this->userRates->contains($userRate)) {
+            $this->userRates[] = $userRate;
+            $userRate->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRate(UserRate $userRate): self
+    {
+        if ($this->userRates->contains($userRate)) {
+            $this->userRates->removeElement($userRate);
+            // set the owning side to null (unless already changed)
+            if ($userRate->getUser() === $this) {
+                $userRate->setUser(null);
             }
         }
 

@@ -1,0 +1,81 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 py-3">
+        <div class="row m-0 justify-content-center mx-auto">
+            <div class="card comic-loaner-card col-sm-12 m-0 p-0">
+                <div class="card-header text-dark p-1">
+                    <div class="row no-gutters p-2 m-0 d-flex">
+                        <div class="col-md-2 m-0">
+                            <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                 src="{{ user.avatarPicture ? user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                        </div>
+                        <div class="col-md-10 m-0 p-0 text-left my-auto">
+                            <h5 class="marvel-title">{{ user.pseudoname }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body m-0 p-1 rounded-0">
+                    <div class="row m-0 px-3">
+                        <div class="col-12">
+                            <div class="px-3">
+                                <h5 class="ternary-color text-center">ID Card</h5>
+                                <hr class="hr-text-color-2" data-content="">
+                                <table class="table borderless table-striped mt-2">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>{{ user.email ? user.email  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Created at</th>
+                                        <td>{{ user.dateCreated ? user.dateCreated|date("Y-m-d")  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comics in collection</th>
+                                        <td>{{ user.userLibraries ? user.userLibraries|length  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comics help done</th>
+                                        <td>{{ userCountLoans }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comics help calls</th>
+                                        <td>{{ userCountRequests }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Firstname</th>
+                                        <td>{{ firstName ? irstName : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Lastname</th>
+                                        <td>{{ lastName ? lastName : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Age</th>
+                                        <td>{{ user.age ? user.age ~ ' years old' : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Country</th>
+                                        <td>{{ user.country ? user.country  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Town</th>
+                                        <td>{{ user.city ? user.city  : 'Unknown' }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+

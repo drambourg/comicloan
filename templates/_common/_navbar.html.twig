@@ -13,18 +13,25 @@
                 <a class="nav-link" href="{{ path('home_loan') }}">
                     <i class="fa icon  mb-3">F
                     </i>
-                    Loan's World
+                    Loan's Town
+                </a>
+            </li>
+            <li class="nav-item {% if app.request.attributes.get("_route") == 'home_loan_comics' %} active {% endif %}">
+                <a class="nav-link" href="{{ path('home_loan_comics') }}">
+                    <i class="fa icon  mb-3">H
+                    </i>
+                    In Town
                 </a>
             </li>
             <li class="nav-item {% if app.request.attributes.get("_route") == 'loan_request_index' %} active {% endif %}">
                 <a class="nav-link" href="{{ path('loan_request_index') }}">
                     <i class="fa icon  mb-3">W
-                        <span class="badge badge-danger">11</span>
+{#                        <span class="badge badge-danger">11</span>#}
                     </i>
-                    Loan Requests
+                    Help Calls
                 </a>
             </li>
-            <li class="nav-item {% if app.request.attributes.get("_route") == 'character_index' %} active {% endif %}">
+           {# <li class="nav-item {% if app.request.attributes.get("_route") == 'character_index' %} active {% endif %}">
                 <a class="nav-link" href="{{ path('character_index') }}">
                     <i class="fa icon  mb-3">H
                     </i>
@@ -38,7 +45,7 @@
                     </i>
                     Comics
                 </a>
-            </li>
+            </li>#}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">

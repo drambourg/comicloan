@@ -8,7 +8,9 @@ use App\Repository\ComicRepository;
 use App\Repository\RequestComicLoanRepository;
 use App\Repository\UserLibraryRepository;
 use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -43,7 +45,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/loanworld", name="home_loan")
+     * @Route("/loantown", name="home_loan")
      */
     public function index_showtop(
         UserRepository $userRepository,
@@ -110,6 +112,69 @@ class HomeController extends AbstractController
             'topUserCollections' => $topUserCollections,
             'topComicLoanables' => $topComicLoanables,
             'topRequestedComics' => $topRequestedComics,
+        ]);
+
+
+    }
+
+    /**
+     * @Route("/loan/comics", name="home_loan_comics")
+     * @param ComicLoanRepository $comicLoanRepository
+     * @param ComicRepository $comicRepository
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function index_available_comic(
+        ComicLoanRepository $comicLoanRepository,
+        ComicRepository $comicRepository,
+        PaginatorInterface $paginator,
+        UserLibraryRepository $userLibraryRepository,
+        Request $request
+    ) {
+
+
+        $limitByPage = 10;
+        $currentPage = $request->query->getInt('page', 1);
+        $offset = 0 + $limitByPage * ($currentPage - 1);
+        $criteria['orderBy'] = 'title';
+        if (isset($_GET['search'])) {
+            $criteria['titleStartsWith'] = '%' . ($_GET['search'] . '%');
+        }
+
+        $criteria['offset'] = $offset;
+        $criteria['limit'] = $limitByPage;
+
+        $comicAvailables = $comicLoanRepository->findUserLibraryAvailable(0,'DESC');
+        $comicAvailables = array_count_values($comicAvailables);
+        $countAvailableComic = count($comicAvailables);
+        arsort($comicAvailables);
+        $comicAvailables = array_slice ($comicAvailables, $offset, $limitByPage, true);
+        foreach ($comicAvailables as $key => $topAvailableComic) {
+            $topAvailableComics[] = $comicRepository->findComicById($key)['comics'][0];
+        }
+
+        $comicPaginates = $paginator->paginate(
+            $topAvailableComics ?? [],
+            1,
+            $limitByPage);
+        $comicPaginates->setTotalItemCount($countAvailableComic ?? 0);
+        $comicPaginates->setCurrentPageNumber($currentPage);
+
+        if ($this->getUser()) {
+            $comicsCollection = $userLibraryRepository->findByUser($this->getUser());
+            foreach ($comicsCollection as $comic) {
+                $comicsCollectionIds[] = $comic->getComicId();
+            }
+        }
+
+        return $this->render('search/index_comic_available.html.twig', [
+            'title_h1' => 'In Town !',
+            'title_h2' => 'Loan\'s Heroes',
+            'comicsUserLibrary' => $comicsCollection ?? [],
+            'comicsUserLibraryIds' => $comicsCollectionIds ?? [],
+            'countComics' => $countAvailableComic ?? 0,
+            'comics' => $comicPaginates ?? [],
+            'activeloan' => true,
         ]);
 
 

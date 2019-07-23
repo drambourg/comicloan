@@ -31,21 +31,7 @@
                     Help Calls
                 </a>
             </li>
-           {# <li class="nav-item {% if app.request.attributes.get("_route") == 'character_index' %} active {% endif %}">
-                <a class="nav-link" href="{{ path('character_index') }}">
-                    <i class="fa icon  mb-3">H
-                    </i>
-                    Characters
-                </a>
-            </li>
-            <li class="nav-item {% if app.request.attributes.get("_route") == 'comic_index' %} active {% endif %}">
-                <a class="nav-link" href="{{ path('comic_index') }}">
-                    <i class="fa icon  mb-3">S
-                        <span class="badge badge-warning">8</span>
-                    </i>
-                    Comics
-                </a>
-            </li>#}
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
@@ -55,8 +41,8 @@
                     </div>
                     Search
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ path('search_by_comic') }}">By Comics</a>
+                <div class="dropdown-menu dropdown-menu-nav" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item " href="{{ path('search_by_comic') }}">By Comics</a>
                     <a class="dropdown-item" href="{{ path('search_by_character') }}">By Characters</a>
                     <a class="dropdown-item" href="{{ path('search_by_comic') }}">By Creators</a>
                     <div class="dropdown-divider"></div>
@@ -90,15 +76,15 @@
                              src="{{ asset('build/avatar/avatar-deadpool.png') }}">
                         <span class="caret"></span>
                     </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                            <div role="presentation"><a class="dropdown-item px-1" href="#">MyProfile</a></div>
+                            <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My Collection</a></div>
+                            <div role="presentation"><a class="dropdown-item  px-1" href="#">My Stats</a></div>
+                            <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('app_logout') }}">Log
+                                    out</a>
+                            </div>
+                    </div>
 
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li role="presentation"><a class="dropdown-item px-1" href="#">MyProfile</a></li>
-                        <li role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My Collection</a></li>
-                        <li role="presentation"><a class="dropdown-item  px-1" href="#">My Stats</a></li>
-                        <li role="presentation"><a class="dropdown-item  px-1" href="{{ path('app_logout') }}">Log
-                                out</a>
-                        </li>
-                    </ul>
 
                 </div>
             {% else %}

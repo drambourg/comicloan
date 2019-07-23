@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comic;
 use App\Entity\UserLibrary;
+use App\Form\UserInformationType;
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
 use App\Repository\UserLibraryRepository;
@@ -13,9 +14,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Tests\Node\Obj;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
@@ -31,6 +35,48 @@ class UserController extends AbstractController
             'controller_name' => 'UserController',
         ]);
     }
+
+    /**
+     * @Route("/edit", name="user_edit")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
+     */
+    public function editUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(UserInformationType::class, $user);
+        $form->handleRequest($request);
+        $oldPassword = $form->get('oldPassword')->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (empty($oldPassword)) {
+                $this->getDoctrine()->getManager()->flush();
+                $user->setImageFile(null);
+
+                return $this->redirectToRoute('user_dashboard');
+            }
+            if ($passwordEncoder->isPasswordValid($user, $oldPassword)) {
+                $newEncodedPassword = $passwordEncoder->encodePassword($user, $form->get('plainPassword')->getData());
+                $user->setPassword($newEncodedPassword);
+                $this->getDoctrine()->getManager()->flush();
+                $user->setImageFile(null);
+
+                return $this->redirectToRoute('user_dashboard');
+            }
+
+            $form->addError(new FormError('Wrong old password'));
+        }
+
+        $user->setImageFile(null);
+
+        return $this->render('user/editUserInformation.html.twig', [
+            'user' => $user,
+            'userInformationForm' => $form->createView(),
+        ]);
+    }
+
     /**
      * Liste l'ensemble des articles triés par date de publication pour une page donnée.
      *

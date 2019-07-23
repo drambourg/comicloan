@@ -90,7 +90,7 @@
                             <div class="col-md-6 text-left">
                                 {% if userComicRequest != 0 %}
                                     {% if userComicRequest.available %}
-                                        <a href="#" type="button" class="btn btn-danger button-readmore">Want to loan
+                                        <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}" type="button" class="btn btn-danger button-readmore">Want to rescue
                                             ?</a>
                                     {% else %}
                                         <a href="#" type="button"

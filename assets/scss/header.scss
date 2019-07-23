@@ -8,15 +8,17 @@
   margin-bottom: unset;
   transition: all 2s linear;
 }
+
 .jumbo-fluid.jumbo-full.active {
-  box-shadow:  2px -55px 96px -70px rgba(227,210,20,1) inset;
+  box-shadow: 2px -55px 96px -70px rgba(227, 210, 20, 1) inset;
 }
-.jumbo-fluid.jumbo-full{
+
+.jumbo-fluid.jumbo-full {
   height: 100vh;
 }
 
 #captainamerica {
-  width:30vh;
+  width: 30vh;
   height: auto;
   position: absolute;
   left: 60%;
@@ -24,13 +26,13 @@
 }
 
 #thor {
-  width:30vh;
+  width: 30vh;
   height: auto;
   position: absolute;
 }
 
 #deadpool {
-  width:25vh;
+  width: 25vh;
   height: auto;
   right: 90%;
   top: 100%;
@@ -38,15 +40,15 @@
 }
 
 #wolverine {
-  width:25vh;
-  right:10%;
+  width: 25vh;
+  right: 10%;
   top: 100%;
   height: auto;
   position: absolute;
 }
 
 #spiderman {
-  width:20vh;
+  width: 20vh;
   height: auto;
   position: absolute;
   left: 20%;
@@ -54,7 +56,7 @@
 }
 
 #ironman {
-  width:30vh;
+  width: 30vh;
   height: auto;
   position: absolute;
   top: 5%;
@@ -66,6 +68,7 @@
 
 
 }
+
 header .title-wrapper {
   position: absolute;
   left: 0;
@@ -81,26 +84,32 @@ header .title-wrapper {
   -o-transition: all 0.6s ease-out;
   -ms-transition: all 0.6s ease-out;
   transition: all 0.6s ease-out;
-  background-color: rgba(33,33,33,0.3);
+  background-color: rgba(33, 33, 33, 0.3);
 
-  .icon{
+  .nav-link {
+    font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+    font-size: 18px;
+  }
+
+  .icon {
     font-family: 'Marvelheroes';
     font-size: 40px;
     padding: 3px;
   }
 
-  .icon-fas-xl{
+  .icon-fas-xl {
     color: $font-primary-color;
     font-size: 40px;
     padding: 3px;
   }
 
-  .icon-fas{
+  .icon-fas {
     color: $font-primary-color;
     font-size: 40px;
     padding: 3px;
   }
-  .icon-sm{
+
+  .icon-sm {
     font-size: 20px !important;
     margin: 0px;
   }
@@ -108,39 +117,68 @@ header .title-wrapper {
   .fas-navbar-xl {
     font-size: 47px;
   }
+
   .avatar-icon {
-    min-width: 40px ;
-    width:40px;
+    min-width: 40px;
+    width: 40px;
     height: auto;
   }
+
   .navbar-brand {
     height: $navbar-height;
   }
+  .dropdown-menu {
+    font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
+    background-color: $bg-secondary;
+    transition: all 0.6s ease-out;
+  }
+
+  .dropdown-item {
+    color : $font-primary-color;
+    background-color: $bg-secondary;
+    font-size: 18px;
+    transition: all 0.6s ease-out;
+    &:hover{
+      transition: all 0.6s ease-out;
+      font-size: 18px;
+      color: $bg-secondary ;
+      background-color : $font-primary-color;
+    }
+  }
+
 }
+
+
+
 .navbar-transparent {
-  background-color : black;
+  background-color: black;
 
   a:hover {
     background-color: unset;
   }
 }
+
 .bg-custom {
   background-color: $secondary-color;
-  -webkit-box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
-  -moz-box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
-  box-shadow: -1px 9px 22px 0px rgba(255,255,255,0.58);
-
+  -webkit-box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
+  -moz-box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
+  box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
 
   a, i {
-    color: $primary-color;
+    color: $font-primary-color;
     font-size: 1.1rem;
+    opacity: .8;
+
     &:hover {
-      color: $primary-color;
+      transition: all 0.6s ease-out;
+      color: $font-primary-color;
       border: none;
+      opacity: 1;
     }
   }
 }
-.dropdown{
+
+.dropdown {
   cursor: pointer;
 }
 
@@ -157,8 +195,9 @@ header .title-wrapper {
 .nav-link {
   font-size: 1.1rem;
 }
-.logo-navbar{
-  width:100px;
+
+.logo-navbar {
+  width: 100px;
   height: auto;
 }
 

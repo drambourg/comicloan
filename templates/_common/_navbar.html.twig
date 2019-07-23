@@ -26,7 +26,7 @@
             <li class="nav-item {% if app.request.attributes.get("_route") == 'loan_request_index' %} active {% endif %}">
                 <a class="nav-link" href="{{ path('loan_request_index') }}">
                     <i class="fa icon  mb-3">W
-{#                        <span class="badge badge-danger">11</span>#}
+                        {#                        <span class="badge badge-danger">11</span>#}
                     </i>
                     Help Calls
                 </a>
@@ -36,8 +36,8 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <div>
-                    <i class="fab fa-searchengin fas-navbar-xl">
-                    </i>
+                        <i class="fab fa-searchengin fas-navbar-xl">
+                        </i>
                     </div>
                     Search
                 </a>
@@ -62,7 +62,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('user_loans') }}">
+                    <a class="nav-link" href="{{ path('user_helps') }}">
                         <i class="fa fa-envelope icon-sm">
                         </i>
                         Heroes Rescue!
@@ -75,12 +75,14 @@
                         <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                            <div role="presentation"><a class="dropdown-item px-1" href="#">MyProfile</a></div>
-                            <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My Collection</a></div>
-                            <div role="presentation"><a class="dropdown-item  px-1" href="#">My Stats</a></div>
-                            <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('app_logout') }}">Log
-                                    out</a>
-                            </div>
+                        <div role="presentation"><a class="dropdown-item px-1" href="#">My Profile</a></div>
+                        <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My
+                                Collection</a></div>
+                        <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_loans') }}">My
+                                Loans</a></div>
+                        <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('app_logout') }}">Log
+                                out</a>
+                        </div>
                     </div>
 
 

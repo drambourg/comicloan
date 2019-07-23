@@ -1,0 +1,90 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 py-3">
+            <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
+                <div class="result-text col-sm-8 col-md-4 d-flex">
+                    <div class="my-auto mx-auto">{{ requests.totalItemCount != 0 ? 'You scream ' ~ requests.totalItemCount ~ ' help calls !'  : 'No call, no rescue!' }}</div>
+                </div>
+            </div>
+        <div class="row justify-content-center py-3 m-0">
+            {% for request in requests %}
+                <div class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0">
+                    <div class="card-header text-dark p-1">
+                        {% set comic = comics[loop.index0].comics[0] %}
+                        <div class="row no-gutters p-2 m-0">
+                            <div class="col-md-10 m-0">
+                                </div>
+                                <div class="row p-0 m-0">
+                                    <div class="col-md-2 m-0">
+                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                             src="{{ request.user.avatarPicture ? request.user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                    </div>
+                                    <div class="col-md-10 m-0 p-0 text-left">
+                                        <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="card-body m-0 p-1 rounded-0">
+                        <div class="row m-0 px-3">
+                            <div class="col-12">
+                                {% if request.message %}
+                                    <h5 class="ternary-color text-center">You let a message !</h5>
+                                    <hr class="hr-text-color-2" data-content="">
+                                    <p class="simple-font">
+                                        {{ request.message }}
+                                    </p>
+                                    <hr class="hr-text-color-2" data-content="">
+                                {% else %}
+                                    <h5 class="ternary-color text-center">No Message ?! ...Hmm...</h5>
+                                    <hr class="hr-text-color-2" data-content="">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row p-0 m-0 mt-2 text-lg-center">
+                            <div class="col-12 m-0">
+                                {{ comic.title }}
+                            </div>
+                        </div>
+                        <div class="row m-1 p-1 d-flex">
+                            <div class="col-md-4 my-auto">
+                                <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
+                                     class="card-img img-fluid p-2"
+                                     alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body mt-1">
+                                    <h5 class="card-title"></h5>
+                                    <p class="card-text">
+                                        {% if comic.description is empty %}
+                                            No description
+                                        {% else %}
+                                            {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right py-2 px-1">
+                        <div class="row p-0 m-0">
+                            <div class="col-md-8 text-right">
+                                {{ 'requested at ' ~ request.dateAt|date("Y-m-d") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row text-center">
+            <div class="navigation  mx-auto">
+                {{ knp_pagination_render(requests) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

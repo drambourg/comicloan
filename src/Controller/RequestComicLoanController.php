@@ -160,6 +160,53 @@ class RequestComicLoanController extends AbstractController
 
 
     /**
+     * @Route("/user/helps", name="user_helps")
+     */
+    public function indexUserHelps(
+        RequestComicLoanRepository $requestComicLoanRepository,
+        ComicRepository $comicRepository,
+        PaginatorInterface $paginator,
+        Request $request
+    )
+    {
+        $limitByPage = 10;
+        $currentPage = $request->query->getInt('page', 1);
+        $offset =  0 + $limitByPage * ($currentPage - 1);
+        $helpRequestCount = count($requestComicLoanRepository->findBy(
+            ['user' => $this->getUser(),
+                'status' => 'false']
+        ));
+        $helpRequests = $requestComicLoanRepository->findBy(
+            ['user' => $this->getUser(),
+                'status' => 'false'],
+            ['dateAt' => 'DESC'
+            ],
+            $limitByPage,
+            $offset
+        );
+        $criteria['offset'] = $offset;
+        $criteria['limit'] = $limitByPage;
+
+        foreach($helpRequests as $helpRequest) {
+            $comics[]= $comicRepository->findComicById($helpRequest->getComicId());
+        }
+
+        $helprequestPaginates = $paginator->paginate(
+            $helpRequests ?? [],
+            1,
+            $limitByPage);
+        $helprequestPaginates->setTotalItemCount($helpRequestCount ?? 0);
+        $helprequestPaginates->setCurrentPageNumber($currentPage);
+
+        return $this->render('request_comic_loan/help_user.html.twig', [
+            'title_h1' => 'Help Calls',
+            'title_h2' => 'Where are Heroes?!',
+            'requests' => $helprequestPaginates ?? [],
+            'comics' => $comics ?? [],
+        ]);
+    }
+
+    /**
      * @Route("/user/loans", name="user_loans")
      */
     public function indexUserLoans(
@@ -199,7 +246,7 @@ class RequestComicLoanController extends AbstractController
 
         return $this->render('request_comic_loan/rescues_user.html.twig', [
             'title_h1' => 'Help Calls',
-            'title_h2' => 'Where are Heroes?!',
+            'title_h2' => 'Who helped you ?!',
             'loanRequests' => $loanrequestPaginates ?? [],
             'comics' => $comics ?? [],
         ]);

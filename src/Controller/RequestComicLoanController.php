@@ -150,10 +150,58 @@ class RequestComicLoanController extends AbstractController
             'title_h1' => 'Request Comics',
             'title_h2' => 'Rescue him ?!',
             'request' => $loanRequest ?? [],
-            'userComic'=>$userComic??[],
+            'userComic' => $userComic ?? [],
             'userCountRequests' => $countRequest,
             'userCountLoans' => $countLoans,
             'comic' => $comic['comics'][0] ?? [],
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/user/loans", name="user_loans")
+     */
+    public function indexUserLoans(
+        ComicLoanRepository $comicLoanRepository,
+        ComicRepository $comicRepository,
+        PaginatorInterface $paginator,
+        Request $request
+    )
+    {
+        $limitByPage = 10;
+        $currentPage = $request->query->getInt('page', 1);
+        $offset =  0 + $limitByPage * ($currentPage - 1);
+        $loanRequestCount = count($comicLoanRepository->findBy(
+            ['UserLoaner' => $this->getUser()]
+        ));
+        $loanRequests = $comicLoanRepository->findBy(
+            ['UserLoaner' => $this->getUser()],
+            ['dateOut' => 'DESC',
+                'status' => 'ASC'
+            ],
+            $limitByPage,
+            $offset
+        );
+        $criteria['offset'] = $offset;
+        $criteria['limit'] = $limitByPage;
+
+        foreach($loanRequests as $loanRequest) {
+            $comics[]= $comicRepository->findComicById($loanRequest->getUserLibrary()->getComicId());
+        }
+
+        $loanrequestPaginates = $paginator->paginate(
+            $loanRequests ?? [],
+            1,
+            $limitByPage);
+        $loanrequestPaginates->setTotalItemCount($loanRequestCount ?? 0);
+        $loanrequestPaginates->setCurrentPageNumber($currentPage);
+
+        return $this->render('request_comic_loan/rescues_user.html.twig', [
+            'title_h1' => 'Help Calls',
+            'title_h2' => 'Where are Heroes?!',
+            'loanRequests' => $loanrequestPaginates ?? [],
+            'comics' => $comics ?? [],
         ]);
     }
 
@@ -174,7 +222,7 @@ class RequestComicLoanController extends AbstractController
     )
     {
         $loanRequest = $requestComicLoanRepository->findOneById($id);
-        $userComic= $userLibraryRepository->findOneBy(['comicId'=> $loanRequest->getComicId(), 'user' => $this->getUser()]);
+        $userComic = $userLibraryRepository->findOneBy(['comicId' => $loanRequest->getComicId(), 'user' => $this->getUser()]);
         $comicLoan = new ComicLoan();
         $comicLoan->setStatus(false);
         $comicLoan->setView(false);

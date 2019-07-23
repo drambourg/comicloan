@@ -51,6 +51,7 @@ class UserLibrary
         return $this->id;
     }
 
+
     public function getComicId(): ?int
     {
         return $this->comicId;

@@ -1,0 +1,131 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 py-3">
+        <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
+            <div class="result-text col-sm-8 col-md-4 d-flex">
+                <div class="my-auto mx-auto">{{ loanRequests.totalItemCount != 0 ? loanRequests.totalItemCount ~ ' rescued you!!'  : 'No call, no rescue ?!' }}</div>
+            </div>
+        </div>
+        {% for loanRequest in loanRequests %}
+            <div class="row justify-content-center  m-0 mb-3">
+                {% set comic = comics[loop.index0].comics[0] %}
+                <div class="card comic-card card-transparent col-lg-5  mx-1 p-0">
+                    <div class="card-header text-dark p-1">
+                        <div class="row no-gutters p-2 m-0">
+                            <div class="col-md-12 px-3 m-0">
+                                <h4 class="marvel-title">{{ comic.title }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row no-gutters m-1">
+                        <div class="col-md-4 p-1">
+                            <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
+                                 class="card-img img-fluid p-2"
+                                 alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body mt-5">
+                                <h5 class="card-title"></h5>
+                                <p class="card-text">
+                                    {% if comic.description is empty %}
+                                        No description
+                                    {% else %}
+                                        {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right mt-auto">
+                        <div class="row p-0 m-0 d-flex justify-content-center">
+                            <div class="col-sm-12 col-lg-6 text-center">
+                                <a href="{{ path('comic_show', {'id':comic.id}) }}" type="button"
+                                   class="btn btn-danger button-readmore">Read more ...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% set user = loanRequest.userLibrary.user %}
+                <div class="card comic-loaner-card col-lg-3 mx-1 p-0">
+                    <div class="card-header text-dark p-1">
+                        <div class="row no-gutters p-2 m-0 d-flex">
+                            <div class="col-md-8 m-0 text-center">
+                                <div class="col-md-2 m-0">
+                                    <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                         src="{{ user.avatarPicture ?user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                </div>
+                                <div class="col-md-10 m-0 p-0 text-left my-auto">
+                                    <h5 class="marvel-title">{{ user.pseudoname }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body m-0 p-1 rounded-0">
+                        <div class="row m-0 px-3">
+                            <div class="col-12">
+                                <div class="px-3">
+                                    <h5 class="ternary-color text-center">ID Card</h5>
+                                    <hr class="hr-text-color-2" data-content="">
+                                    <table class="table borderless table-striped mt-2">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Created at</th>
+                                            <td>{{ user.dateCreated ? user.dateCreated|date("Y-m-d")  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Country</th>
+                                            <td>{{ user.country ? user.country  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Town</th>
+                                            <td>{{ user.city ? user.city  : 'Unknown' }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="px-3 py-2">
+                                    <h5 class="ternary-color text-center">Rescue Ticket</h5>
+                                    <hr class="hr-text-color-2" data-content="">
+                                    <table class="table borderless table-striped mt-2">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Rescue date</th>
+                                            <td>{{ loanRequest.dateOut ? loanRequest.dateOut|date("Y-m-d")  : 'Unknown' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Rescue back gift</th>
+                                            <td>{{ loanRequest.dateIn ? loanRequest.dateIn|date("Y-m-d")  : '????' }}</td>
+                                        </tr>
+                                        <tr>
+                                            {% if loanRequest.status %}
+                                                <th colspan="2" class="text-center"><h5
+                                                            class="ternary-color py-3 disabled">
+                                                        Good Job, guy !!</h5></th>
+                                            {% else %}
+                                                <th colspan="2" class="text-center"><h5
+                                                            class="ternary-color btn-danger button-readmore py-3 disabled">
+                                                        Return it alive</h5></th>
+                                            {% endif %}
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="hr-text-color-2 my-3" data-content="">
+        {% endfor %}
+
+        <div class="row text-center">
+            <div class="navigation  mx-auto">
+                {{ knp_pagination_render(loanRequests) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

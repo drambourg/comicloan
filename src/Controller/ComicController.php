@@ -39,7 +39,13 @@ class ComicController extends AbstractController
      * @Route("/show/{id}", name="comic_show")
      * @param int $id
      * @param ComicRepository $comicRepository
+     * @param ComicLoanStat $comicLoanStat
+     * @param ComicLoanRepository $comicLoanRepository
+     * @param RequestComicLoanRepository $requestComicLoanRepository
+     * @param UserLibraryRepository $userLibraryRepository
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
      */
     public function show(
         int $id,
@@ -51,18 +57,15 @@ class ComicController extends AbstractController
         Request $request
     )
     {
-
         $formRequest = $this->createForm(RequestSubmitType::class);
         $formRequest->handleRequest($request);
 
         if ($formRequest->isSubmitted() && $formRequest->isValid()) {
-
             $requestComic = $formRequest->getData();
             $requestComic->setUser($this->getUser());
             $requestComic->setComicId($id);
             $requestComic->setDateAt(new \DateTime());
             $requestComic->setStatus(false);
-            $requestComic->setResponse(false);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($requestComic);

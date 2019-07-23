@@ -30,7 +30,6 @@ class RequestSubmitType extends AbstractType
             ])
             ->add('status', HiddenType::class)
             ->add('user',HiddenType::class)
-            ->add('response',HiddenType::class)
         ;
     }
 

@@ -60,14 +60,19 @@
                                 {% endif %}
                             </div>
                         </div>
+                        <div class="row p-0 m-0 mt-2 text-lg-center">
+                            <div class="col-12 m-0">
+                                {{ comicRequestedInfos[loop.index0].title }}
+                            </div>
+                        </div>
                         <div class="row m-1 p-1 d-flex">
-                            <div class="col-md-4 mt-auto">
+                            <div class="col-md-4 my-auto">
                                 <img src="{{ comicRequestedInfos[loop.index0].ThumbnailPicture.getPicturePortraitSD }}"
                                      class="card-img img-fluid p-2"
                                      alt="...">
                             </div>
-                            <div class="col-md-8 mt-auto">
-                                <div class="card-body mt-5">
+                            <div class="col-md-8">
+                                <div class="card-body mt-1">
                                     <h5 class="card-title"></h5>
                                     <p class="card-text">
                                         {% if comicRequestedInfos[loop.index0].description is empty %}

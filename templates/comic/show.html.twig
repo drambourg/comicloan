@@ -103,12 +103,26 @@
                     <div class="col-md-12 pt-3 border-0" id="loanComicAction">
                         <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
                         {% if app.user %}
-                            {% if  chartComicLoanAvailable.count == 0 %}
-                                <a href="#" class=" btn btn-danger button-readmore-disabled disabled">No available
-                                    ...</a>
+                            {% if comicAlreadyRequesed %}
+                                <a href="#" class=" btn btn-danger button-remove-comic-library disabled">
+                                    Help already launched
+                                </a>
                             {% else %}
-                                <a href="#" class=" btn btn-danger button-readmore" data-toggle="modal"
-                                   data-target="#exampleModal">I Want loan ?!</a>
+                                {% if comicYouHaveIt %}
+                                    <a href="#"
+                                       class=" btn btn-danger button-remove-comic-library disabled ">
+                                        You already have it!
+                                    </a>
+                                {% else %}
+                                    {% if  chartComicLoanAvailable.count == 0 %}
+                                        <a href="#" class=" btn btn-danger button-readmore-disabled disabled">No
+                                            available
+                                            ...</a>
+                                    {% else %}
+                                        <a href="#" class=" btn btn-danger button-readmore" data-toggle="modal"
+                                           data-target="#exampleModal">I Want loan ?!</a>
+                                    {% endif %}
+                                {% endif %}
                             {% endif %}
                         {% else %}
                             <a href="{{ path('app_login') }}" class=" btn btn-danger button-remove-comic-library">Who
@@ -231,7 +245,8 @@
     </div>
 </div>
 
-<div class="modal fade comic-card modalrequest" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade comic-card modalrequest" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -244,10 +259,10 @@
             {{ form_start(formRequest) }}
             <div class="modal-body">
                 <div class="row m-0">
-                        {{ form_label(formRequest.message) }}
+                    {{ form_label(formRequest.message) }}
                 </div>
                 <div class="row m-0">
-                        {{ form_widget(formRequest.message) }}
+                    {{ form_widget(formRequest.message) }}
                 </div>
                 <div class="form-error-message-dark">
                     {{ form_errors(formRequest.message) }}

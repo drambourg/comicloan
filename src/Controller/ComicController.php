@@ -86,6 +86,22 @@ class ComicController extends AbstractController
             );
         }
 
+        $comicAlreadyRequested=false;
+        if(!is_null($requestComicLoanRepository->findOneBy(
+            ['user' => $this->getUser(),
+             'comicId' => $id,
+             'status' => false]
+        ))) {
+            $comicAlreadyRequested =true;
+        }
+
+        $comicYouHaveIt=false;
+        if(!is_null($userLibraryRepository->findOneBy(
+            ['user' => $this->getUser(),
+                'comicId' => $id]
+        ))) {
+            $comicYouHaveIt =true;
+        }
 
         return $this->render('comic/show.html.twig', [
             'title_h1' => 'Comic',
@@ -102,6 +118,8 @@ class ComicController extends AbstractController
             'statsComicLastMonthLoans' => $comicLoanStat->RatioLoanedLastMonthTheComic($id),
             'comicLoans' => $comicLoanRepository->findLastLoanerFromComicId($id),
             'formRequest' => $formRequest->createView(),
+            'comicAlreadyRequesed' => $comicAlreadyRequested,
+            'comicYouHaveIt' => $comicYouHaveIt,
         ]);
     }
 }

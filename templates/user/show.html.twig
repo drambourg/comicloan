@@ -20,6 +20,19 @@
                                 <div class="mt-auto mx-auto">
                                     <h4 class="ternary-color">Hero rating</h4>
                                 </div>
+                                <div class="row m-0 p-1 justify-content-around">
+                                    {% for i in 0..4 %}
+                                        <div class="col-md-2 m-0 p-0">
+                                            {% if loop.index <= user.rate %}
+                                                <img class="img-fluid img-rate-icon"
+                                                     src="{{ asset('build/avatar/rate-on.png') }}">
+                                            {% else %}
+                                                <img class="img-fluid img-rate-icon"
+                                                     src="{{ asset('build/avatar/rate-off.png') }}">
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -87,36 +100,54 @@
                 </div>
                 <div class="card-body m-0 p-1 rounded-0">
 
-                    {%  if user.userRates|length > 0  %}
-                        {% for userRate in userRates %}
-                    <div class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
-                        <div class="card-header text-dark p-1">
-                            <div class="row no-gutters p-2 m-0">
-                                <div class="col-md-10 m-0">
-                                    <div class="row p-0 m-0">
-                                        <div class="col-md-12 m-0">
-                                            <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                                 src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
-                                        </div>
-                                        <div class="col-md-10 m-0 p-0 text-left">
-                                            <h5 class="marvel-title">{{ userRate.author.pseudoname }}</h5>
+                    {% if user.userRates|length > 0 %}
+                        <div class="row m-0 justify-content-around mx-auto">
+                            {% for userRate in user.userRates %}
+                                <div class="card comic-loaner-card col-sm-12 col-md-4 col-xl-3 mx-2 mb-2 p-0">
+                                    <div class="card-header text-dark p-1">
+                                        <div class="row no-gutters p-2 m-0">
+                                            <div class="col-md-10 m-0">
+                                                <div class="row p-0 m-0">
+                                                    <div class="col-md-12 m-0">
+                                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                             src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                                    </div>
+                                                    <div class="col-md-10 m-0 p-0 text-left">
+                                                        <h5 class="marvel-title">{{ userRate.author.pseudoname }}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="card-body m-0 p-1 rounded-0">
+                                        {{ userRate.comment }}
+                                        <div class="mt-auto">
+                                            <h5 class="ternary-color text-center mt-2">Heroe Rate</h5>
+                                            <hr class="hr-text-color-2" data-content="">
+                                            <div class="row m-0 p-1 justify-content-around">
+                                                {% for i in 0..4 %}
+                                                    <div class="col-md-2 m-0 p-0">
+                                                        {% if loop.index <= userRate.rate %}
+                                                            <img class="img-fluid img-rate-icon"
+                                                                 src="{{ asset('build/avatar/rate-on.png') }}">
+                                                        {% else %}
+                                                            <img class="img-fluid img-rate-icon"
+                                                                 src="{{ asset('build/avatar/rate-off.png') }}">
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer m-0 p-1 rounded-0 text-right">
+                                        {{ userRate.dateAt|date("Y-m-d") }}
+                                    </div>
                                 </div>
-                            </div>
+                            {% endfor %}
                         </div>
-                        <div class="card-body m-0 p-1 rounded-0">
-                            <p><{{ userRate.comment }}/p>
-                            <p><{{ userRate.rate }}/p>
-                        </div>
-                        <div class="card-footer m-0 p-1 rounded-0 text-right">
-                            <p><{{ userRate.dateAt }}/p>
-                        </div>
-                    </div>
-                        {% endfor %}
-                    {%  else  %}
+                    {% else %}
                         <h3 class="secondary-color text-center">No one tell your stories... Soon, Hero!</h3>
-                    {%  endif  %}
+                    {% endif %}
                 </div>
             </div>
         </div>

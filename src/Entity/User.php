@@ -100,6 +100,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserRate", mappedBy="user")
+     * @ORM\OrderBy({"dateAt" = "DESC"})
      */
     private $userRates;
 
@@ -134,7 +135,7 @@ class User implements UserInterface
             $countRate+= $rate->getRate();
         }
         if (count($this->getUserRates()) > 0) {
-            $this->rate  = $countRate / count($this->getUserRates());
+            $this->rate  = (int)ceil($countRate / count($this->getUserRates()));
         }
         return $this->rate ;
     }

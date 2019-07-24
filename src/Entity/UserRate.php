@@ -24,7 +24,7 @@ class UserRate
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $commment;
+    private $comment;
 
     /**
      * @ORM\Column(type="datetime")
@@ -59,14 +59,14 @@ class UserRate
         return $this;
     }
 
-    public function getCommment(): ?string
+    public function getComment(): ?string
     {
-        return $this->commment;
+        return $this->comment;
     }
 
-    public function setCommment(?string $commment): self
+    public function setComment(?string $comment): self
     {
-        $this->commment = $commment;
+        $this->comment = $comment;
 
         return $this;
     }

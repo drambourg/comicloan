@@ -5,7 +5,8 @@
 {% block body %}
 
     <section class="edit-user-section">
-        <div class="container justify-content-center">
+        <div class="container mx-auto p-3 m-0">
+            <div class="row m-0 p-0 justify-content-center " >
             {{ form_start(userInformationForm) }}
             <div class="card comic-loaner-card mb-4 mx-5 p-0">
                 <div class="card comic-loaner-card col-sm-12 m-0 p-0">
@@ -90,16 +91,15 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="row mx-auto m-0 p-2 text-center">
-                                    <div class=" mx-auto">
-                                        <button class="btn button-readmore">Valider</button>
-                                    </div>
+                                <div class="row  m-0 p-2 text-center">
+                                        <button class="btn button-readmore mx-auto w-50">Valider</button>
+
                                 </div>
 
                             </div>
                         </div>
                         {{ form_end(userInformationForm) }}
-
+                    </div>
                     </div>
                 </div>
             </div>

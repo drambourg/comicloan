@@ -21,9 +21,9 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User();
-        $user->setPseudoname("xNousex");
-        $user->setFirstName("Damien");
-        $user->setLastName("Rambourg");
+        $user->setPseudoname("WildHero");
+        $user->setFirstName("Super");
+        $user->setLastName("Hero");
         $user->setEmail('d.2019@comic.com');
         $user->setAge(38);
         $user->setDateCreated(new \DateTime("2014-03-18"));

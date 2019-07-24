@@ -26,7 +26,6 @@ class UserFixtures extends Fixture
         $user->setLastName("Rambourg");
         $user->setEmail('d.2019@comic.com');
         $user->setAge(38);
-        $user->setAvatarPicture("https://i.pinimg.com/originals/7c/93/3d/7c933d493c16a06ad2110aca6caec4b4.gif");
         $user->setDateCreated(new \DateTime("2014-03-18"));
         $user->setCountry("France");
         $user->setCity("Orléans");
@@ -47,7 +46,6 @@ class UserFixtures extends Fixture
                 $user->setLastName($faker->lastName);
             }
             $faker->boolean ?: $user->setAge($faker->numberBetween($min = 18, $max = 50));
-            $faker->boolean(90) ?: $user->setAvatarPicture($faker->imageUrl($width = 200, $height = 200));
             $user->setDateCreated($faker->dateTimeBetween($startDate = '-4 years', $endDate = 'now'));
             $user->setCity($faker->city);
             $user->setCountry("France");

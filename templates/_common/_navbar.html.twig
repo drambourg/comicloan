@@ -71,7 +71,7 @@
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
                         <img class="avatar-icon rounded-circle img-thumbnail"
-                             src="{{ vich_uploader_asset(app.user, 'avatarPicture') }}">
+                             src="{% if app.user.avatarName %}{{ vich_uploader_asset(app.user, 'avatarPicture') }}{% else %}{{ asset('build/avatar/avatar-deadpool.png') }}{% endif %}">
                         <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">

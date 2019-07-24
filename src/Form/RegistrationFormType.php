@@ -44,14 +44,6 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['placeholder' => 'captain.america@avengers.com'],
                 'label_attr' => ['class' =>'col-sm-12'] ,
             ])
-            ->add('oldPassword', PasswordType::class, [
-                'mapped' => false,
-                'required' => false,
-                'label' => 'Old password',
-                'label_attr' => ['class' => 'col-md-12'],
-                'attr' => ['placeholder' => 'Your old password'],
-                'invalid_message' => 'Please enter your old password',
-            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => ['attr' => ['class' => 'password-field']],

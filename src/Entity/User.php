@@ -7,11 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @Vich\Uploadable()
  * @UniqueEntity(fields={"pseudoname"}, message="There is already an account with this pseudoname")
  */
 class User implements UserInterface
@@ -62,9 +65,18 @@ class User implements UserInterface
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="avatarName")
+     *
+     * @var File
      */
     private $avatarPicture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $avatarName;
 
     /**
      * @ORM\Column(type="datetime")
@@ -97,6 +109,13 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\RequestComicLoan", mappedBy="user")
      */
     private $requestComicLoans;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     public function __construct()
     {
@@ -233,18 +252,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAvatarPicture(): ?string
-    {
-        return $this->avatarPicture;
-    }
-
-    public function setAvatarPicture(?string $avatarPicture): self
-    {
-        $this->avatarPicture = $avatarPicture;
-
-        return $this;
-    }
-
     public function getDateCreated(): ?\DateTime
     {
         return $this->dateCreated;
@@ -372,6 +379,34 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @param File|null $avatarPicture
+     * @throws \Exception
+     */
+    public function setAvatarPicture(?File $avatarPicture = null): void
+    {
+        $this->avatarPicture = $avatarPicture;
+
+        if (null !== $avatarPicture) {
+            $this->updatedAt = new \DateTime();
+        }
+    }
+
+    public function getAvatarPicture(): ?File
+    {
+        return $this->avatarPicture;
+    }
+
+    public function setAvatarName(?string $avatarName): void
+    {
+        $this->avatarName = $avatarName;
+    }
+
+    public function getAvatarName(): ?string
+    {
+        return $this->avatarName;
     }
 
 }

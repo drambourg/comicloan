@@ -3,9 +3,109 @@
 {% block title %}ComicLoan - Edit your profile!{% endblock %}
 
 {% block body %}
-    {{ form_start(userInformationForm) }}
-    {{ form_widget(userInformationForm) }}
-        <button class="btn">Valider</button>
-    {{ form_end(userInformationForm) }}
+
+    <section class="edit-user-section">
+        <div class="container justify-content-center">
+            {{ form_start(userInformationForm) }}
+            <div class="card comic-loaner-card mb-4 mx-5 p-0">
+                <div class="card comic-loaner-card col-sm-12 m-0 p-0">
+                    <div class="card-header text-dark p-1">
+                        <h5>{{ user.pseudoname }}</h5>
+                    </div>
+                    <div class="card-body m-0 p-1 rounded-0">
+                        <div class="row m-0 px-3">
+                            <div class="col-12">
+                                <div class="px-3">
+                                    <h5 class="ternary-color text-center">ID Card</h5>
+                                    <hr class="hr-text-color-2" data-content="">
+                                    <table class="table borderless table-striped mt-2">
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.pseudoname) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.pseudoname) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.email) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.email) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.firstName) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.firstName) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.lastName) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.lastName) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.age) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.age) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.country) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.country) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.city) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.city) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.oldPassword) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.oldPassword) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.plainPassword.first) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.plainPassword.first) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.plainPassword.second) }}</th>
+                                            <td>
+                                                {{ form_widget(userInformationForm.plainPassword.second) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">{{ form_label(userInformationForm.avatarPicture) }}</th>
+                                            <td class="text-center">
+                                                {{ form_widget(userInformationForm.avatarPicture) }}
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row mx-auto m-0 p-2 text-center">
+                                    <div class=" mx-auto">
+                                        <button class="btn button-readmore">Valider</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {{ form_end(userInformationForm) }}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 {% endblock %}
 

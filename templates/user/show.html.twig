@@ -99,7 +99,6 @@
                         Testimonies</h3>
                 </div>
                 <div class="card-body m-0 p-1 rounded-0">
-
                     {% if user.userRates|length > 0 %}
                         <div class="row m-0 justify-content-around mx-auto">
                             {% for userRate in user.userRates %}
@@ -109,8 +108,9 @@
                                             <div class="col-md-10 m-0">
                                                 <div class="row p-0 m-0">
                                                     <div class="col-md-12 m-0">
-                                                        <a href="{{ path('user_show', {'id' : userRate.author.id}) }}" ><img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                                             src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
+                                                        <a href="{{ path('user_show', {'id' : userRate.author.id}) }}"><img
+                                                                    class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                                    src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                                     </div>
                                                     <div class="col-md-10 m-0 p-0 text-left">
                                                         <h5 class="marvel-title">{{ userRate.author.pseudoname }}</h5>
@@ -151,6 +151,39 @@
                 </div>
             </div>
         </div>
+        {% if app.user != user %}
+            <hr class="hr-text-color-2 p-3" data-content="">
+            <div class="row m-0 justify-content-center mx-auto">
+                <div class="card comic-loaner-card col-lg-8 m-0 p-0">
+                    <div class="card-header text-dark p-1 text-center">
+                        {% if rateAllow %}
+                        <h3 class="ternary-color text-center">
+                            Hero Awesome ... or Not ?</h3>
+                        <div>
+
+
+                            {{ form_start(formRateUser) }}
+                            <div class="text-lg-center justify-content-center">
+                                {{ form_label(formRateUser.rate) }}
+                                {{ form_widget(formRateUser.rate) }}
+                            </div>
+                            {{ form_label(formRateUser.comment) }}
+                            {{ form_widget(formRateUser.comment) }}
+                            <div class="text-center">
+                                <button class="btn btn-danger button-readmore text-white w-50 my-2">Rate him ...
+                                </button>
+                            </div>
+                            {{ form_end(formRateUser) }}
+                            {% else %}
+                                <div class="text-lg-center justify-content-center">
+                                    <h3 class="">You 've already Rate this Hero !!!</h3>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

@@ -32,7 +32,12 @@
             </div>
                 <div class="row m-0 p-3">
                     <div class="col-12">
-                        <a href="#" type="button" class="btn  btn-danger  px-2" id="btn-enter">We need you, Join Us !</a>
+                        {% if app.user %}
+                            <a href="{{ path('home_loan')  }}" type="button" class="btn  btn-danger  px-2" id="btn-enter">We need you, Join Us !</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" type="button" class="btn  btn-danger  px-2" id="btn-enter">We need you, Join Us !</a>
+                        {% endif %}
+
                     </div>
 
                 </div>

@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Comic;
 use App\Entity\UserLibrary;
+use App\Entity\UserRate;
+use App\Form\UserRateType;
 use App\Repository\ComicLoanRepository;
 use App\Repository\ComicRepository;
 use App\Repository\RequestComicLoanRepository;
 use App\Repository\UserLibraryRepository;
+use App\Repository\UserRateRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -40,11 +43,42 @@ class UserController extends AbstractController
     public function show(
         int $id,
         UserRepository $userRepository,
+        UserRateRepository $userRateRepository,
         RequestComicLoanRepository $requestComicLoanRepository,
-        UserLibraryRepository $userLibraryRepository
+        UserLibraryRepository $userLibraryRepository,
+        Request $request
     )
     {
-        $loanRequest = $requestComicLoanRepository->findOneById($id);
+        $userToRate = $userRepository->findOneById($id);
+        $rateAllow= true;
+        if (!is_null($userRateRepository->findOneBy(['author' => $this->getUser(), 'user' => $userRepository->findOneById($id)]))) {
+            $rateAllow= false;
+        };
+
+        $formRateUser = $this->createForm(UserRateType::class);
+        $formRateUser->handleRequest($request);
+
+        if ($formRateUser->isSubmitted() && $formRateUser->isValid()) {
+            $rateUser =new UserRate();
+
+            $rateUserData = $formRateUser->getData();
+            $rateUser->setUser($userRepository->findOneById($id));
+            $rateUser->setAuthor($this->getUser());
+            $rateUser->setDateAt(new \DateTime());
+            $rateUser->setComment($rateUserData->getComment());
+            $rateUser->setRate($rateUserData->getRate());
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($rateUser);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'You Rate Hero ! ');
+
+            return $this->redirectToRoute('user_show', [
+                'id' => $id,
+            ] );
+        }
+
         $userLibraryRepository->findAll();
         $countLoans = 0;
         foreach ($userLibraryRepository->findAll() as $userComic) {
@@ -52,10 +86,13 @@ class UserController extends AbstractController
         }
         $countRequest = count($requestComicLoanRepository->findByUser($this->getUser()));
 
+
         return $this->render('user/show.html.twig', [
             'user' => $userRepository->findOneById($id),
             'userCountRequests' => $countRequest,
             'userCountLoans' => $countLoans,
+            'formRateUser' => $formRateUser->createView(),
+            'rateAllow' => $rateAllow,
         ]);
     }
     /**

@@ -53,7 +53,7 @@ class UserController extends AbstractController
         $countRequest = count($requestComicLoanRepository->findByUser($this->getUser()));
 
         return $this->render('user/show.html.twig', [
-            'user' => $this->getUser(),
+            'user' => $userRepository->findOneById($id),
             'userCountRequests' => $countRequest,
             'userCountLoans' => $countLoans,
         ]);

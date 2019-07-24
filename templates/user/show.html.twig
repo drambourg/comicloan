@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body m-0 p-1 rounded-0">
                     <div class="row m-0 px-3">
-                        <div class="col-lg-6 d-flex">
+                        <div class="col-lg-6">
                             <div class="my-auto mx-auto text-center">
                                 <img class="avatar-xl rounded-circle border-0 img-thumbnail"
                                      src="{{ user.avatarPicture ? user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
@@ -20,7 +20,7 @@
                                 <div class="mt-auto mx-auto">
                                     <h4 class="ternary-color">Hero rating</h4>
                                 </div>
-                                <div class="row m-0 p-1 justify-content-around">
+                                <div class="row m-0 p-1 justify-content-center">
                                     {% for i in 0..4 %}
                                         <div class="col-md-2 m-0 p-0">
                                             {% if loop.index <= user.rate %}
@@ -109,8 +109,8 @@
                                             <div class="col-md-10 m-0">
                                                 <div class="row p-0 m-0">
                                                     <div class="col-md-12 m-0">
-                                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                                             src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                                        <a href="{{ path('user_show', {'id' : userRate.author.id}) }}" ><img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                             src="{{ userRate.author.avatarPicture ? userRate.author.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                                     </div>
                                                     <div class="col-md-10 m-0 p-0 text-left">
                                                         <h5 class="marvel-title">{{ userRate.author.pseudoname }}</h5>

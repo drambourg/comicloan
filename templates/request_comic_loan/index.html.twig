@@ -34,8 +34,9 @@
                             <div class="col-md-10 m-0">
                                 <div class="row p-0 m-0">
                                     <div class="col-md-2 m-0">
-                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                             src="{{ request.user.avatarPicture ? request.user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                        <a href="{{ path('user_show', {'id' : request.user.id}) }}"><img
+                                                    class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                    src="{{ request.user.avatarPicture ? request.user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                     </div>
                                     <div class="col-md-10 m-0 p-0 text-left">
                                         <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
@@ -90,7 +91,8 @@
                             <div class="col-md-6 text-left">
                                 {% if userComicRequest != 0 %}
                                     {% if userComicRequest.available %}
-                                        <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}" type="button" class="btn btn-danger button-readmore">Want to rescue
+                                        <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}"
+                                           type="button" class="btn btn-danger button-readmore">Want to rescue
                                             ?</a>
                                     {% else %}
                                         <a href="#" type="button"

@@ -94,8 +94,9 @@
                     <div class="card-header text-dark p-1">
                         <div class="row no-gutters p-2 m-0 d-flex">
                             <div class="col-md-2 m-0">
-                                <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                     src="{{ request.user.avatarPicture ? request.user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                <a href="{{ path('user_show', {'id' : request.user.id}) }}"><img
+                                            class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                            src="{{ request.user.avatarPicture ? request.user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
                             </div>
                             <div class="col-md-10 m-0 p-0 text-left my-auto">
                                 <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
@@ -169,9 +170,12 @@
                                 </div>
                                 <div class="row mx-auto m-0 p-2 text-center">
                                     <div class=" mx-auto">
-                                    <form method="post" action="{{ path('user_request_call_valid', {'id' : request.id  }) }}">
-                                        <button id="loanValidButton" class="btn btn-danger button-readmore">Rescue Him !!</button>
-                                    </form>
+                                        <form method="post"
+                                              action="{{ path('user_request_call_valid', {'id' : request.id  }) }}">
+                                            <button id="loanValidButton" class="btn btn-danger button-readmore">Rescue
+                                                Him !!
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -187,7 +191,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        document.getElementById("loanValidButton").addEventListener("click", function(){
+        document.getElementById("loanValidButton").addEventListener("click", function () {
             if (confirm('Are you sure to rescue him and loan your comic ?')) {
 
             } else {

@@ -68,7 +68,7 @@ class ComicLoanStat
         $loanableComics = $this->userLibraryRepository->findBy(['comicId' => $idComic, 'isLoanable' => true]);
         $nUserCountHaveComicLoanable = count($loanableComics);
         $countAvailable = $comicAvailables[$idComic]??0;
-        $countAvailable == 0 ?  $ratio = 0 : $ratio = (int)ceil(($countAvailable / $nUserCountHaveComicLoanable) * 100);
+        $nUserCountHaveComicLoanable == 0 ?  $ratio = 0 : $ratio = (int)ceil(($countAvailable / $nUserCountHaveComicLoanable) * 100);
         return [
             'ratio' => $ratio,
             'count' => $comicAvailables[$idComic]??0,

@@ -1,0 +1,187 @@
+{% extends 'comicloaner_simple.html.twig' %}
+
+{% block title %}ComicLoan - Marvel's Comics!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid m-0 py-3">
+        <div class="row m-0 justify-content-center mx-auto">
+            <div class="card comic-loaner-card col-lg-8 m-0 p-0">
+                <div class="card-header text-dark p-1">
+                    <h3 class="ternary-color text-center">ID Card</h3>
+                </div>
+                <div class="card-body m-0 p-1 rounded-0">
+                    <div class="row m-0 px-3">
+                        <div class="col-lg-6">
+                            <div class="my-auto mx-auto text-center">
+                                <img class="avatar-xl rounded-circle border-0 img-thumbnail"
+                                     src="{{ user.avatarName ? vich_uploader_asset(user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}">
+                                <h2 class="title-dark">{{ user.pseudoname }}</h2>
+                                <hr class="hr-text-color-2" data-content="">
+                                <div class="mt-auto mx-auto">
+                                    <h4 class="ternary-color">Hero rating</h4>
+                                </div>
+                                <div class="row m-0 p-1 justify-content-center">
+                                    {% for i in 0..4 %}
+                                        <div class="col-md-2 m-0 p-0">
+                                            {% if loop.index <= user.rate %}
+                                                <img class="img-fluid img-rate-icon"
+                                                     src="{{ asset('build/avatar/rate-on.png') }}">
+                                            {% else %}
+                                                <img class="img-fluid img-rate-icon"
+                                                     src="{{ asset('build/avatar/rate-off.png') }}">
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="px-3">
+                                <h5 class="ternary-color text-center">ID Card</h5>
+                                <hr class="hr-text-color-2" data-content="">
+                                <table class="table borderless table-striped mt-2">
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>{{ user.email ? user.email  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Created at</th>
+                                        <td>{{ user.dateCreated ? user.dateCreated|date("Y-m-d")  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comics in collection</th>
+                                        <td>{{ user.userLibraries ? user.userLibraries|length  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comics help done</th>
+                                        <td>{{ userCountLoans }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Comics help calls</th>
+                                        <td>{{ userCountRequests }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Firstname</th>
+                                        <td>{{ user.firstName ? user.firstName : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Lastname</th>
+                                        <td>{{ user.lastName ? user.lastName : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Age</th>
+                                        <td>{{ user.age ? user.age ~ ' years old' : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Country</th>
+                                        <td>{{ user.country ? user.country  : 'Unknown' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Town</th>
+                                        <td>{{ user.city ? user.city  : 'Unknown' }}</td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="hr-text-color-2 p-3" data-content="">
+        <div class="row m-0 justify-content-center mx-auto">
+            <div class="card comic-loaner-card col-lg-8 m-0 p-0">
+                <div class="card-header text-dark p-1">
+                    <h3 class="ternary-color text-center">
+                        Testimonies</h3>
+                </div>
+                <div class="card-body m-0 p-1 rounded-0">
+                    {% if user.userRates|length > 0 %}
+                        <div class="row m-0 justify-content-around mx-auto">
+                            {% for userRate in user.userRates %}
+                                <div class="card comic-loaner-card col-sm-12 col-md-4 col-xl-3 mx-2 mb-2 p-0">
+                                    <div class="card-header text-dark p-1">
+                                        <div class="row no-gutters p-2 m-0">
+                                            <div class="col-md-10 m-0">
+                                                <div class="row p-0 m-0">
+                                                    <div class="col-md-12 m-0">
+                                                        <a href="{{ path('user_show', {'id' : userRate.author.id}) }}"><img
+                                                                    class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                                    src="{{ userRate.author.avatarName ? vich_uploader_asset(userRate.author, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}"></a>
+                                                    </div>
+                                                    <div class="col-md-10 m-0 p-0 text-left">
+                                                        <h5 class="marvel-title">{{ userRate.author.pseudoname }}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body m-0 p-1 rounded-0">
+                                        {{ userRate.comment }}
+                                        <div class="mt-auto">
+                                            <h5 class="ternary-color text-center mt-2">Heroe Rate</h5>
+                                            <hr class="hr-text-color-2" data-content="">
+                                            <div class="row m-0 p-1 justify-content-around">
+                                                {% for i in 0..4 %}
+                                                    <div class="col-md-2 m-0 p-0">
+                                                        {% if loop.index <= userRate.rate %}
+                                                            <img class="img-fluid img-rate-icon"
+                                                                 src="{{ asset('build/avatar/rate-on.png') }}">
+                                                        {% else %}
+                                                            <img class="img-fluid img-rate-icon"
+                                                                 src="{{ asset('build/avatar/rate-off.png') }}">
+                                                        {% endif %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer m-0 p-1 rounded-0 text-right">
+                                        {{ userRate.dateAt|date("Y-m-d") }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <h3 class="secondary-color text-center">No one tell your stories... Soon, Hero!</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if app.user != user %}
+            <hr class="hr-text-color-2 p-3" data-content="">
+            <div class="row m-0 justify-content-center mx-auto">
+                <div class="card comic-loaner-card col-lg-8 m-0 p-0">
+                    <div class="card-header text-dark p-1 text-center">
+                        {% if rateAllow %}
+                        <h3 class="ternary-color text-center">
+                            Hero Awesome ... or Not ?</h3>
+                        <div>
+                            {{ form_start(formRateUser) }}
+                            <div class="text-lg-center justify-content-center">
+                                {{ form_label(formRateUser.rate) }}
+                                {{ form_widget(formRateUser.rate) }}
+                            </div>
+                            {{ form_label(formRateUser.comment) }}
+                            {{ form_widget(formRateUser.comment) }}
+                            <div class="text-center">
+                                <button class="btn btn-danger button-readmore text-white w-50 my-2">Rate him ...
+                                </button>
+                            </div>
+                            {{ form_end(formRateUser) }}
+                            {% else %}
+                                <div class="text-lg-center justify-content-center">
+                                    <h3 class="">You 've already Rate this Hero !!!</h3>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+

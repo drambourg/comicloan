@@ -116,6 +116,19 @@ class User implements UserInterface
      * @var \DateTime
      */
     private $updatedAt;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserRate", mappedBy="user")
+     * @ORM\OrderBy({"dateAt" = "DESC"})
+     */
+    private $userRates;
+
+    private $rate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\UserRate", mappedBy="author")
+     */
+    private $authorRates;
+
 
     public function __construct()
     {
@@ -124,11 +137,26 @@ class User implements UserInterface
         $this->comicLoans = new ArrayCollection();
         $this->userRequests = new ArrayCollection();
         $this->requestComicLoans = new ArrayCollection();
+        $this->userRates = new ArrayCollection();
+        $this->authorRates = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getRate(): ?string
+    {
+        $countRate = 0;
+        $this->rate = 0;
+        foreach ($this->getUserRates() as $rate) {
+            $countRate += $rate->getRate();
+        }
+        if (count($this->getUserRates()) > 0) {
+            $this->rate = (int)ceil($countRate / count($this->getUserRates()));
+        }
+        return $this->rate;
     }
 
     public function getPseudoname(): ?string
@@ -150,7 +178,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->pseudoname;
+        return (string)$this->pseudoname;
     }
 
     /**
@@ -177,7 +205,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
@@ -407,6 +435,68 @@ class User implements UserInterface
     public function getAvatarName(): ?string
     {
         return $this->avatarName;
+    }
+
+    /**
+     * @return Collection|UserRate[]
+     */
+    public function getUserRates(): Collection
+    {
+        return $this->userRates;
+    }
+
+    public function addUserRate(UserRate $userRate): self
+    {
+        if (!$this->userRates->contains($userRate)) {
+            $this->userRates[] = $userRate;
+            $userRate->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRate(UserRate $userRate): self
+    {
+        if ($this->userRates->contains($userRate)) {
+            $this->userRates->removeElement($userRate);
+            // set the owning side to null (unless already changed)
+            if ($userRate->getUser() === $this) {
+                $userRate->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserRate[]
+     */
+    public function getAuthorRates(): Collection
+    {
+        return $this->authorRates;
+    }
+
+    public function addAuthorRate(UserRate $authorRate): self
+    {
+        if (!$this->authorRates->contains($authorRate)) {
+            $this->authorRates[] = $authorRate;
+            $authorRate->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuthorRate(UserRate $authorRate): self
+    {
+        if ($this->authorRates->contains($authorRate)) {
+            $this->authorRates->removeElement($authorRate);
+            // set the owning side to null (unless already changed)
+            if ($authorRate->getAuthor() === $this) {
+                $authorRate->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 
 }

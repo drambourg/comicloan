@@ -144,8 +144,9 @@
                                     <div class="col-md-10 m-0">
                                         <div class="row p-0 m-0">
                                             <div class="col-md-12 m-0">
-                                                <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                                     src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                                <a href="{{ path('user_show', {'id' : comicLoan.UserLoaner.id}) }}" ><img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                     src="{{ comicLoan.UserLoaner.avatarName ? vich_uploader_asset(comicLoan.UserLoaner, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}">
+                                                </a>
                                             </div>
                                             <div class="col-md-10 m-0 p-0 text-left">
                                                 <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>

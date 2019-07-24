@@ -4,13 +4,13 @@
 
 {% block body %}
     <div class="container-fluid m-0 py-3 px-2 mx-auto">
-            {% for category, messages in app.flashes %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ category }} text-center">
-                       <h5 class="secondary-color">{{ message }}</h5>
-                    </div>
-                {% endfor %}
+        {% for category, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }} text-center">
+                    <h5 class="secondary-color">{{ message }}</h5>
+                </div>
             {% endfor %}
+        {% endfor %}
         <div class="row m-0 justify-content-around mx-auto">
             {% if comic %}
                 {% include('_common/_card_comic.html.twig') %}
@@ -26,8 +26,9 @@
                             <div class="col-md-10 m-0">
                                 <div class="row p-0 m-0">
                                     <div class="col-md-2 m-0">
-                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                             src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                        <a href="{{ path('user_show', {'id' : comicLoan.UserLoaner.id}) }}"> <img
+                                                    class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                    src="{{ comicLoan.UserLoaner.avatarPicture ? comicLoan.UserLoaner.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                     </div>
                                     <div class="col-md-10 m-0 p-0 text-left">
                                         <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>
@@ -83,7 +84,7 @@
                         });
                         $('#comicloan-switch-' + comicLoanId).fadeOut('slow');
                         $('#comicloan-check-' + comicLoanId).prop("checked", !data.status);
-                            $('#comicloan-' + comicLoanId).removeClass("no-back-loaned");
+                        $('#comicloan-' + comicLoanId).removeClass("no-back-loaned");
                     });
             }
         }

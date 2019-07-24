@@ -54,8 +54,9 @@
                         <div class="row no-gutters p-2 m-0 d-flex">
                             <div class="col-md-8 m-0 text-center">
                                 <div class="col-md-2 m-0">
-                                    <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                         src="{{ user.avatarPicture ?user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}">
+                                    <a href="{{ path('user_show', {'id' : user.id}) }}"><img
+                                                class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                                src="{{ user.avatarName ? vich_uploader_asset(user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                 </div>
                                 <div class="col-md-10 m-0 p-0 text-left my-auto">
                                     <h5 class="marvel-title">{{ user.pseudoname }}</h5>

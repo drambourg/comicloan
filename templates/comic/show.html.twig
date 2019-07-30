@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container-fluid m-0 px-2  p-3">
-        <div class="row m-0 justify-content-center no-gutters">
+        <div class="row m-0 pt-2 justify-content-center no-gutters">
             <div class="card comic-card col-md-5 mb-4 mx-2 p-0 ">
                 <div class="card-header text-dark">
                     <div class="row no-gutters p-2 m-0">
@@ -20,7 +20,7 @@
                              alt="...">
                     </div>
                     <div class="col-md-8">
-                        <div class="card-body mt-5">
+                        <div class="card-body">
                             <h5 class="card-title"></h5>
                             <p class="card-text">
                                 {% if comic.description is empty %}
@@ -179,7 +179,7 @@
                     <div class="container-fluid m-0 p-0" id="characters">
                         <div class="row no-gutters m-1">
                             {% for character in characters %}
-                                <div class="character card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                                <div class="character card border-0 bg-transparent col-12 col-lg-4 col-xl-3 my-2">
                                     <div class="wrapper"
                                          style="background-image: url('{{ character.picture.getPictureSquareHD }}')">
                                         <div class="data">
@@ -221,7 +221,7 @@
                     <div class="container-fluid m-0 p-0" id="characters">
                         <div class="row no-gutters m-1">
                             {% for creator in creators %}
-                                <div class="creator card border-0 bg-transparent col-sm-6 col-md-6 col-lg-4 col-xl-3 my-2">
+                                <div class="creator card border-0 bg-transparent col-12 col-lg-4 col-xl-3 my-2">
                                     <div class="wrapper"
                                          style="background-image: url('{{ creator.picture.getPictureSquareHD }}')">
                                         <div class="data">

@@ -13,7 +13,7 @@
             {% endfor %}
         {% endfor %}
         <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
-            <div class="result-text col-sm-8 col-md-4 d-flex">
+            <div class="result-text col-12 col-md-6 d-flex">
                 <div class="my-auto mx-auto">{{ requestCount != 0 ? requestCount ~ ' help calls !'  : 'Nobody needs you, be aware!' }}</div>
             </div>
         </div>
@@ -33,12 +33,12 @@
                         <div class="row no-gutters p-2 m-0">
                             <div class="col-md-10 m-0">
                                 <div class="row p-0 m-0">
-                                    <div class="col-md-2 m-0">
+                                    <div class="col-md-2 m-0 text-center text-lg-left ">
                                         <a href="{{ path('user_show', {'id' : request.user.id}) }}"><img
                                                     class="avatar-icon rounded-circle border-0 img-thumbnail"
                                                     src="{{ request.user.avatarName ? vich_uploader_asset(request.user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                     </div>
-                                    <div class="col-md-10 m-0 p-0 text-left">
+                                    <div class="col-md-10 m-0 p-0 text-center text-lg-left">
                                         <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="card-body m-0 p-1 rounded-0">
-                        <div class="row m-0 px-3">
+                        <div class="row my-3 mx-0 px-3">
                             <div class="col-12">
                                 {% if request.message %}
                                     <h5 class="ternary-color text-center">You've got a message !</h5>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="row m-1 p-1 d-flex">
-                            <div class="col-md-4 my-auto">
+                            <div class="col-md-4 w-50 mx-auto my-auto">
                                 <img src="{{ comicRequestedInfos[loop.index0].ThumbnailPicture.getPicturePortraitSD }}"
                                      class="card-img img-fluid p-2"
                                      alt="...">

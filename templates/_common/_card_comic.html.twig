@@ -4,19 +4,19 @@
             <div class="col-md-10 m-0">
                 <h4 class="marvel-title">{{ comic.title }}</h4>
             </div>
-            <div class="col-md-2 text-right text m-0 date-on-sale">
+            <div class="col-md-2 text-center text-lg-right text m-0 date-on-sale">
                 <i class="fas fa-calendar-alt px-1"></i><span>{{ comic.onsaleDate ? comic.onsaleDate | date('Y-m-d') : 'Unknown date ' }}</span>
             </div>
         </div>
     </div>
     <div class="row no-gutters m-1">
-        <div class="col-md-4 p-1">
+        <div class="col-md-4 w-50 mx-auto p-1">
             <img src="{{ comic.ThumbnailPicture.getPicturePortraitSD }}"
                  class="card-img img-fluid p-2"
                  alt="...">
         </div>
         <div class="col-md-8">
-            <div class="card-body mt-5">
+            <div class="card-body">
                 <h5 class="card-title"></h5>
                 <p class="card-text">
                     {% if comic.description is empty %}
@@ -24,9 +24,6 @@
                     {% else %}
                         {{ comic.description|length > 300 ? comic.description|raw|striptags|slice(0, 300) ~ ' [...]' : comic.description }}
                     {% endif %}
-                </p>
-                <p class="card-text">
-                    <small class="text-muted">Last updated 3 mins ago</small>
                 </p>
             </div>
         </div>
@@ -47,8 +44,8 @@
                     </button>
                 </div>
             {% endif %}
-            <div class="col-sm-12 col-md-4 text-center">
-                <a href="{{ path('comic_show', {'id':comic.id}) }}" type="button" class="btn btn-danger button-readmore">Read more ...</a>
+            <div class="col-sm-12 col-md-8 col-lg-6 p-0 text-center ">
+                <a href="{{ path('comic_show', {'id':comic.id}) }}" type="button" class="btn btn-danger button-readmore w-100">Read more ...</a>
             </div>
         </div>
     </div>

@@ -9,7 +9,6 @@
 
   .card-header {
     min-height: 100px;
-/*    height: calc(100px + (150 - 100) * ((100vw - 300px) / (1600 - 300)));*/
     background-color: $marvel-primary;
 
     .date-on-sale {
@@ -74,11 +73,10 @@
   font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
   opacity: .9;
   min-height: 150px;
-  transition: all 0.9s ease-out 0s;
+  font-size: calc(.1vw + 16px);
 
   &.no-back-loaned {
     box-shadow: inset 0 0 0px 0px #fff, 0 0 12px #cbcbcb, 0 0 6px 5px #b92426, 0 0 25px #cb202e;
-    transition: all 0.9s ease-out 0s;
   }
 
   p {

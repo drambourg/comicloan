@@ -1,10 +1,10 @@
 <div class="card comic-card col-lg-5 mb-4 mx-2 p-0">
     <div class="card-header text-dark">
         <div class="row no-gutters p-2 m-0">
-            <div class="col-md-10 m-0">
+            <div class="col-12 m-0">
                 <h4 class="marvel-title">{{ comic.title }}</h4>
             </div>
-            <div class="col-md-2 text-center text-lg-right text m-0 date-on-sale">
+            <div class="col-12 text-left m-0 date-on-sale">
                 <i class="fas fa-calendar-alt px-1"></i><span>{{ comic.onsaleDate ? comic.onsaleDate | date('Y-m-d') : 'Unknown date ' }}</span>
             </div>
         </div>
@@ -28,23 +28,23 @@
             </div>
         </div>
     </div>
-    <div class="card-footer text-right">
+    <div class="card-footer text-right mt-auto">
         <div class="row p-0 m-0 d-flex justify-content-center">
             {% if  app.user and activeloan %}
-                <div class="col-sm-12 col-md-6 text-center">
+                <div class="col-sm-12 col-md-8 col-lg-6 text-center my-auto mb-md-1 mb-lg-0 px-lg-1 px-lg-0">
                     <button type="button" id="{{ comic.id }}-add"
-                            class="btn btn-danger button-add-comic-library"
+                            class="btn btn-danger button-add-comic-library w-100"
                             onclick="addToMyLibrary('{{ path('library_comic_add', {'id':comic.id}) }}', {{ comic.id }})"
                             {{ comic.id in comicsUserLibraryIds?'hidden': '' }}>I got It!
                     </button>
                     <button type="button" id="{{ comic.id }}-remove"
-                            class="btn btn-danger button-remove-comic-library"
+                            class="btn btn-danger button-remove-comic-library w-100"
                             onclick="removeFromMyLibrary('{{ path('library_comic_remove', {'id':comic.id}) }}', {{ comic.id }})"
                             {{ comic.id in comicsUserLibraryIds?'' : 'hidden' }}>Remove It !
                     </button>
                 </div>
             {% endif %}
-            <div class="col-sm-12 col-md-8 col-lg-6 p-0 text-center ">
+            <div class="col-sm-12 col-md-8 col-lg-6 p-0 text-center my-auto ">
                 <a href="{{ path('comic_show', {'id':comic.id}) }}" type="button" class="btn btn-danger button-readmore w-100">Read more ...</a>
             </div>
         </div>

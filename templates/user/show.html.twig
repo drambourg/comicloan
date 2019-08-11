@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="row m-0 p-1 justify-content-center">
                                     {% for i in 0..4 %}
-                                        <div class="col-md-2 m-0 p-0">
+                                        <div class="col-md-1 col-lg-2 m-0 p-0">
                                             {% if loop.index <= user.rate %}
                                                 <img class="img-fluid img-rate-icon"
                                                      src="{{ asset('build/avatar/rate-on.png') }}">
@@ -36,9 +36,10 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="px-3">
-                                <h5 class="ternary-color text-center">ID Card</h5>
+                            <div class="px-3 pt-3">
                                 <hr class="hr-text-color-2" data-content="">
+                                <h5 class="ternary-color text-center">ID Card</h5>
+
                                 <table class="table borderless table-striped mt-2">
                                     <tbody>
                                     <tr>
@@ -90,11 +91,46 @@
                     </div>
                 </div>
                 <div class="text-center p-3">
-                    <a href="{{ path('user_edit') }}" type="button" class="btn btn-danger button-readmore">Edit my Hero profile ...</a>
+                    <a href="{{ path('user_edit') }}" type="button" class="btn btn-danger button-readmore">Edit my Hero
+                        profile ...</a>
                 </div>
             </div>
 
         </div>
+
+        {% if app.user != user %}
+            <hr class="hr-text-color-2 p-3" data-content="">
+            <div class="row m-0 justify-content-center mx-auto">
+                <div class="card comic-loaner-card col-lg-8 m-0 p-0">
+                    <div class="card-header text-dark p-2 text-center">
+                        {% if rateAllow %}
+                        <h3 class="ternary-color text-center">
+                            Hero Awesome ... or Not ?</h3>
+                        <div>
+                            {{ form_start(formRateUser) }}
+                            <div class="p-3 mx-auto">
+                                {{ form_label(formRateUser.comment) }}
+                                {{ form_widget(formRateUser.comment) }}
+                            </div>
+                            <div class="text-lg-center justify-content-center">
+                                {{ form_label(formRateUser.rate) }}
+                                {{ form_widget(formRateUser.rate) }}
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-danger button-readmore text-white w-50 my-2">Rate him ...
+                                </button>
+                            </div>
+                            {{ form_end(formRateUser) }}
+                            {% else %}
+                                <div class="text-lg-center justify-content-center">
+                                    <h3 class="">You 've already Rate this Hero !!!</h3>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         <hr class="hr-text-color-2 p-3" data-content="">
         <div class="row m-0 justify-content-center mx-auto">
@@ -107,7 +143,7 @@
                     {% if user.userRates|length > 0 %}
                         <div class="row m-0 justify-content-around mx-auto">
                             {% for userRate in user.userRates %}
-                                <div class="card comic-loaner-card col-sm-12 col-md-4 col-xl-3 mx-2 mb-2 p-0">
+                                <div class="card comic-loaner-card col-sm-12 col-md-5 col-xl-3 mx-2 m-2 p-0">
                                     <div class="card-header text-dark p-1">
                                         <div class="row no-gutters p-2 m-0">
                                             <div class="col-md-10 m-0">
@@ -127,11 +163,11 @@
                                     <div class="card-body m-0 p-1 rounded-0">
                                         {{ userRate.comment }}
                                         <div class="mt-auto">
-                                            <h5 class="ternary-color text-center mt-2">Heroe Rate</h5>
+                                            <h5 class="ternary-color text-center mt-2">Rate him</h5>
                                             <hr class="hr-text-color-2" data-content="">
                                             <div class="row m-0 p-1 justify-content-around">
                                                 {% for i in 0..4 %}
-                                                    <div class="col-md-2 m-0 p-0">
+                                                    <div class="col-md-1 col-lg-2 m-0 p-0">
                                                         {% if loop.index <= userRate.rate %}
                                                             <img class="img-fluid img-rate-icon"
                                                                  src="{{ asset('build/avatar/rate-on.png') }}">
@@ -156,37 +192,7 @@
                 </div>
             </div>
         </div>
-        {% if app.user != user %}
-            <hr class="hr-text-color-2 p-3" data-content="">
-            <div class="row m-0 justify-content-center mx-auto">
-                <div class="card comic-loaner-card col-lg-8 m-0 p-0">
-                    <div class="card-header text-dark p-1 text-center">
-                        {% if rateAllow %}
-                        <h3 class="ternary-color text-center">
-                            Hero Awesome ... or Not ?</h3>
-                        <div>
-                            {{ form_start(formRateUser) }}
-                            <div class="text-lg-center justify-content-center">
-                                {{ form_label(formRateUser.rate) }}
-                                {{ form_widget(formRateUser.rate) }}
-                            </div>
-                            {{ form_label(formRateUser.comment) }}
-                            {{ form_widget(formRateUser.comment) }}
-                            <div class="text-center">
-                                <button class="btn btn-danger button-readmore text-white w-50 my-2">Rate him ...
-                                </button>
-                            </div>
-                            {{ form_end(formRateUser) }}
-                            {% else %}
-                                <div class="text-lg-center justify-content-center">
-                                    <h3 class="">You 've already Rate this Hero !!!</h3>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
+
     </div>
 {% endblock %}
 

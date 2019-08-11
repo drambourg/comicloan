@@ -19,101 +19,105 @@
         </div>
         <div class="row justify-content-center py-3 m-0">
             {% for request in requests %}
-                <div class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0">
-                    <div class="card-header text-dark p-1">
-                        {% set userComicRequest = 0 %}
-                        {% if userComics is not empty %}
-                            {% set comicRequestedInfosId =  comicRequestedInfos[loop.index0].id %}
-                            {% for userComic in userComics %}
-                                {% if userComic.comicUser.comicId == comicRequestedInfosId %}
-                                    {% set userComicRequest = userComic %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        <div class="row no-gutters p-2 m-0">
-                            <div class="col-md-10 m-0">
-                                <div class="row p-0 m-0">
-                                    <div class="col-md-2 m-0 text-center text-lg-left ">
-                                        <a href="{{ path('user_show', {'id' : request.user.id}) }}"><img
-                                                    class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                                    src="{{ request.user.avatarName ? vich_uploader_asset(request.user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}"></a>
-                                    </div>
-                                    <div class="col-md-10 m-0 p-0 text-center text-lg-left">
-                                        <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="card comic-loaner-card col-md-12 col-lg-5 mb-4 mx-2 p-0">
+                <div class="card-header text-dark p-1">
+                    {% set userComicRequest = 0 %}
+                    {% if userComics is not empty %}
+                        {% set comicRequestedInfosId =  comicRequestedInfos[loop.index0].id %}
+                        {% for userComic in userComics %}
+                            {% if userComic.comicUser.comicId == comicRequestedInfosId %}
+                                {% set userComicRequest = userComic %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <div class="row no-gutters p-2 m-0">
+                        <div class="col-md-2 m-0 text-center text-lg-left ">
+                            <a href="{{ path('user_show', {'id' : request.user.id}) }}"><img
+                                        class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                        src="{{ request.user.avatarName ? vich_uploader_asset(request.user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}"></a>
+                        </div>
+                        <div class="col-md-10 m-0 p-0 text-center text-lg-left my-auto">
+                            <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
                         </div>
                     </div>
-                    <div class="card-body m-0 p-1 rounded-0">
-                        <div class="row my-3 mx-0 px-3">
-                            <div class="col-12">
-                                {% if request.message %}
-                                    <h5 class="ternary-color text-center">You've got a message !</h5>
-                                    <hr class="hr-text-color-2" data-content="">
-                                    <p class="simple-font">
-                                        {{ request.message }}
-                                    </p>
-                                    <hr class="hr-text-color-2" data-content="">
-                                {% else %}
-                                    <h5 class="ternary-color text-center">No Message ?! ...Hmm...</h5>
-                                    <hr class="hr-text-color-2" data-content="">
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="row p-0 m-0 mt-2 text-lg-center">
-                            <div class="col-12 m-0">
-                                {{ comicRequestedInfos[loop.index0].title }}
-                            </div>
-                        </div>
-                        <div class="row m-1 p-1 d-flex">
-                            <div class="col-md-4 w-50 mx-auto my-auto">
-                                <img src="{{ comicRequestedInfos[loop.index0].ThumbnailPicture.getPicturePortraitSD }}"
-                                     class="card-img img-fluid p-2"
-                                     alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body mt-1">
-                                    <h5 class="card-title"></h5>
-                                    <p class="card-text">
-                                        {% if comicRequestedInfos[loop.index0].description is empty %}
-                                            No description
-                                        {% else %}
-                                            {{ comicRequestedInfos[loop.index0].description|length > 300 ? comicRequestedInfos[loop.index0].description|raw|striptags|slice(0, 300) ~ ' [...]' : comicRequestedInfos[loop.index0].description }}
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
+                </div>
+                <div class="card-body m-0 p-1 rounded-0">
+                    <div class="row my-3 mx-0 px-3">
+                        <div class="col-12">
+                            {% if request.message %}
+                                <h5 class="ternary-color text-center">You've got a message !</h5>
+                                <hr class="hr-text-color-2" data-content="">
+                                <p class="simple-font">
+                                    {{ request.message }}
+                                </p>
+                                <hr class="hr-text-color-2" data-content="">
+                            {% else %}
+                                <h5 class="ternary-color text-center">No Message ?! ...Hmm...</h5>
+                                <hr class="hr-text-color-2" data-content="">
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="card-footer text-right py-2 px-1">
-                        <div class="row p-0 m-0">
-                            <div class="col-md-6 text-left">
-                                {% if userComicRequest != 0 %}
-                                    {% if userComicRequest.available %}
-                                        <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}"
-                                           type="button" class="btn btn-danger button-readmore">Want to rescue
-                                            ?</a>
+                    <div class="row p-0 m-0 mt-2 text-lg-center">
+                        <div class="col-12 m-0">
+                            {{ comicRequestedInfos[loop.index0].title }}
+                        </div>
+                    </div>
+                    <div class="row m-1 p-1 d-flex">
+                        <div class="col-md-4 w-50 mx-auto my-auto">
+                            <img src="{{ comicRequestedInfos[loop.index0].ThumbnailPicture.getPicturePortraitSD }}"
+                                 class="card-img img-fluid p-2"
+                                 alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body mt-1">
+                                <h5 class="card-title"></h5>
+                                <p class="card-text">
+                                    {% if comicRequestedInfos[loop.index0].description is empty %}
+                                        No description
                                     {% else %}
-                                        <a href="#" type="button"
-                                           class="btn btn-danger button-readmore-disabled disabled "
-                                           disabled>Already Loan</a>
+                                        {{ comicRequestedInfos[loop.index0].description|length > 300 ? comicRequestedInfos[loop.index0].description|raw|striptags|slice(0, 300) ~ ' [...]' : comicRequestedInfos[loop.index0].description }}
                                     {% endif %}
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6 text-right">
-                                {{ 'requested at ' ~ request.dateAt|date("Y-m-d") }}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-        <div class="row text-center">
-            <div class="navigation  mx-auto">
-                {{ knp_pagination_render(requests) }}
+                <div class="card-footer text-right py-2 px-1">
+                    <div class="row p-1 m-0">
+                        <div class="col-md-12 text-center">
+                            {% if userComicRequest != 0 %}
+                                {% if userComicRequest.available %}
+                                    <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}"
+                                       type="button" class="btn btn-danger button-readmore w-50">Want to rescue
+                                        ?</a>
+                                {% else %}
+                                    <a href="#" type="button"
+                                       class="btn btn-danger button-readmore-disabled disabled w-50"
+                                       disabled>Already Loan</a>
+                                {% endif %}
+                                <div class="text-center py-1">
+                                    <a href="{{ path('loan_manager', {'id' : userComicRequest.comicUser.id }) }}"
+                                       type="button"
+                                       class="btn btn-danger button-readmore w-50">View my Comic Status ...</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row p-0 mt-1">
+                        <div class="col-md-12 text-right">
+                            {{ 'requested at ' ~ request.dateAt|date("Y-m-d") }}
+                        </div>
+                    </div>
+                </div>
             </div>
+
+        {% endfor %}
+    </div>
+    <div class="row text-center">
+        <div class="navigation  mx-auto">
+            {{ knp_pagination_render(requests) }}
         </div>
+    </div>
     </div>
 {% endblock %}
 

@@ -16,16 +16,16 @@
                             <div class="card-header text-dark p-1">
                                 <div class="row no-gutters p-2 m-0 d-flex justify-content-center">
                                     <div class="col-md-8 m-0 text-center">
-                                        <div class="col-xs-4 col-md-2 m-0">
+                                        <div class="col-xs-4 col-md-2 m-0 mx-auto mx-lg-0">
                                             <a href="{{ path('user_show', {'id' : user.id}) }}"><img
                                                         class="avatar-icon rounded-circle border-0 img-thumbnail"
                                                         src="{{ user.avatarPicture ?user.avatarPicture : asset('build/avatar/avatar-deadpool.png') }}"></a>
                                         </div>
-                                        <div class="col-xs-4 col-md-9 m-0 p-0 text-center text-lg-left  my-auto">
+                                        <div class="col-xs-4 col-md-9 m-0 p-0 text-center text-lg-left  mx-auto  mx-lg-0 my-auto">
                                             <h5 class="marvel-title">{{ user.pseudoname }}</h5>
                                         </div>
                                     </div>
-                                    <div class="col-xs-4 col-md-3 m-0 text-center">
+                                    <div class="col-xs-4 col-md-3 m-0 text-center ">
                                         <h3 class="marvel-title counter-top">{{ topUser.count }}</h3>
                                     </div>
                                 </div>

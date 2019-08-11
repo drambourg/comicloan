@@ -15,21 +15,25 @@ class UserRateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('rate', NumberType::class,[
-                'label_attr' => ['class' => 'text-white text-center col-sm-6'],
+            ->add('rate', NumberType::class, [
+                    'label_attr' => ['class' => 'text-white text-center col-sm-6'],
                     'attr' => ['class' => 'col-lg-2 text-center mx-auto mb-3'],
-                'label' => 'Rate Hero Between 1 and 5',
+                    'label' => 'Rate Hero Between 1 and 5',
                     'data' => 1
                 ]
             )
-            ->add('comment',TextareaType::class, [
+            ->add('comment', TextareaType::class, [
                 'label' => 'Let a testimony',
-                'label_attr' => ['class' => 'text-white']
+                'label_attr' => [
+                    'class' => 'text-white col-lg-6'
+                ],
+                'attr' => [
+                    'class' => 'col-lg-8 mx-auto'
+                ]
             ])
             ->add('dateAt', HiddenType::class)
             ->add('user', HiddenType::class)
-            ->add('author', HiddenType::class)
-        ;
+            ->add('author', HiddenType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

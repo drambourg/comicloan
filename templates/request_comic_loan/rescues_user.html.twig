@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container-fluid m-0 py-3">
         <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
-            <div class="result-text col-sm-8 col-md-4 d-flex">
+            <div class="result-text col-12 col-md-6 d-flex">
                 <div class="my-auto mx-auto">{{ loanRequests.totalItemCount != 0 ? loanRequests.totalItemCount ~ ' rescued you!!'  : 'No call, no rescue ?!' }}</div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 {% set user = loanRequest.userLibrary.user %}
-                <div class="card comic-loaner-card col-lg-3 mx-1 p-0">
+                <div class="card comic-loaner-card mt-1 col-lg-3 mx-1 p-0">
                     <div class="card-header text-dark p-1">
                         <div class="row no-gutters p-2 m-0 d-flex">
                             <div class="col-md-8 m-0 text-center">

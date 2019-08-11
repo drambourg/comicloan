@@ -4,14 +4,14 @@
 
 {% block body %}
     <div class="container-fluid m-0 py-3">
-            <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
-                <div class="result-text col-12 col-md-6 d-flex">
-                    <div class="my-auto mx-auto">{{ requestCount != 0 ? requestCount ~ ' help calls !'  : 'Nobody needs you, be aware!' }}</div>
-                </div>
+        <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
+            <div class="result-text col-12 col-md-6 d-flex">
+                <div class="my-auto mx-auto">{{ requestCount != 0 ? requestCount ~ ' help calls !'  : 'Nobody needs you, be aware!' }}</div>
             </div>
+        </div>
         <div class="row justify-content-center py-3 m-0">
             {% for request in requests %}
-                <div class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0">
+                <div class="card comic-loaner-card col-md-12 col-lg-5 mb-4 mx-2 p-0">
                     <div class="card-header text-dark p-1">
                         {% set userComicRequest = 0 %}
                         {% set comicRequestedInfosId =  comicRequestedInfos[loop.index0].id %}
@@ -21,19 +21,15 @@
                             {% endif %}
                         {% endfor %}
                         <div class="row no-gutters p-2 m-0">
-                            <div class="col-md-10 m-0">
+                                <div class="col-md-2 m-0 text-center text-lg-left ">
+                                    <img class="avatar-icon rounded-circle border-0 img-thumbnail"
+                                         src="{{ request.user.avatarName ? vich_uploader_asset(request.user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}">
                                 </div>
-                                <div class="row p-0 m-0">
-                                    <div class="col-md-2 m-0">
-                                        <img class="avatar-icon rounded-circle border-0 img-thumbnail"
-                                             src="{{ request.user.avatarName ? vich_uploader_asset(request.user, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}">
-                                    </div>
-                                    <div class="col-md-10 m-0 p-0 text-left">
-                                        <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
-                                    </div>
+                                <div class="col-md-8 m-0 p-0 text-center text-lg-left my-auto">
+                                    <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
                                 </div>
                             </div>
-                        </div>
+                    </div>
 
                     <div class="card-body m-0 p-1 rounded-0">
                         <div class="row my-3 mx-0 px-3">
@@ -78,22 +74,26 @@
                         </div>
                     </div>
                     <div class="card-footer text-right py-2 px-1">
-                        <div class="row p-0 m-0">
-                            <div class="col-md-4 text-left">
+                        <div class="row p-1 m-0">
+                            <div class="col-md-12 text-center">
                                 {% if userComicRequest.available %}
-                                    <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}" type="button" class="btn btn-danger button-readmore">Want to rescue ?</a>
+                                    <a href="{{ path('user_request_call_answer', {'id' : request.id }) }}" type="button"
+                                       class="btn btn-danger button-readmore w-50">Want to rescue ?</a>
                                 {% else %}
-                                    <a href="#" type="button" class="btn btn-danger button-readmore-disabled disabled "
+                                    <a href="#" type="button"
+                                       class="btn btn-danger button-readmore-disabled disabled w-50"
                                        disabled>Already Loan</a>
                                 {% endif %}
-                            </div>
-                            <div class="col-md-8 text-right">
-                                {{ 'requested at ' ~ request.dateAt|date("Y-m-d") }}
+                                <div class="text-center py-1">
+                                    <a href="{{ path('loan_manager', {'id' : userComicRequest.comicUser.id }) }}" type="button"
+                                       class="btn btn-danger button-readmore w-50">View my Comic Status ...</a>
+                                </div>
                             </div>
                         </div>
-                        <hr class="hr-text-color-2" data-content="">
-                        <div class="text-center p-3">
-                            <a href="{{ path('loan_manager', {'id' : userComicRequest.comicUser.id }) }}" type="button" class="btn btn-danger button-readmore">View my Comic Status ...</a>
+                        <div class="row p-0 mt-1">
+                            <div class="col-md-12 text-right">
+                                {{ 'requested at ' ~ request.dateAt|date("Y-m-d") }}
+                            </div>
                         </div>
                     </div>
                 </div>

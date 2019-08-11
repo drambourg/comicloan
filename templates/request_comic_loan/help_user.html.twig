@@ -5,33 +5,29 @@
 {% block body %}
     <div class="container-fluid m-0 py-3">
         <div class="row justify-content-center py-3 m-0" id="resultSearchBar">
-            <div class="result-text col-sm-8 col-md-4 d-flex">
+            <div class="result-text col-12 col-md-6 d-flex">
                 <div class="my-auto mx-auto">{{ requests.totalItemCount != 0 ? 'You scream ' ~ requests.totalItemCount ~ ' help calls !'  : 'No call, no rescue!' }}</div>
             </div>
         </div>
         <div class="row justify-content-center py-3 m-0">
             {% for request in requests %}
-                <div class="card comic-loaner-card col-sm-12 col-md-8 col-xl-4 mb-4 mx-2 p-0">
+                <div class="card comic-loaner-card col-md-12 col-lg-5 mb-4 mx-2 p-0">
                     <div class="card-header text-dark p-1">
                         {% set comic = comics[loop.index0].comics[0] %}
                         <div class="row no-gutters p-2 m-0">
-                            <div class="col-md-10 m-0">
-                            </div>
-                            <div class="row p-0 m-0">
-                                <div class="col-md-2 m-0">
+                            <div class="col-md-2 m-0 text-center text-lg-left ">
                                     <a href="{{ path('user_show', {'id' : request.user.id}) }}"><img
                                                 class="avatar-icon rounded-circle border-0 img-thumbnail"
                                                 src="{{ request.user.avatarName ? vich_uploader_asset(request.user, 'avatarPicture'): asset('build/avatar/avatar-deadpool.png') }}"></a>
                                 </div>
-                                <div class="col-md-10 m-0 p-0 text-left">
+                            <div class="col-md-8 m-0 p-0 text-center text-lg-left my-auto">
                                     <h5 class="marvel-title">{{ request.user.pseudoname }}</h5>
                                 </div>
-                            </div>
                         </div>
                     </div>
 
                     <div class="card-body m-0 p-1 rounded-0">
-                        <div class="row m-0 px-3">
+                        <div class="row my-3 mx-0 px-3">
                             <div class="col-12">
                                 {% if request.message %}
                                     <h5 class="ternary-color text-center">You let a message !</h5>
@@ -72,8 +68,8 @@
                         </div>
                     </div>
                     <div class="card-footer text-right py-2 px-1">
-                        <div class="row p-0 m-0">
-                            <div class="col-md-8 text-right">
+                        <div class="row p-1 m-0">
+                            <div class="col-md-128 text-right">
                                 {{ 'requested at ' ~ request.dateAt|date("Y-m-d") }}
                             </div>
                         </div>

@@ -77,6 +77,10 @@ h2{
   }
 }
 
+h4{
+  font-size: calc(.5vw + 22px);
+}
+
 .borderless td, .borderless th {
   border: none;
 }
@@ -119,7 +123,7 @@ a,a:visited,a:hover,a:active{
   -webkit-backface-visibility:hidden;
   backface-visibility:hidden;
   position:relative;
-  transition:0.5s color ease;
+/*  transition:0.5s color ease;*/
   text-decoration:none;
   color:$font-secondary-color;
   font-size:1em;
@@ -129,7 +133,7 @@ a:hover{
 }
 a.before:before,a.after:after{
   content: "";
-  transition:0.5s all ease;
+/*  transition:0.5s all ease;*/
   -webkit-backface-visibility:hidden;
   backface-visibility:hidden;
   position:absolute;

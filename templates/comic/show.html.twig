@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container-fluid m-0 px-2  p-3">
         <div class="row m-0 pt-2 justify-content-center no-gutters">
-            <div class="card comic-card col-md-5 mb-4 mx-2 p-0 ">
+            <div class="card comic-card col-md-12 col-lg-5 mb-4 mx-2 p-0 ">
                 <div class="card-header text-dark">
                     <div class="row no-gutters p-2 m-0">
                         <div class="col-md-12 m-0">
@@ -88,9 +88,9 @@
                     </div>
                 </div>
             </div>
-            <div class="card col-md-5 mb-4 mx-2 p-3">
+            <div class="card col-md-12 col-lg-5 mb-4 mx-2 p-3">
                 <div class="row m-0">
-                    <div class="col-md-12 col-xl-8">
+                    <div class="col-8 mx-auto my-auto">
                         <div id="container-chart-comic" class="text-center"></div>
                     </div>
                     <div class="col-md-12 col-xl-4 comic-card text-center">
@@ -104,28 +104,28 @@
                             <img class="img-fluid img-loan" src="{{ asset('build/pics/ironman_loan.png') }}">
                             {% if app.user %}
                                 {% if comicAlreadyRequesed %}
-                                    <a href="#" class=" btn btn-danger button-remove-comic-library disabled">
+                                    <a href="#" class=" btn btn-danger button-remove-comic-library disabled w-100">
                                         Help already launched
                                     </a>
                                 {% else %}
                                     {% if comicYouHaveIt %}
                                         <a href="#"
-                                           class=" btn btn-danger button-remove-comic-library disabled ">
+                                           class=" btn btn-danger button-remove-comic-library disabled w-100">
                                             You already have it!
                                         </a>
                                     {% else %}
                                         {% if  chartComicLoanAvailable.count == 0 %}
-                                            <a href="#" class=" btn btn-danger button-readmore-disabled disabled">No
+                                            <a href="#" class=" btn btn-danger button-readmore-disabled disabled w-100">No
                                                 available
                                                 ...</a>
                                         {% else %}
-                                            <a href="#" class=" btn btn-danger button-readmore" data-toggle="modal"
+                                            <a href="#" class=" btn btn-danger button-readmore w-100" data-toggle="modal"
                                                data-target="#exampleModal">I Want loan ?!</a>
                                         {% endif %}
                                     {% endif %}
                                 {% endif %}
                             {% else %}
-                                <a href="{{ path('app_login') }}" class=" btn btn-danger button-remove-comic-library">Who
+                                <a href="{{ path('app_login') }}" class=" btn btn-danger button-remove-comic-library w-100">Who
                                     are You?</a>
                             {% endif %}
                         </div>
@@ -139,19 +139,17 @@
                     {% for comicLoan in comicLoans %}
                         <div id="comicloan-{{ comicLoan.id }}"
                              class="card comic-loaner-card col-sm-12 col-md-4 col-xl-4 mx-0 p-0">
-                            <div class="card-header text-dark p-1">
+                            <div class="card-header text-dark p-1 ">
                                 <div class="row no-gutters p-2 m-0">
-                                    <div class="col-md-10 m-0">
-                                        <div class="row p-0 m-0">
-                                            <div class="col-md-12 m-0">
+                                    <div class="col-12 p-1 m-0">
+                                            <div>
                                                 <a href="{{ path('user_show', {'id' : comicLoan.UserLoaner.id}) }}" ><img class="avatar-icon rounded-circle border-0 img-thumbnail"
                                                      src="{{ comicLoan.UserLoaner.avatarName ? vich_uploader_asset(comicLoan.UserLoaner, 'avatarPicture') : asset('build/avatar/avatar-deadpool.png') }}">
                                                 </a>
                                             </div>
-                                            <div class="col-md-10 m-0 p-0 text-left">
+                                            <div class="text-left">
                                                 <h5 class="marvel-title">{{ comicLoan.UserLoaner.pseudoname }}</h5>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

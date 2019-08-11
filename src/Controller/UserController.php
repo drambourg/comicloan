@@ -75,6 +75,8 @@ class UserController extends AbstractController
         $user->setAvatarPicture(null);
 
         return $this->render('user/edit_user.html.twig', [
+            'title_h1' => 'Your Hero Profile',
+            'title_h2' => 'New Identity ?',
             'user' => $user,
             'userInformationForm' => $form->createView(),
         ]);

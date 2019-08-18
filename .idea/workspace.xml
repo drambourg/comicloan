@@ -5,20 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scss/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/app.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scss/comiccard.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/comiccard.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/scss/loan_comic.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/loan_comic.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/UserRateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserRateType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_common/_card_comic.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_common/_card_comic.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/comic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comic/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home/show_top.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/show_top.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/request_comic_loan/calls_user.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/request_comic_loan/calls_user.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/request_comic_loan/calls_user_show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/request_comic_loan/calls_user_show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/request_comic_loan/help_user.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/request_comic_loan/help_user.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/request_comic_loan/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/request_comic_loan/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/request_comic_loan/rescues_user.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/request_comic_loan/rescues_user.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/edit_user.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/edit_user.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/library.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/library.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scss/header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/header.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/scss/homepage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/homepage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home/index.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -291,7 +280,7 @@
       <workItem from="1565509139380" duration="979000" />
       <workItem from="1565510266509" duration="1427000" />
       <workItem from="1565512436522" duration="2040000" />
-      <workItem from="1566133343934" duration="5105000" />
+      <workItem from="1566133343934" duration="6997000" />
     </task>
     <servers />
   </component>

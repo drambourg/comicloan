@@ -5,33 +5,33 @@
     <div class="container-fluid m-0 p-0">
         <div class="jumbotron jumbo-full jumbotron-fluid jumbo-home active m-0 p-1 pt-4">
             <div class="content w-100 text-center">
-                <div class="row m-0 mb-auto">
+                <div class="row m-0 mb-auto py-3 px-0">
                     <div class="col-lg-5">
                         <h2>{{ countUser }} Heroes</h2>
                     </div>
                 </div>
-                <div class="row m-0 p-3 text-lg-center">
-                    <div class="col-lg-8">>
+                <div class="row m-0 py-3 px-0 text-lg-center">
+                    <div class="col-lg-8 p-0 m-0">
                         <h2>{{ comicsUsersHaveCount }} Comics</h2>
                     </div>
                 </div>
-                <div class="row m-0 p-3 text-lg-center">
-                    <div class="col-lg-12">
+                <div class="row m-0 py-3 px-0 text-lg-center">
+                    <div class="col-12 p-0 m-0">
                         <h2>{{ comicLoanableCount }} Comics Loanable</h2>
                     </div>
                 </div>
-                <div class="row m-0 p-3">
-                    <div class="col-12">
+                <div class="row m-0 py-3 px-0">
+                    <div class="col-12 p-0 m-0">
                         <h2>{{ comicRequestsCount }} Help calls</h2>
                     </div>
                 </div>
-                <div class="row m-0 p-2 text-center">
-                    <div class="col-12 ">
+                <div class="row m-0 py-2 px-0 text-center">
+                    <div class="col-12 p-0 m-0">
                         <h2>{{ comicLoansCount }} Rescues by heroes.</h2>
                     </div>
                 </div>
-                <div class="row mt-4 p-3">
-                    <div class="col-12 text-center">
+                <div class="row m-0 mt-4 py-4 px-0">
+                    <div class="col-12 text-center p-0 m-0">
                         {% if app.user %}
                             <a href="{{ path('home_loan') }}" type="button" class="btn  btn-danger  px-2" id="btn-enter">We
                                 need you, Join Us !</a>

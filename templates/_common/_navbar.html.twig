@@ -9,22 +9,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item {% if app.request.attributes.get("_route") == 'home' %} active {% endif %}">
-                <a class="nav-link" href="{{ path('home_loan') }}">
+            <li class="nav-item py-md-2 py-lg-0 {% if app.request.attributes.get("_route") == 'home' %} active {% endif %}">
+                <a class="nav-link first after" href="{{ path('home_loan') }}">
                     <i class="fa icon  mb-3">F
                     </i>
                     Loan's Town
                 </a>
             </li>
-            <li class="nav-item {% if app.request.attributes.get("_route") == 'home_loan_comics' %} active {% endif %}">
-                <a class="nav-link" href="{{ path('home_loan_comics') }}">
+            <li class="nav-item py-md-2 py-lg-0 {% if app.request.attributes.get("_route") == 'home_loan_comics' %} active {% endif %}">
+                <a class="nav-link first after" href="{{ path('home_loan_comics') }}">
                     <i class="fa icon  mb-3">H
                     </i>
                     In Town
                 </a>
             </li>
-            <li class="nav-item {% if app.request.attributes.get("_route") == 'loan_request_index' %} active {% endif %}">
-                <a class="nav-link" href="{{ path('loan_request_index') }}">
+            <li class="nav-item py-md-2 py-lg-0 {% if app.request.attributes.get("_route") == 'loan_request_index' %} active {% endif %}">
+                <a class="nav-link first after" href="{{ path('loan_request_index') }}">
                     <i class="fa icon  mb-3">W
                         {#                        <span class="badge badge-danger">11</span>#}
                     </i>
@@ -32,8 +32,8 @@
                 </a>
             </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <li class="nav-item dropdown py-md-2 py-lg-0">
+                <a class="nav-link dropdown-toggle first after" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <div>
                         <i class="fab fa-searchengin fas-navbar-xl">
@@ -42,27 +42,26 @@
                     Search
                 </a>
                 <div class="dropdown-menu dropdown-menu-nav" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item " href="{{ path('search_by_comic') }}">By Comics</a>
-                    <a class="dropdown-item" href="{{ path('search_by_character') }}">By Characters</a>
-                    <a class="dropdown-item" href="{{ path('search_by_comic') }}">By Creators</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Full Search</a>
+                    <a class="dropdown-item first after" href="{{ path('search_by_comic') }}">By Comics</a>
+                    <a class="dropdown-item first after" href="{{ path('search_by_character') }}">By Characters</a>
+                    <a class="dropdown-item first after" href="{{ path('search_by_comic') }}">By Creators</a>
+                    <hr class="hr-text-color-3" data-content="">
+                    <a class="dropdown-item first after" href="#">Full Search</a>
                 </div>
             </li>
         </ul>
 
-        <ul class="navbar-nav ">
+        <ul class="navbar-nav">
             {% if app.user %}
-
-                <li class="nav-item {% if app.request.attributes.get("_route") == 'user_request_calls' %} active {% endif %}">
-                    <a class="nav-link" href="{{ path('user_request_calls') }}">
+                <li class="nav-item py-md-2 py-lg-0 {% if app.request.attributes.get("_route") == 'user_request_calls' %} active {% endif %}">
+                    <a class="nav-link first after" href="{{ path('user_request_calls') }}">
                         <i class="fa fa-bell icon-sm">
                         </i>
                         Help Calls!
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('user_helps') }}">
+                <li class="nav-item py-md-2 py-lg-0">
+                    <a class="nav-link first after" href="{{ path('user_helps') }}">
                         <i class="fa fa-envelope icon-sm">
                         </i>
                         Heroes Rescue!
@@ -70,25 +69,25 @@
                 </li>
                 <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
-                        <img class="avatar-icon rounded-circle img-thumbnail"
-                             src="{% if app.user.avatarName %}{{ vich_uploader_asset(app.user, 'avatarPicture') }}{% else %}{{ asset('build/avatar/avatar-deadpool.png') }}{% endif %}">
-                        <span class="caret"></span>
+                        <div><img class="avatar-icon rounded-circle img-thumbnail"
+                                  src="{% if app.user.avatarName %}{{ vich_uploader_asset(app.user, 'avatarPicture') }}{% else %}{{ asset('build/avatar/avatar-deadpool.png') }}{% endif %}"></div>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div role="presentation"><a class="dropdown-item px-1" href="{{ path('user_show', {'id': app.user.id}) }}">My Profile</a></div>
-                        <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_library') }}">My
-                                Collection</a></div>
-                        <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('user_loans') }}">My
-                                Loans</a></div>
-                        <div role="presentation"><a class="dropdown-item  px-1" href="{{ path('app_logout') }}">Log
+                    <div class="dropdown-menu dropdown-menu dropdown-menu-nav dropdown-menu-lg-right p-3">
+                        <a class="dropdown-item first after px-1" href="{{ path('user_show', {'id': app.user.id}) }}">My Profile</a>
+                        <a class="dropdown-item  first after px-1" href="{{ path('user_library') }}">My
+                                Collection</a>
+                        <a class="dropdown-item  first after px-1" href="{{ path('user_loans') }}">My
+                                Loans</a>
+                        <hr class="hr-text-color-3" data-content="">
+                        <a class="dropdown-item px-1 py-2 text-lg-left" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i>Log
                                 out</a>
-                        </div>
+
                     </div>
 
 
                 </div>
             {% else %}
-                <li class="nav-item  text-center {% if app.request.attributes.get("_route") == 'comic_index' %} active {% endif %}">
+                <li class="nav-item  {% if app.request.attributes.get("_route") == 'comic_index' %} active {% endif %}">
                     <a class="nav-link" href="{{ path('app_login') }}">
                         <div><i class="fas fa-user-circle icon-fas">
                             </i></div>

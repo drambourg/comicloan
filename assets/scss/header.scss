@@ -71,13 +71,15 @@ header .title-wrapper {
   top: 40%;
 }
 
+
+$navbar-bgcolor : rgba(33, 33, 33, 0.3);
 .navbar {
-  -webkit-transition: all 0.6s ease-out;
-  -moz-transition: all 0.6s ease-out;
-  -o-transition: all 0.6s ease-out;
-  -ms-transition: all 0.6s ease-out;
-  transition: all 0.6s ease-out;
-  background-color: rgba(33, 33, 33, 0.3);
+  -webkit-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  transition: all 0.4s;
+  background-color: $navbar-bgcolor;
 
   .nav-link {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
@@ -122,22 +124,47 @@ header .title-wrapper {
   }
   .dropdown-menu {
     font-family: 'ComicBook', 'Helvetica Neue', Helvetica, Arial;
-    background-color: $bg-secondary;
-    transition: all 0.6s ease-out;
+    background-color: $navbar-bgcolor;
+    transition: all 0.2s ease-out;
+    margin-top: 8px;
+    border-width: 0px;
   }
 
   .dropdown-item {
     color : $font-primary-color;
-    background-color: $bg-secondary;
+    background-color: transparent;
     font-size: 18px;
-    transition: all 0.6s ease-out;
     &:hover{
-      transition: all 0.6s ease-out;
-      font-size: 18px;
-      color: $bg-secondary ;
-      background-color : $font-primary-color;
+      background-color: transparent;
     }
   }
+
+  .dropdown .dropdown-menu {
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+
+    border-radius: 0px;
+    max-height: 0;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .dropdown.show .dropdown-menu { /* For Bootstrap 4, use .dropdown.show instead of .dropdown.open */
+    max-height: 300px;
+    opacity: 1;
+  }
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .nav-link > .dropdown-icon{
+    font-size: 10px;
+  }
+
 
 }
 
@@ -157,7 +184,7 @@ header .title-wrapper {
   -moz-box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
   box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
 
-  a, i {
+  a, i, .dropdown-menu-nav {
     color: $font-primary-color;
     font-size: 1.1rem;
     opacity: .8;
@@ -169,6 +196,19 @@ header .title-wrapper {
       opacity: 1;
     }
   }
+  .dropdown-menu-nav {
+    background-color: $secondary-color;
+    -webkit-box-shadow: 0px 9px 22px 0px rgba(255, 255, 255, 0.58);
+    -moz-box-shadow: 0px 9px 22px 0px rgba(255, 255, 255, 0.58);
+    box-shadow: 0px 15px 30px 0px rgba(255, 255, 255, 0.58);
+    @media (max-width: 992px) {
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      background-color: $marvel-secondary-color ;
+    }
+  }
+
 }
 
 .dropdown {
@@ -200,6 +240,12 @@ header .title-wrapper {
   font-size: 40px;
   margin-bottom: 10px;
 
+}
+
+.navbar-icon-top .navbar-nav .nav-link > .dropdown-icon {
+  position: relative;
+  font-size: 1.2em;
+  margin-bottom: 10px;
 }
 
 .navbar-icon-top .navbar-nav .nav-link > .fa > .badge {

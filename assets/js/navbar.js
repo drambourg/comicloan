@@ -4,12 +4,16 @@ function checkScroll() {
     if ($(window).scrollTop() > startY) {
         $('.navbar').addClass("bg-dark");
         $('.navbar').addClass("bg-custom");
+        $('.dropdown-menu-nav').addClass("bg-dark");
+        $('.dropdown-menu-nav').addClass("bg-custom");
         $('.jumbo-fluid').removeClass("active");
         $('.jumbo-fluid').addClass("unactive");
 
     } else {
         $('.navbar').removeClass("bg-dark");
         $('.navbar').removeClass("bg-custom");
+        $('.dropdown-menu-nav').removeClass("bg-dark");
+        $('.dropdown-menu-nav').removeClass("bg-custom");
         $('.jumbo-fluid').addClass("active");
         $('.jumbo-fluih').removeClass("unactive");
     }
@@ -17,11 +21,10 @@ function checkScroll() {
 
 $(".navbar-toggler").click(function(){
     if ($('#togglerButton').attr('aria-expanded')=='false') {
-        $("#iconlogonavbar").fadeOut(300);
+        $("#iconlogonavbar").fadeOut(200);
     } else {
         $("#iconlogonavbar").fadeIn(1000);
     }
-    console.log($('#togglerButton').attr('aria-expanded'));
 });
 
 

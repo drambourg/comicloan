@@ -133,7 +133,7 @@ a:hover{
 }
 a.before:before,a.after:after{
   content: "";
-/*  transition:0.5s all ease;*/
+  transition:0.5s all ease;
   -webkit-backface-visibility:hidden;
   backface-visibility:hidden;
   position:absolute;
@@ -145,7 +145,7 @@ a.after:after{
   bottom:-0.15em;
 }
 a.before:before,a.after:after{
-  height:5px;
+  height:2px;
   height:0.20rem;
   width:0;
   background:$font-primary-color;
@@ -181,6 +181,7 @@ a.eigth:after{
 }
 a.before:hover:before,a.after:hover:after{
   width:100%;
+
 }
 .square{
   box-sizing:border-box;
@@ -266,8 +267,7 @@ a.before:hover:before,a.after:hover:after{
     color: $font-primary-color;
   }
 }
-
-.hr-text-color-2 {
+@mixin hr-comic {
   text-align: center;
   font-size: 16px;
   position: relative;
@@ -292,6 +292,26 @@ a.before:hover:before,a.after:hover:after{
     padding: 0 .5em;
     line-height: 0.1em;
     color: $marvel-primary;
+  }
+}
+
+.hr-text-color-2 {
+  @include hr-comic;
+  &:before {
+    background: linear-gradient(to right, transparent, $marvel-primary, transparent);
+  }
+  &:after {
+    color: $marvel-primary;
+  }
+}
+
+.hr-text-color-3 {
+  @include hr-comic;
+  &:before {
+    background: linear-gradient(to right, transparent, $font-primary-color, transparent);
+  }
+  &:after {
+    color: $font-primary-color;
   }
 }
 

@@ -136,6 +136,7 @@ $navbar-bgcolor : rgba(33, 33, 33, 0.3);
     font-size: 18px;
     &:hover{
       background-color: transparent;
+      color : $font-primary-color;
     }
   }
 
@@ -145,6 +146,8 @@ $navbar-bgcolor : rgba(33, 33, 33, 0.3);
     -ms-transition: all 0.4s;
     -o-transition: all 0.4s;
     transition: all 0.4s;
+
+    color: $font-primary-color;
 
     border-radius: 0px;
     max-height: 0;
@@ -164,11 +167,7 @@ $navbar-bgcolor : rgba(33, 33, 33, 0.3);
   .nav-link > .dropdown-icon{
     font-size: 10px;
   }
-
-
 }
-
-
 
 .navbar-transparent {
   background-color: black;
@@ -183,7 +182,7 @@ $navbar-bgcolor : rgba(33, 33, 33, 0.3);
   -webkit-box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
   -moz-box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
   box-shadow: -1px 9px 22px 0px rgba(255, 255, 255, 0.58);
-
+  color:$font-primary-color;
   a, i, .dropdown-menu-nav {
     color: $font-primary-color;
     font-size: 1.1rem;
@@ -196,6 +195,7 @@ $navbar-bgcolor : rgba(33, 33, 33, 0.3);
       opacity: 1;
     }
   }
+
   .dropdown-menu-nav {
     background-color: $secondary-color;
     -webkit-box-shadow: 0px 9px 22px 0px rgba(255, 255, 255, 0.58);

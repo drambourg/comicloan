@@ -32,8 +32,14 @@
                 </a>
             </li>
 
-            <li class="nav-item dropdown py-md-2 py-lg-0">
-                <a class="nav-link dropdown-toggle first after" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <li class="nav-item dropdown py-md-2 py-lg-0
+                {% if app.request.attributes.get("_route") == 'search_by_comic' or
+                app.request.attributes.get("_route") == 'search_by_character' or
+                app.request.attributes.get("_route") == 'search_by_comic' %}
+                active
+                {% endif %}">
+                <a class="nav-link dropdown-toggle first after" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <div>
                         <i class="fab fa-searchengin fas-navbar-xl">
@@ -44,9 +50,9 @@
                 <div class="dropdown-menu dropdown-menu-nav" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item first after" href="{{ path('search_by_comic') }}">By Comics</a>
                     <a class="dropdown-item first after" href="{{ path('search_by_character') }}">By Characters</a>
-                    <a class="dropdown-item first after" href="{{ path('search_by_comic') }}">By Creators</a>
+                    <a class="dropdown-item first after disabled" href="#">By Creators</a>
                     <hr class="hr-text-color-3" data-content="">
-                    <a class="dropdown-item first after" href="#">Full Search</a>
+                    <a class="dropdown-item first after disabled" href="#">Full Search</a>
                 </div>
             </li>
         </ul>
@@ -60,7 +66,7 @@
                         Help Calls!
                     </a>
                 </li>
-                <li class="nav-item py-md-2 py-lg-0">
+                <li class="nav-item py-md-2 py-lg-0" {% if app.request.attributes.get("_route") == 'user_helps' %} active {% endif %}">
                     <a class="nav-link first after" href="{{ path('user_helps') }}">
                         <i class="fa fa-envelope icon-sm">
                         </i>
